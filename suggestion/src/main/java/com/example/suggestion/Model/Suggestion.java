@@ -15,7 +15,7 @@ import lombok.*;
 public class Suggestion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticket_id;
     @NotNull
     private String subjectTitle;
@@ -26,6 +26,13 @@ public class Suggestion {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Department department;
+
+    @Enumerated
+    private Status status;
+
+    private int likeCount;
+    private int dislikeCount;
+
 
 
 }

@@ -2,6 +2,7 @@ package com.example.suggestion.DTO;
 
 
 import com.example.suggestion.Model.Department;
+import com.example.suggestion.Model.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -16,8 +17,8 @@ import lombok.*;
 @Builder
 
 public class SuggestionDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+
     private Long ticket_id;
 
     @NotEmpty
@@ -26,9 +27,19 @@ public class SuggestionDto {
     @NotEmpty
     private String description;
 
+
     @NotEmpty
     @Enumerated(EnumType.STRING)
     private Department department;
+
+    @Enumerated
+    private Status status;
+
+
+
+    private int likeCount;
+    private int dislikeCount;
+
 
 
 }

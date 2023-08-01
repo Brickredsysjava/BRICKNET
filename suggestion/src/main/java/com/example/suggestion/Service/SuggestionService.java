@@ -2,6 +2,7 @@ package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Model.Department;
+import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
 
 import java.util.List;
@@ -14,4 +15,9 @@ public interface SuggestionService {
 
     List<Department> getAllDepartments();
 
+    Suggestion updateSuggestionStatus(Long id, Status status);
+
+    Suggestion pollSuggestion(Long id, String action);
 }
+
+

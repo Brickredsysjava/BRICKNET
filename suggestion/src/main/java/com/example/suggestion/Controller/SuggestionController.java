@@ -4,6 +4,7 @@ package com.example.suggestion.Controller;
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Department;
+import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
 
 import com.example.suggestion.Service.SuggestionServiceImplementation;
@@ -43,6 +44,16 @@ public class SuggestionController {
     public ResponseEntity<List<Department>> getAllDepartments() {
         List<Department> departments = suggestionServiceImplementation.getAllDepartments();
         return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/status")
+    public Suggestion updateSuggestionStatus(@PathVariable Long id, @RequestParam Status status) {
+        return suggestionServiceImplementation.updateSuggestionStatus(id, status);
+    }
+
+    @PostMapping("/{id}/poll")
+    public Suggestion pollSuggestion(@PathVariable Long id, @RequestParam String action) {
+        return suggestionServiceImplementation.pollSuggestion(id, action);
     }
 
 
