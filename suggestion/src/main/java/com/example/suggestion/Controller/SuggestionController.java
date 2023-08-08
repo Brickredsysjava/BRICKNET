@@ -3,6 +3,7 @@ package com.example.suggestion.Controller;
 
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
+import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
@@ -46,14 +47,20 @@ public class SuggestionController {
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/status")
-    public Suggestion updateSuggestionStatus(@PathVariable Long id, @RequestParam Status status) {
-        return suggestionServiceImplementation.updateSuggestionStatus(id, status);
+    @PutMapping("/{ticket_id}/status")
+    public Suggestion updateSuggestionStatus(@PathVariable Long  ticket_id, @RequestParam Status status) {
+        return suggestionServiceImplementation.updateSuggestionStatus( ticket_id, status);
     }
 
-    @PostMapping("/{id}/poll")
-    public Suggestion pollSuggestion(@PathVariable Long id, @RequestParam String action) {
-        return suggestionServiceImplementation.pollSuggestion(id, action);
+    @PostMapping("/{ticket_id}/poll")
+    public Suggestion pollSuggestion(@PathVariable Long ticket_id, @RequestParam Action action) {
+        return suggestionServiceImplementation.pollSuggestion(ticket_id, Action.valueOf(String.valueOf(action)));
+    }
+
+
+    @GetMapping("/suggestionByStatus")
+    public List<Suggestion> getSuggestionsByStatus(@RequestParam Status status) {
+        return suggestionServiceImplementation.getSuggestionsByStatus(status);
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
@@ -17,7 +18,9 @@ public interface SuggestionService {
 
     Suggestion updateSuggestionStatus(Long id, Status status);
 
-    Suggestion pollSuggestion(Long id, String action);
+    Suggestion pollSuggestion(Long id, Action action);
+
+    List<Suggestion> getSuggestionsByStatus(Status status);
 }
 
 
