@@ -1,10 +1,14 @@
 package com.attendanceApiForApp.attendanceApiForApp.service;
 
 import com.attendanceApiForApp.attendanceApiForApp.model.Records;
+import com.attendanceApiForApp.attendanceApiForApp.repository.CustomQuerries;
 import com.attendanceApiForApp.attendanceApiForApp.repository.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -12,9 +16,12 @@ public class RecordServiceImpl implements RecordService {
 
     private final RecordRepository recordRepository;
 
+    private final CustomQuerries customQuerries;
+
     @Autowired
-    public RecordServiceImpl(RecordRepository recordRepository) {
+    public RecordServiceImpl(RecordRepository recordRepository, CustomQuerries customQuerries) {
         this.recordRepository = recordRepository;
+        this.customQuerries = customQuerries;
     }
 
     @Override
@@ -52,9 +59,26 @@ public class RecordServiceImpl implements RecordService {
         return false;
     }
 
-//    @Override
-//    public List<Records> findByEmployeeAndMonth(Long empId, int month) {
-//        return recordRepository.findByEmployeeAndMonth(empId, month);
-//    }
+    @Override
+    public List<String> getAllDateOfMonth(Long emp_id, int month) {
+        List<Date> dates = customQuerries.getAllDateOfMonth(emp_id, month);
+        List<String> dateStrings = new ArrayList<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Date date : dates) {
+            dateStrings.add(dateFormat.format(date));
+        }
+
+        return dateStrings;
+    }
+
+    @Override
+    public Long findLastRecorId(Long emp_id) {
+        Long result = this.customQuerries.findLastRecorId(emp_id);
+        return result;
+    }
+
+
 }
 

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins ="*")
 @RestController
@@ -68,9 +68,19 @@ public class CheckInController {
         }
     }
 
-    @GetMapping("/getFirstCheckInTime")
-    public ResponseEntity<String> getAllCheckInTime(){
-        return new ResponseEntity(this.checkInService.findFirstCheckInTime(), HttpStatus.OK);
+    @GetMapping("/getFirstCheckInTime/{emp_id}/{dates}")
+    public ResponseEntity<List<String>> getFirstCheckInTimes(
+            @PathVariable Long emp_id,
+            @RequestParam("dates") List<String> dates ) {
+
+        List<String> firstCheckTimes = checkInService.findFirstCheckInTimes(emp_id, dates);
+        System.out.println(dates);
+        if (!firstCheckTimes.isEmpty()) {
+            return new ResponseEntity<>(firstCheckTimes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+
 }
 
