@@ -24,10 +24,9 @@ public class Suggestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticket_id;
+
     @NotNull
     private String subjectTitle;
-
-
 
     @NotNull
     private String description;
@@ -52,10 +51,5 @@ public class Suggestion {
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
-
-
-
-
-
 
 }

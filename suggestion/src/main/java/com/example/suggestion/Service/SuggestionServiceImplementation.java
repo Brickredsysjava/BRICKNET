@@ -1,6 +1,7 @@
 package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
@@ -9,7 +10,6 @@ import com.example.suggestion.Repository.SuggestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +46,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
     @Override
     public List<Department> getAllDepartments() {
+
         return Arrays.asList(Department.values());
     }
 
@@ -88,7 +89,27 @@ public class SuggestionServiceImplementation implements SuggestionService{
         return suggestionRepository.findByStatus(status);
     }
 
+    @Override
+    public void deleteSuggestionbyID(Long id) throws SuggestionException {
+//        if(id!=null){
+//            Suggestion s1=suggestionRepository.getById(Math.toIntExact(id));
+//            if (s1!=null){
+//                suggestionRepository.delete(s1);
+//                return s1;
+//            }
+//            else {
+//                throw new SuggestionException("INVALID"+id);
+//            }
+//        }
+//        else {
+//            throw new SuggestionException("Id Cannot be null");
+//        }
+//    }
+        suggestionRepository.deleteById(Math.toIntExact(id));}
+
 }
+
+
 
 
 

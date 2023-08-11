@@ -1,6 +1,7 @@
 package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
@@ -21,6 +22,10 @@ public interface SuggestionService {
     Suggestion pollSuggestion(Long id, Action action);
 
     List<Suggestion> getSuggestionsByStatus(Status status);
+
+    public void deleteSuggestionbyID(Long id) throws SuggestionException;
+
+
 }
 
 

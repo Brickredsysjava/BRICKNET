@@ -7,13 +7,11 @@ import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
-
 import com.example.suggestion.Service.SuggestionServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -61,6 +59,12 @@ public class SuggestionController {
     @GetMapping("/suggestionByStatus")
     public List<Suggestion> getSuggestionsByStatus(@RequestParam Status status) {
         return suggestionServiceImplementation.getSuggestionsByStatus(status);
+    }
+
+    @DeleteMapping("/Delete/{ticket_Id}")
+    public ResponseEntity<String> deleteEmployeeID(@PathVariable Long ticket_Id) throws SuggestionException {
+        suggestionServiceImplementation.deleteSuggestionbyID(ticket_Id);
+        return  ResponseEntity.ok("SUGGESTION DELETED SUCCESSFULLY");
     }
 
 
