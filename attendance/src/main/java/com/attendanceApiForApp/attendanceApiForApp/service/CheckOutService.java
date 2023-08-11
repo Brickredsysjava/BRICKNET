@@ -1,8 +1,6 @@
 package com.attendanceApiForApp.attendanceApiForApp.service;
 
 import com.attendanceApiForApp.attendanceApiForApp.model.CheckOut;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 
@@ -12,6 +10,6 @@ public interface CheckOutService {
     CheckOut createCheckOut(CheckOut checkOut);
     CheckOut updateCheckOut(Long id, CheckOut checkOut);
     boolean deleteCheckOut(Long id);
-    String findLasttCheckOutTime();
+    List<String> findLastCheckOutTimes(Long emp_id, List<String> dates);
 }
 

@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.List;
+
 @CrossOrigin(origins ="*")
 @RestController
 @RequestMapping("/checkouts")
@@ -65,10 +68,25 @@ public   class CheckOutController {
         }
     }
 
-    @GetMapping("/getLastCheckOutTime")
-    public  ResponseEntity<String> getLastCheckOutTime(){
-        return  new ResponseEntity<>(this.checkOutService.findLasttCheckOutTime(),HttpStatus.OK);
-    }
+   @GetMapping("/getLastCheckOutTimes/{emp_id}/{dates}")
+        public ResponseEntity<List<String>> getLastCheckOutTimes(
+                @PathVariable Long emp_id,
+                @RequestParam("dates") List<String> dates){
+            List<String> lastCheckOutTimes = checkOutService.findLastCheckOutTimes(emp_id,dates);
+            if(!lastCheckOutTimes.isEmpty()){
+                return new ResponseEntity<>(lastCheckOutTimes,HttpStatus.OK);
+            } else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+       }
 
-}
+   }
+
+
+
+
+
+
+
+
 

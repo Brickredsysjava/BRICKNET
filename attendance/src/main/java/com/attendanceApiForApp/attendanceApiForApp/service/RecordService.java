@@ -10,5 +10,7 @@ public interface RecordService {
     Records createRecord(Records record);
     Records updateRecord(Long id, Records record);
     boolean deleteRecord(Long id);
-//    List<Records> findByEmployeeAndMonth(Long empId, int month);
+     List<String> getAllDateOfMonth(Long emp_id, int month);
+    public Long findLastRecorId(Long emp_id);
+
 }

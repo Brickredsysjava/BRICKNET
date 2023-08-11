@@ -15,6 +15,7 @@ public class RecordController {
     @Autowired
     private final RecordService recordService;
 
+
     @Autowired
     public RecordController(RecordService recordService) {
         this.recordService = recordService;
@@ -65,14 +66,17 @@ public class RecordController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @GetMapping("/employee/{empId}/month/{month}")
-//    public ResponseEntity<List<Records>> getRecordsByEmployeeAndMonth(@PathVariable Long empId, @PathVariable int month) {
-//        List<Records> records = recordService.findByEmployeeAndMonth(empId, month);
-//        if (!records.isEmpty()) {
-//            return ResponseEntity.ok(records);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
+    @GetMapping("/getAllDateOfMonth/{emp_id}/{month}")
+    public ResponseEntity<List<String>> getAllDateOfMonth(@PathVariable Long emp_id, @PathVariable("month")  int month) {
+        List<String> records = recordService.getAllDateOfMonth(emp_id, month);
+        return ResponseEntity.ok(records);
+    }
+
+    @GetMapping("/getLastRecorId/{emp_id}")
+    public  ResponseEntity<Long> getLastRecordIdByEmpId( @PathVariable Long emp_id){
+        Long res = recordService.findLastRecorId(emp_id);
+        return  ResponseEntity.ok(res);
+    }
 
 }

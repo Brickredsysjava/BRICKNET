@@ -2,9 +2,11 @@ package com.attendanceApiForApp.attendanceApiForApp.service;
 
 import com.attendanceApiForApp.attendanceApiForApp.model.CheckIn;
 import com.attendanceApiForApp.attendanceApiForApp.repository.CheckInRepository;
+import com.attendanceApiForApp.attendanceApiForApp.repository.CustomQuerries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -13,9 +15,13 @@ public class CheckInServiceImpl implements CheckInService {
 
     private final CheckInRepository checkInRepository;
 
+    private final CustomQuerries customQuerries;
+
     @Autowired
-    public CheckInServiceImpl (CheckInRepository checkInRepository){
-        this.checkInRepository = checkInRepository; }
+    public CheckInServiceImpl (CheckInRepository checkInRepository,CustomQuerries customQuerries){
+        this.checkInRepository = checkInRepository;
+        this.customQuerries = customQuerries;
+    }
 
     @Override
     public List<CheckIn> getAllCheckIns() {
@@ -50,9 +56,9 @@ public class CheckInServiceImpl implements CheckInService {
         return false;
     }
 
-
-   @Override
-   public String findFirstCheckInTime() {
-        return checkInRepository.findFirstCheckInTime();
+    @Override
+    public List<String> findFirstCheckInTimes(Long emp_id, List<String> dates) {
+        List<String> results = this.customQuerries.findFirstCheckInTimes(emp_id, dates);
+        return results;
     }
 }
