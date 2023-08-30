@@ -32,9 +32,15 @@ public class SuggestionServiceImplementation implements SuggestionService{
               .department(suggestionDto.getDepartment())
               .status(suggestionDto.getStatus())
               .suggestionDate(LocalDateTime.now().toLocalDate())
+               //.employeeName(suggestionDto.getEmployeeName())
               .build();
 
              suggestionRepository.save(suggestion);
+    }
+
+    @Override
+    public String getEmployee() {
+        return "Piyush";
     }
 
     @Override
@@ -73,8 +79,8 @@ public class SuggestionServiceImplementation implements SuggestionService{
             }
 
             int totalVotes = suggestion.getLikeCount() + suggestion.getDislikeCount();
-            suggestion.setLikePercentage(totalVotes > 0 ? (double) suggestion.getLikeCount() / totalVotes * 100 : 0);
-            suggestion.setDislikePercentage(totalVotes > 0 ? (double) suggestion.getDislikeCount() / totalVotes * 100 : 0);
+            suggestion.setLikePercentage(totalVotes > 0 ? (int) ((double) suggestion.getLikeCount() / totalVotes * 100) : 0);
+            suggestion.setDislikePercentage(totalVotes > 0 ? (int) ((double) suggestion.getDislikeCount() / totalVotes * 100) : 0);
 
             return suggestionRepository.save(suggestion) ;
         }

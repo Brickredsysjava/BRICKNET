@@ -13,6 +13,8 @@ public interface SuggestionService {
 
     public void addsuggestion(SuggestionDto suggestionDto);
 
+    public String getEmployee();
+
     List<Suggestion> getAllSuggestions();
 
     List<Department> getAllDepartments();
@@ -20,6 +22,7 @@ public interface SuggestionService {
     Suggestion updateSuggestionStatus(Long id, Status status);
 
     Suggestion pollSuggestion(Long id, Action action);
+
 
     List<Suggestion> getSuggestionsByStatus(Status status);
 

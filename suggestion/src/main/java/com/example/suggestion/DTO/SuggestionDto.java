@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Data
@@ -16,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
+@ToString
 public class SuggestionDto {
 
     @Id
@@ -49,6 +51,10 @@ public class SuggestionDto {
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
+
+//    @OneToOne(mappedBy = "Employee", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "emp_Id")
+//    private String employeeName;
 
 
 }

@@ -11,6 +11,7 @@ public class SuggestionApplication {
 		SpringApplication.run(SuggestionApplication.class, args);
 
 	}
+
 }
 
 

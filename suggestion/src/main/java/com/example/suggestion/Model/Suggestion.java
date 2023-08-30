@@ -2,7 +2,7 @@ package com.example.suggestion.Model;
 
 import jakarta.persistence.*;
 
-import jakarta.validation.constraints.Max;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -18,6 +18,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Entity
 @Builder
+@ToString
 @Table(name = "suggestions")
 public class Suggestion {
 
@@ -51,5 +52,11 @@ public class Suggestion {
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
+
+//    @OneToMany(mappedBy = "Employee" ,cascade = CascadeType.ALL)
+//    @JoinColumn(name = "emp_Id")
+//    private List<Employee> employeeName;
+
+
 
 }
