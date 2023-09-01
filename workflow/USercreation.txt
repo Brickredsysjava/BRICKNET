@@ -1,0 +1,64 @@
+{
+  "userId": 0,
+  "profile": {
+    "id": 0,
+    "userId": 0,
+    "employeeCode": "BR10",
+    "firstName": "ADARSH",
+    "lastName": "SINGH",
+    "personalEmail": "ADARSH@GMAIL.COM",
+    "phoneNumber": "987654321",
+    "password": "ABC@123",
+    "companyEmail": "ADARSH@BRICKRED",
+    "designation": "DEVELOPER",
+    "location": "NEW DELHI",
+    "bloodGroup": "B+"
+  },
+  "personalDetails": {
+    "id": 0,
+    "userId": 0,
+    "dateOfBirth": "18 NOVENBER 1998",
+    "nationality": "INDIAN",
+    "placeOfBirth": "DEORIA",
+    "religion": "HINDU",
+    "fatherName": "SHAMBHU SINGH",
+    "internationalEmployee": "YES",
+    "maritalStatus": "NO",
+    "physicallyChallenged": "NO"
+  },
+  "education": [
+    {
+      "id": 0,
+      "userId": 0,
+      "typeOfEducation": "B.TECH",
+      "passingYear": "2022",
+      "percentage": "80%$",
+      "board": "RGPV",
+      "instituteName": "RGPV",
+      "place": "BHOPAL"
+    }
+  ],
+  "bankDetails": {
+    "id": 0,
+    "userId": 0,
+    "accountNumber": "919651115082",
+    "bankName": "PAYTM PAYMENT BANK",
+    "branchName": "NOIDA",
+    "ifscCode": "PYTN0123456",
+    "panNumber": "ISMPS8288G"
+  },
+  "address": [
+    {
+      "userId": 0,
+      "id": 0,
+      "typeOfAddress": "MAYUR VIHAR",
+      "streetAddress": "DELHI",
+      "apartment": "POLICE APARTMENT",
+      "district": "SAMASPUR",
+      "city": "DELHI",
+      "pincode": "110099",
+      "state": "DELHI",
+      "country": "INDIA"
+    }
+  ]
+}
