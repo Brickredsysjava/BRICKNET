@@ -1,16 +1,12 @@
 package com.example.suggestion.Model;
 
+
 import jakarta.persistence.*;
-
-
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.Length;
-
+import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 @Getter
 @Setter
@@ -20,11 +16,17 @@ import java.time.LocalTime;
 @Builder
 @ToString
 @Table(name = "suggestions")
-public class Suggestion {
+public class Suggestion{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticket_id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2" , strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "ticket_id", columnDefinition = "VARCHAR(255)")
+    private String ticket_id;
+
+
+    @NotNull
+    private String username;
 
     @NotNull
     private String subjectTitle;
@@ -35,7 +37,6 @@ public class Suggestion {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Department department;
-
 
     @NotNull
     @Enumerated
@@ -48,14 +49,16 @@ public class Suggestion {
     private int dislikeCount;
 
     private double likePercentage;
+
     private double dislikePercentage;
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
 
-//    @OneToMany(mappedBy = "Employee" ,cascade = CascadeType.ALL)
-//    @JoinColumn(name = "emp_Id")
-//    private List<Employee> employeeName;
+
+    private Boolean adminVerified;
+
+    private String verificationStatusMessage;
 
 
 

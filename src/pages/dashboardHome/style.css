@@ -1,0 +1,135 @@
+.serviceStyle{
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.17);
+}
+
+.serviceStyle .headingTxt{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.serviceStyle .commonBtn{
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #1E40AF;
+}
+
+.commonBtn svg{
+    margin-left: 1px;
+    font-size: 12px;
+}
+
+.flexDivStyle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.serviceScrollStyle{
+    height: 280px;
+    overflow: auto;
+    margin-top: 16px;
+}
+
+.serviceSubText {
+    font-size: 14px !important;
+    width: 62%;
+    line-height: 25px !important
+}
+
+.profileIcon{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border: 2px solid #ebebeb;
+    border-radius: 50%;
+}
+
+.serviceScrollStyle::-webkit-scrollbar {
+    width: 5px;
+}
+
+.serviceScrollStyle::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+.serviceScrollStyle::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(85, 85, 85, 0.2);
+}
+
+/* community style */
+h4.headingText{
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 12px;
+}
+
+p.subHeadingText{
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 12px;
+}
+
+.suggestionText{
+    font-size: 13px !important;
+    margin-left: 46px !important;
+    margin-top: 6px !important;
+    margin-bottom: 20px !important;
+}
+
+/* newsLetter style */
+.newsLetterStyle img{
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    height: 172px;
+    object-fit: cover;
+}
+
+.mleft{
+    margin-left: 0px !important;
+}
+
+.newsLetterStyle p.subHeadingText{
+    margin-top: 4px;
+}
+
+/* Announcement */
+.activeAnnouncement{
+    margin-top: 14px !important;
+    font-size: 13px !important;
+    background: rgba(217, 217, 217, 0.25);
+    padding: 6px 9px !important;
+    border-radius: 6px;
+    font-weight: 400 !important;
+}
+
+/* slider event */
+.eventSlider img{
+    width: 100% !important;
+    margin-top: 16px;
+}
+
+.eventSlider .slick-dots {
+    position: absolute;
+    bottom: -22px;
+}
+
+.eventSlider .slick-dots li.slick-active button:before {
+    opacity: 1;
+    color: #1E40AF;
+    font-size: 8px;
+}
+
+.eventSlider .slick-dots li button:before{
+    font-size: 8px;
+}
+
+.eventSlider .slick-dots li{
+    margin: 0px;
+}

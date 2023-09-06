@@ -1,0 +1,15 @@
+img.largeLogo {
+    height: 45px;
+    object-fit: contain;
+}
+
+img.smallLogo {
+    height: 40px;
+    object-fit: contain;
+}
+
+.imgContainer{
+    height: 45px;
+    margin-top: 10px;
+    text-align: center;
+}

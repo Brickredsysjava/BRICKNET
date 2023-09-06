@@ -1,5 +1,6 @@
 package com.example.suggestion.Service;
 
+import com.example.suggestion.DTO.NotificationDto;
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
@@ -9,12 +10,12 @@ import com.example.suggestion.Model.Suggestion;
 import com.example.suggestion.Repository.SuggestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.management.ServiceNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SuggestionServiceImplementation implements SuggestionService{
@@ -22,43 +23,109 @@ public class SuggestionServiceImplementation implements SuggestionService{
      @Autowired
     SuggestionRepository suggestionRepository;
 
+    private WebClient.Builder webClientBuilder;
 
-    @Override
-    public void addsuggestion(SuggestionDto suggestionDto) {
-
-        Suggestion suggestion=Suggestion.builder()
-              .subjectTitle(suggestionDto.getSubjectTitle())
-              .description(suggestionDto.getDescription())
-              .department(suggestionDto.getDepartment())
-              .status(suggestionDto.getStatus())
-              .suggestionDate(LocalDateTime.now().toLocalDate())
-               //.employeeName(suggestionDto.getEmployeeName())
-              .build();
-
-             suggestionRepository.save(suggestion);
+    public SuggestionServiceImplementation(WebClient.Builder webClientBuilder)
+    {
+        this.webClientBuilder = webClientBuilder;
     }
 
+
     @Override
-    public String getEmployee() {
-        return "Piyush";
+    public void addSuggestion(SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException
+    {
+
+        if (suggestionDto!=null) {
+            Suggestion suggestion = Suggestion.builder()
+                    .username(suggestionDto.getUsername())
+                    .subjectTitle(suggestionDto.getSubjectTitle())
+                    .description(suggestionDto.getDescription())
+                    .department(suggestionDto.getDepartment())
+                    .status(suggestionDto.getStatus())
+                    .suggestionDate(LocalDateTime.now().toLocalDate())
+                    .adminVerified(false)
+                    .verificationStatusMessage("Pending")
+                    .build();
+
+
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message =
+                        "You have a new Approval Request for a Suggestion \n" + "\n"
+                                + "SUGGESTION DETAILS--" + "\n"
+                                + "FROM:  " + suggestionDto.getUsername() + "\n"
+                                + "DEPARTMENT:  " + suggestionDto.getDepartment() + "\n"
+                                + "TITLE:  " + suggestionDto.getSubjectTitle() + "\n"
+                                + "CLICK HERE for more info" + "\n" +
+                                "\n";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient("parthsainis17@gmail.com");
+                notificationDto.setTimeStamp(localDateTime);
+
+                pushNotification(notificationDto);
+            }finally {
+                suggestionRepository.save(suggestion);
+                System.out.println("CONNECTION REFUSED");
+
+            }
+        }
+
+        else {
+            throw new SuggestionException("PLEASE GIVE PROPER INPUTS");
+        }
     }
 
-    @Override
-    public List<Suggestion> getAllSuggestions() {
 
-        return suggestionRepository.findAll();
+
+    @Override
+    public List<Suggestion> getAllSuggestions()
+    {
+    List<Suggestion> newList = new ArrayList<>();
+    List<Suggestion> dtoList = suggestionRepository.findAll().stream().map(p->
+    {
+        Suggestion suggestion = null;
+        if(p.getAdminVerified()){
+            suggestion = Suggestion.builder()
+                    .ticket_id(p.getTicket_id())
+                    .username(p.getUsername())
+                    .subjectTitle(p.getSubjectTitle())
+                    .description(p.getDescription())
+                    .department(p.getDepartment())
+                    .suggestionDate(p.getSuggestionDate())
+                    .status(p.getStatus())
+                    .likeCount(p.getLikeCount())
+                    .dislikeCount(p.getDislikeCount())
+                    .likePercentage(p.getLikePercentage())
+                    .dislikePercentage(p.getDislikePercentage())
+                    .adminVerified(p.getAdminVerified())
+                    .verificationStatusMessage(p.getVerificationStatusMessage())
+                    .build();
+            newList.add(suggestion);
+        }
+        return suggestion;
+    }).toList();
+    return newList;
+    }
+
+
+
+    @Override
+    public List<Department> getAllDepartments()
+    {
+        return Arrays.stream(Department.values())
+                .filter(department -> department != Department.All_Suggestions)
+                .collect(Collectors.toList());
 
     }
 
-    @Override
-    public List<Department> getAllDepartments() {
 
-        return Arrays.asList(Department.values());
-    }
 
     @Override
-    public Suggestion updateSuggestionStatus(Long id, Status status) {
-        Suggestion suggestion = suggestionRepository.findById(Math.toIntExact(id)).orElse(null);
+    public Suggestion updateSuggestionStatus(String id, Status status) throws SuggestionException
+    {
+        Suggestion suggestion = suggestionRepository.findById(id).orElse(null);
         if (suggestion != null) {
             suggestion.setStatus(status);
             return suggestionRepository.save(suggestion);
@@ -66,9 +133,12 @@ public class SuggestionServiceImplementation implements SuggestionService{
         return null;
     }
 
+
+
     @Override
-    public Suggestion pollSuggestion(Long id, Action action)  {
-        Optional<Suggestion> optionalSuggestion = suggestionRepository.findById(Math.toIntExact(id));
+    public Suggestion pollSuggestion(String id, Action action)
+    {
+        Optional<Suggestion> optionalSuggestion = suggestionRepository.findById(id);
         if (optionalSuggestion.isPresent()) {
             Suggestion suggestion = optionalSuggestion.get();
 
@@ -89,29 +159,103 @@ public class SuggestionServiceImplementation implements SuggestionService{
     }
 
 
+
     @Override
-    public List<Suggestion> getSuggestionsByStatus(Status status) {
+    public List<Suggestion> getSuggestionsByStatus(Status status)
+    {
 
         return suggestionRepository.findByStatus(status);
     }
 
+
+
     @Override
-    public void deleteSuggestionbyID(Long id) throws SuggestionException {
-//        if(id!=null){
-//            Suggestion s1=suggestionRepository.getById(Math.toIntExact(id));
-//            if (s1!=null){
-//                suggestionRepository.delete(s1);
-//                return s1;
-//            }
-//            else {
-//                throw new SuggestionException("INVALID"+id);
-//            }
-//        }
-//        else {
-//            throw new SuggestionException("Id Cannot be null");
-//        }
-//    }
-        suggestionRepository.deleteById(Math.toIntExact(id));}
+    public void deleteSuggestionByID(String id) throws SuggestionException
+    {
+
+        suggestionRepository.deleteById(String.valueOf(id));
+    }
+
+
+
+    @Override
+    public List<Suggestion> getSuggestionsByDepartment(Department department)
+    {
+        return suggestionRepository.findByDepartment(department);
+
+    }
+
+
+
+    @Override
+    public List<SuggestionDto> getAllSuggestionsNeedToVerified() throws SuggestionException
+    {
+        List<SuggestionDto> newDtoList = new ArrayList<>();
+        List<SuggestionDto> suggestionDtoList = suggestionRepository.findAll().stream().map(s -> {
+            SuggestionDto suggestionGetDto = null;
+            if (Objects.equals(s.getVerificationStatusMessage(), "Pending")) {
+                suggestionGetDto = SuggestionDto.builder()
+                        .ticket_id(s.getTicket_id())
+                        .subjectTitle(s.getSubjectTitle())
+                        .description(s.getDescription())
+                        .status(s.getStatus())
+                        .department(s.getDepartment())
+                        .username(s.getUsername())
+                        .adminVerified(s.getAdminVerified())
+                        .verificationStatusMessage(s.getVerificationStatusMessage())
+                        .suggestionDate(LocalDateTime.now().toLocalDate())
+                        .build();
+                newDtoList.add(suggestionGetDto);
+            }
+            return suggestionGetDto;
+
+
+        }).toList();
+
+        return newDtoList;
+    }
+
+
+
+    @Override
+    public String adminVerification(String ticket_id, Boolean adminVerified) throws SuggestionException
+    {
+        Suggestion suggestionVerification = suggestionRepository.findById(ticket_id).orElseThrow(() -> new SuggestionException("post not found"));
+
+        if (adminVerified) {
+            suggestionVerification.setAdminVerified(true);
+            suggestionVerification.setVerificationStatusMessage("Approved");
+
+        } else {
+            suggestionVerification.setAdminVerified(false);
+            suggestionVerification.setVerificationStatusMessage("Rejected");
+        }
+        suggestionRepository.save(suggestionVerification);
+
+        return "VERIFICATION DONE";
+    }
+
+
+
+    @Override
+    public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException
+    {
+        String jsonBody ="{\"key\": \"value\"}";
+        webClientBuilder.baseUrl("http://192.168.1.78:8096/send")
+                .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
+    }
+
+
+
+    @Override
+    public List<Suggestion> getSuggestionsByUsername(String Username)
+    {
+
+        return suggestionRepository.findByUsername(Username);
+    }
+
+
+
 
 }
 

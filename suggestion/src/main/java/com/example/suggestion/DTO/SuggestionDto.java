@@ -5,11 +5,12 @@ import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 
 @Data
@@ -21,9 +22,11 @@ import java.time.LocalTime;
 @ToString
 public class SuggestionDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticket_id;
+
+    private String ticket_id;
+
+    @NotNull
+    private String username;
 
     @NotEmpty
     private String subjectTitle;
@@ -46,15 +49,17 @@ public class SuggestionDto {
     private int dislikeCount;
 
     private double likePercentage;
-    private double dislikePercentage;
 
+    private double dislikePercentage;
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
 
-//    @OneToOne(mappedBy = "Employee", cascade = CascadeType.ALL)
-//    @JoinColumn(name = "emp_Id")
-//    private String employeeName;
+    private Boolean adminVerified;
+
+
+
+    private String verificationStatusMessage;
 
 
 }

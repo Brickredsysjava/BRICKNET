@@ -1,0 +1,36 @@
+.sectionSpacing{
+    margin-right: 3%;
+    margin-left: 3%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+h3.sectionText{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.sectionSubHeading {
+    margin-top: 4px !important;
+    font-size: 14px !important;
+}
+
+.mrBottom{
+    margin-bottom: 20px;
+}
+
+.marginBottom{
+    margin-bottom: 10px;
+}
+
+.ptNone{
+    padding-top: 0px !important;
+}
+
+.mtNone{
+    margin: 0px !important;
+}
+
+.w100{
+    width: 100%;
+}
