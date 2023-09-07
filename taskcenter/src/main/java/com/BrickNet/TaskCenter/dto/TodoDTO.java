@@ -16,10 +16,10 @@ import java.util.Date;
 @Setter
 @Getter
 public class TodoDTO {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Integer id;
 
     private String taskName;
 

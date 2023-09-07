@@ -1,6 +1,7 @@
 package com.BrickNet.TaskCenter.serviceImpl;
 
 import com.BrickNet.TaskCenter.dto.TodoDTO;
+import com.BrickNet.TaskCenter.dto.NotificationDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
 import com.BrickNet.TaskCenter.model.Todo;
 import com.BrickNet.TaskCenter.repository.TodoRepository;
@@ -10,11 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import org.springframework.web.reactive.function.client.WebClient;
+import javax.management.ServiceNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class TodoServiceImpl implements TodoService{
+
+    private WebClient.Builder webClientBuilder;
+
+    public TodoServiceImpl(WebClient.Builder webClientBuilder)
+    {
+        this.webClientBuilder = webClientBuilder;
+    }
+
 
     @Autowired
     private TodoRepository todoRepository;
@@ -26,13 +39,13 @@ public class TodoServiceImpl implements TodoService{
     private RestTemplate restTemplate;
 
     @Override
-    public void addToDo(TodoDTO todoDTO) throws TodoException{
+    public TodoDTO addToDo(TodoDTO todoDTO) throws TodoException , ServiceNotFoundException{
+//
+//        if (todoDTO==null) {
+//            throw new TodoException("Details not exist");
+//        }
 
-        if (todoDTO==null) {
-            throw new TodoException("Details not exist");
-        }
-
-        else {
+//        else {
             Todo todo1 = modelMapper.map(todoDTO, Todo.class);
             todoRepository.save(todo1);
 
@@ -50,17 +63,39 @@ public class TodoServiceImpl implements TodoService{
 
                 todoRepository.save(t);
             }
-        }
 
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message =
+                        "You have a new Task Assigned \n" + "\n"
+                                + "TASK DETAILS--" + "\n"
+                                + "FROM:  " + todoDTO.getAssignedBy() + "\n"
+                                + "To:  " + todoDTO.getAssignedTo() + "\n"
+                                + "TITLE:  " + todoDTO.getTaskName() + "\n"
+                                + "CLICK HERE for more info" + "\n" +
+                                "\n";
+                NotificationDTO notificationDTO = new NotificationDTO();
+                notificationDTO.setMessage(message);
+                notificationDTO.setRecipient("kabiraneja021@gmail.com");
+                notificationDTO.setTimeStamp(localDateTime);
+
+                pushNotification(notificationDTO);
+            } finally {
+                System.out.println("CONNECTION REFUSED");
+            }
+
+//        }
+            return todoDTO;
     }
 
     @Override
     public List<TodoDTO> showCreatedToDo(String employeeCode) throws TodoException {
-        if( employeeCode==null || todoRepository.findByStringId(employeeCode)==null){
+        if( employeeCode==null || todoRepository.findByStringEmployeeCode(employeeCode)==null){
             throw new TodoException("Details not exist");
         }
         else {
-            List<Todo> todoList = todoRepository.findByStringId(employeeCode);
+            List<Todo> todoList = todoRepository.findByStringEmployeeCode(employeeCode);
             List<TodoDTO> todoDTOList = new ArrayList<>();
             for (Todo t : todoList) {
                 todoDTOList.add(modelMapper.map(t, TodoDTO.class));
@@ -70,13 +105,12 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public TodoDTO updateCreatedToDo(Integer id, TodoDTO todoDTO) throws TodoException {
-
-        if(todoRepository.findTodoById(id)==null || todoDTO==null) {
+    public TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException {
+        if(todoRepository.findByStringId(id)==null || todoDTO==null) {
             throw new TodoException("Details not exist");
         }
         else {
-            Todo t = todoRepository.findTodoById(id);
+            Todo t = todoRepository.findByStringId(id);
 
             if (!t.getAssignedTo().equals(t.getAssignedBy())) {
                 Todo t1 = todoRepository.findRowByAssignedToColumn(t.getTaskName(), t.getAssignedTo());
@@ -115,27 +149,49 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void deleteCreatedToDo(String employeeCode, String taskName, String assignedTo) throws TodoException {
+    public void deleteCreatedToDo(String assignedBy, String taskName, String assignedTo) throws TodoException {
 
-        if(employeeCode==null || taskName==null || assignedTo==null) {
+        if(assignedBy==null || taskName==null || assignedTo==null) {
             throw new TodoException("Details not exist");
         }
-        else if (todoRepository.findByStringId(employeeCode)==null) {
-            throw new TodoException("employeeCode not exist");
-        }
-        else if (todoRepository.findByStringTaskName(taskName)==null) {
-            throw new TodoException("taskName not exist");
-        }
-        else if (todoRepository.findByStringAssignTo(assignedTo)==null) {
-            throw new TodoException("assignedTo not exist");
+        else if (todoRepository.checkToDoTaskExist(assignedBy,assignedTo,taskName)==null) {
+            throw new TodoException("Details not exist");
         }
         else {
-            todoRepository.deleteByStringIdForCreateToDo(employeeCode, taskName);
-            if (!employeeCode.equals(assignedTo)) {
-                todoRepository.deleteByStringIdForAssignedToDoUser(taskName, assignedTo);
-            }
+//            todoRepository.deleteByStringIdForCreateToDo(assignedBy, taskName);
+//            if (!assignedBy.equals(assignedTo)) {
+//                todoRepository.deleteByStringIdForAssignedToDoUser(taskName, assignedTo);
+//            }
+            todoRepository.deleteToDoTask(assignedBy,assignedTo,taskName);
         }
-
     }
 
+    @Override
+    public void deleteToDo(String id1, String id2) throws TodoException{
+        if(id1==null || id2==null) {
+            throw new TodoException("Details not exist");
+        }
+
+        if (todoRepository.findByStringId(id1)==null){
+            throw new TodoException("Details not exist");
+        }
+        else {
+            todoRepository.deleteByStringId(id1);
+        }
+
+        if (todoRepository.findByStringId(id2)==null){
+            throw new TodoException("Details not exist");
+        }
+        else {
+            todoRepository.deleteByStringId(id2);
+        }
+    }
+
+    @Override
+    public void pushNotification (NotificationDTO notificationDTO) throws ServiceNotFoundException
+    {
+        String jsonBody ="{\"key\": \"value\"}";
+        webClientBuilder.baseUrl("http://192.168.1.25:8096/send")
+                .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
+    }
 }
