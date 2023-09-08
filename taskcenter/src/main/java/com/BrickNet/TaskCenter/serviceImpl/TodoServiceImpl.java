@@ -172,19 +172,15 @@ public class TodoServiceImpl implements TodoService{
             throw new TodoException("Details not exist");
         }
 
-        if (todoRepository.findByStringId(id1)==null){
+        else if(todoRepository.findByStringId(id1)==null || todoRepository.findByStringId(id2)==null) {
             throw new TodoException("Details not exist");
-        }
-        else {
-            todoRepository.deleteByStringId(id1);
         }
 
-        if (todoRepository.findByStringId(id2)==null){
-            throw new TodoException("Details not exist");
-        }
         else {
+            todoRepository.deleteByStringId(id1);
             todoRepository.deleteByStringId(id2);
         }
+
     }
 
     @Override

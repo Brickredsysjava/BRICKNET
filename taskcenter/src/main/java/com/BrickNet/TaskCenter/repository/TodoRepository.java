@@ -28,6 +28,8 @@ public interface TodoRepository extends JpaRepository<Todo,Integer> {
     @Query("DELETE FROM Todo t WHERE t.assignedBy = ?1 AND t.assignedTo = ?2 AND t.taskName = ?3")
     Todo checkToDoTaskExist(String assignedBy, String assignedTo, String taskName);
 
+    @Modifying
+    @Transactional
     @Query("DELETE FROM Todo t WHERE t.id = ?1")
     void deleteByStringId(String id);
 }

@@ -4,6 +4,7 @@ import com.BrickNet.TaskCenter.model.Priority;
 import com.BrickNet.TaskCenter.model.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,10 +17,12 @@ import java.util.Date;
 @Setter
 @Getter
 public class TodoDTO {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Integer id;
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", columnDefinition = "VARCHAR(255)")
+    private String id;
 
     private String taskName;
 
