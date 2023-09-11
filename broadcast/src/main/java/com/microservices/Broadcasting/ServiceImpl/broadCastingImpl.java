@@ -1,23 +1,34 @@
 package com.microservices.Broadcasting.ServiceImpl;
 
-import com.microservices.Broadcasting.Dto.NotificationDTO;
+import com.microservices.Broadcasting.Dto.BroadcastingDto;
+import com.microservices.Broadcasting.Dto.NotificationDto;
+import com.microservices.Broadcasting.Eception.BroadcastingException;
+import com.microservices.Broadcasting.Entity.EventType;
 import com.microservices.Broadcasting.Entity.User;
-import com.microservices.Broadcasting.Entity.broadCasting;
+import com.microservices.Broadcasting.Entity.BroadCasting;
+import com.microservices.Broadcasting.Repository.BroadCastingRepo;
 import com.microservices.Broadcasting.Repository.UserCreationRepo;
-import com.microservices.Broadcasting.Repository.broadCastingRepo;
 import com.microservices.Broadcasting.Service.broadCastingService;
-import jakarta.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
-public class broadCastingImpl implements broadCastingService{
+public class broadCastingImpl implements broadCastingService {
 
     private final JavaMailSender mailSender;
 
@@ -28,61 +39,66 @@ public class broadCastingImpl implements broadCastingService{
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    private UserCreationRepo userCreationRepo;
+    private BroadCastingRepo broadCastingRepo;
 
     @Autowired
-    private broadCastingRepo  broadCastingRepo1;
+    private UserCreationRepo userCreationRepo;
 
     public broadCastingImpl(JavaMailSender mailSender, WebClient.Builder webClientBuilder) {
         this.mailSender = mailSender;
         this.webClientBuilder = webClientBuilder;
     }
 
-    @Override
-    public broadCasting insertDataIntoDb(broadCasting broadCasting1) {
-        System.out.println("This is the data we are getting ");
-        System.out.println(broadCasting1);
 
-        return this.broadCastingRepo1.save(broadCasting1);
+    @Override
+    public void createBroadcast(BroadcastingDto broadcastingDto) throws BroadcastingException {
+        if (broadcastingDto != null) {
+            BroadCasting broadCasting = BroadCasting.builder()
+                    .title(broadcastingDto.getTitle())
+                    .receiverEmail(broadcastingDto.getReceiverEmail())
+                    .date(broadcastingDto.getDate())
+                    .message(broadcastingDto.getMessage())
+                    .startTime(broadcastingDto.getStartTime())
+                    .endTime(broadcastingDto.getEndTime())
+                    .Cc(broadcastingDto.getCc())
+                    .eventType(broadcastingDto.getEventType())
+                    .build();
+
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message = "Hello there " + ",\n"
+                        + "\n"
+                        + broadcastingDto.getTitle() + "\n" + "This Event will be held on \n"
+                        + broadcastingDto.getDate() + "    at   " +
+                        broadcastingDto.getStartTime() + " - " + broadcastingDto.getEndTime()
+                        + "\n"
+                        + "Thanks & Regards, \n"
+                        + "Hr@BrickredsysIndia.com";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient(broadcastingDto.getReceiverEmail());
+                notificationDto.setTimeStamp(localDateTime);
+
+                pushNotification(notificationDto);
+            } finally {
+                broadCastingRepo.save(broadCasting);
+                System.out.println("CONNECTION REFUSED");
+            }
+        } else {
+            throw new BroadcastingException("PLEASE GIVE PROPER INPUTS");
+        }
     }
 
-    @Override
-    public void sendMail(broadCasting broadCasting1) throws MessagingException, IOException {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-       // Multipart multipart = new MimeMultipart();
-
-        //MimeBodyPart attachmentPart = new MimeBodyPart();
-
-        //String attachmentFilePath = "C:/Users/piyush/Desktop/uploadedfile/" + name;
-
-        //attachmentPart.attachFile(attachmentFilePath);
-
-
-        message.setTo(broadCasting1.getEmail());
-        message.setSubject(broadCasting1.getTitle());
-        message.setCc(broadCasting1.getSelectedOption());
-
-        //message.setText(broadCasting1.getMessage());
-        //message.setSentDate(broadCasting1.getSelectedDate());
-        message.setText( "Hello there " + ",\n"
-                + "\n"
-        + broadCasting1.getMessage()+ "\n" + " This event would be held on " + broadCasting1.getSelectedDate()
-        + " Date \n"+
-                "And " + broadCasting1.getTime() + " is the time of event. \n"
-                + "\n"
-                + "Thanks & Regards\n,"
-                + "Hr@BrickredsysIndia.com");
-        mailSender.send(message);
-    }
 
     @Override
-    public void pushNotification(NotificationDTO notificationDTO) {
+    public void pushNotification(NotificationDto notificationDTO) {
         String jsonBody = "{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://localhost:8096/send/")
+        webClientBuilder.baseUrl("http://192.168.1.96:8096/send/")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().
                 toBodilessEntity().block();
     }
+
 
     @Override
     public User createUser(User user) {
@@ -91,5 +107,38 @@ public class broadCastingImpl implements broadCastingService{
         return this.userCreationRepo.save(user);
     }
 
+
+//    public void uploadFile(MultipartFile file) throws IOException {
+//        BroadCasting file1 = new BroadCasting();
+//        file1.setFileName(file.getOriginalFilename());
+//        file1.setFileData(file.getBytes());
+//        broadCastingRepo.save(file1);
+//    }
+
+
+    public List<EventType> getAllEventType() {
+        return Arrays.stream(EventType.values())
+                .collect(Collectors.toList());
+    }
+
+
+    /*
+        public List<String> getAllReceiverEmails() {
+            return broadCastingRepo.findAll().stream()
+                    .map(BroadCasting::getReceiverEmail)
+                    .distinct()
+                    .toList();
+        }
+    */
+    @Override
+    public void addFile(BroadCasting broadCasting) throws BroadcastingException {
+        if (broadCasting != null) {
+
+            broadCastingRepo.save(broadCasting);
+        } else {
+            throw new BroadcastingException("Upload failed");
+
+        }
+    }
 
 }

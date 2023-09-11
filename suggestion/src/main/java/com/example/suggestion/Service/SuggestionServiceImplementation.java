@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 import javax.management.ServiceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,8 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
      @Autowired
     SuggestionRepository suggestionRepository;
+
+
 
     private WebClient.Builder webClientBuilder;
 
@@ -35,7 +39,8 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public void addSuggestion(SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException
     {
 
-        if (suggestionDto!=null) {
+        if (suggestionDto!=null)
+        {
             Suggestion suggestion = Suggestion.builder()
                     .username(suggestionDto.getUsername())
                     .subjectTitle(suggestionDto.getSubjectTitle())
@@ -65,14 +70,15 @@ public class SuggestionServiceImplementation implements SuggestionService{
                 notificationDto.setTimeStamp(localDateTime);
 
                 pushNotification(notificationDto);
-            }finally {
+            }finally
+            {
                 suggestionRepository.save(suggestion);
                 System.out.println("CONNECTION REFUSED");
-
             }
         }
 
-        else {
+        else
+        {
             throw new SuggestionException("PLEASE GIVE PROPER INPUTS");
         }
     }
@@ -125,12 +131,16 @@ public class SuggestionServiceImplementation implements SuggestionService{
     @Override
     public Suggestion updateSuggestionStatus(String id, Status status) throws SuggestionException
     {
+
         Suggestion suggestion = suggestionRepository.findById(id).orElse(null);
-        if (suggestion != null) {
+        if (suggestion!= null)
+        {
             suggestion.setStatus(status);
             return suggestionRepository.save(suggestion);
         }
-        return null;
+        else
+            return null;
+
     }
 
 
@@ -139,12 +149,15 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public Suggestion pollSuggestion(String id, Action action)
     {
         Optional<Suggestion> optionalSuggestion = suggestionRepository.findById(id);
-        if (optionalSuggestion.isPresent()) {
+        if (optionalSuggestion.isPresent())
+        {
             Suggestion suggestion = optionalSuggestion.get();
 
-            if (action == Action.LIKE) {
+            if (action == Action.LIKE)
+            {
                 suggestion.setLikeCount(suggestion.getLikeCount() + 1);
-            } else if (action == Action.DISLIKE) {
+            } else if (action == Action.DISLIKE)
+            {
                 suggestion.setDislikeCount(suggestion.getDislikeCount() + 1);
             }
 
@@ -191,9 +204,11 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public List<SuggestionDto> getAllSuggestionsNeedToVerified() throws SuggestionException
     {
         List<SuggestionDto> newDtoList = new ArrayList<>();
-        List<SuggestionDto> suggestionDtoList = suggestionRepository.findAll().stream().map(s -> {
+        List<SuggestionDto> suggestionDtoList = suggestionRepository.findAll().stream().map(s ->
+        {
             SuggestionDto suggestionGetDto = null;
-            if (Objects.equals(s.getVerificationStatusMessage(), "Pending")) {
+            if (Objects.equals(s.getVerificationStatusMessage(), "Pending"))
+            {
                 suggestionGetDto = SuggestionDto.builder()
                         .ticket_id(s.getTicket_id())
                         .subjectTitle(s.getSubjectTitle())
@@ -218,19 +233,62 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
     @Override
-    public String adminVerification(String ticket_id, Boolean adminVerified) throws SuggestionException
-    {
-        Suggestion suggestionVerification = suggestionRepository.findById(ticket_id).orElseThrow(() -> new SuggestionException("post not found"));
+    public String adminVerification(String ticket_id, Boolean adminVerified) throws SuggestionException, ServiceNotFoundException {
+
+        Optional<Suggestion> suggestion=suggestionRepository.findById(ticket_id);
+
+            SuggestionDto suggestionNew = new SuggestionDto();
+            suggestionNew.setSubjectTitle(suggestion.get().getSubjectTitle());
+            suggestionNew.setUsername(suggestion.get().getUsername());
+            suggestionNew.setDepartment(suggestion.get().getDepartment());
+
+
+           Suggestion suggestionVerification = suggestionRepository.findById(ticket_id).orElseThrow(() -> new SuggestionException("post not found"));
 
         if (adminVerified) {
             suggestionVerification.setAdminVerified(true);
             suggestionVerification.setVerificationStatusMessage("Approved");
 
-        } else {
+
+            Date date = new Date();
+            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            String message =
+                    "\n"+    "Hey,  " + suggestionNew.getUsername() + "\n"
+                            + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
+                            +"About  "+suggestionNew.getDepartment()+"  Department is Accepted.  "+ "\n"
+                            + "CLICK HERE for more info" + "\n" +
+                            "\n";
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setMessage(message);
+            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+            notificationDto.setTimeStamp(localDateTime);
+
+            pushNotification(notificationDto);
+
+
+        }
+
+        else {
             suggestionVerification.setAdminVerified(false);
             suggestionVerification.setVerificationStatusMessage("Rejected");
+
+            Date date = new Date();
+            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            String message =
+                    "\n"+  "Hey,   " + suggestionNew.getUsername() + "\n"
+                            + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
+                            +"About  "+suggestionNew.getDepartment()+"  Department" +"  is Rejected.  "+ "\n"
+                            + "CLICK HERE for more info" + "\n" +
+                            "\n";
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setMessage(message);
+            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+            notificationDto.setTimeStamp(localDateTime);
+
+            pushNotification(notificationDto);
+
         }
-        suggestionRepository.save(suggestionVerification);
+       suggestionRepository.save(suggestionVerification);
 
         return "VERIFICATION DONE";
     }
@@ -241,10 +299,20 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.78:8096/send")
+        webClientBuilder.baseUrl("http://192.168.1.71:8080/send")
                 .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
     }
 
+    @Override
+    public String getEmailIdByUserName(String username) {
+        HashMap<String, String> emailIdHashMap = new HashMap<>();
+        emailIdHashMap.put("Parth", "parthsainis17@gmail.com");
+        emailIdHashMap.put("Piyush", "piyushrai558@gmail.com");
+        emailIdHashMap.put("Pankaj", "karl98perfect@gmail.com");
+        emailIdHashMap.put("Debayan", "tubbu32@gmail.com");
+        String email = emailIdHashMap.get(username);
+        return email;
+    }
 
 
     @Override
@@ -253,6 +321,8 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
         return suggestionRepository.findByUsername(Username);
     }
+
+
 
 
 

@@ -7,10 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-
 import java.time.LocalDate;
-
 
 
 @Data
@@ -21,7 +18,6 @@ import java.time.LocalDate;
 @Builder
 @ToString
 public class SuggestionDto {
-
 
     private String ticket_id;
 
@@ -56,8 +52,6 @@ public class SuggestionDto {
     private LocalDate suggestionDate;
 
     private Boolean adminVerified;
-
-
 
     private String verificationStatusMessage;
 

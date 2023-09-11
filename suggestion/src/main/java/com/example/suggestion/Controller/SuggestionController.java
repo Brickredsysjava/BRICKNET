@@ -1,7 +1,6 @@
 package com.example.suggestion.Controller;
 
 
-
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
@@ -9,7 +8,6 @@ import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
 import com.example.suggestion.Service.SuggestionService;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.management.ServiceNotFoundException;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/api/suggestions")
+@RequestMapping("/suggestion/api/suggestions")
 public class SuggestionController
 {
 
@@ -30,7 +29,8 @@ public class SuggestionController
 
     //API TO ADD A SUGGESTION
     @PostMapping("/addSuggestion")
-    public ResponseEntity<String> addSuggestion(@RequestBody SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException {
+    public ResponseEntity<String> addSuggestion(@RequestBody SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException
+    {
 
         suggestionService.addSuggestion(suggestionDto);
         return ResponseEntity.ok("SUGGESTION SEND SUCCESSFULLY");
@@ -42,9 +42,8 @@ public class SuggestionController
     @GetMapping("/getAllSuggestions")
      public ResponseEntity<List<Suggestion>> getAllSuggestions() throws SuggestionException
     {
-        List<Suggestion> s1=suggestionService.getAllSuggestions();
+        List<Suggestion> s1 = suggestionService.getAllSuggestions();
         return new ResponseEntity<>(s1, HttpStatus.OK);
-
     }
 
 
@@ -105,7 +104,8 @@ public class SuggestionController
 
         if (department == Department.All_Suggestions) {
             suggestions = suggestionService.getAllSuggestions();
-        } else {
+        } else
+        {
             // Return suggestions filtered by department
             suggestions = suggestionService.getSuggestionsByDepartment(department);
         }
@@ -115,7 +115,7 @@ public class SuggestionController
 
 
 
-    //API TO GET SUGGESTIONS OF A PARTICULAR USER
+    //API TO GET SUGGESTIONS BY USERNAME
     @GetMapping("/suggestionByUsername")
     public List<Suggestion> getSuggestionsByUsername(@RequestParam String username)
     {

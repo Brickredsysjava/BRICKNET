@@ -8,9 +8,12 @@ import org.springframework.kafka.annotation.EnableKafka;
 @Configuration
 @SpringBootApplication
 @EnableKafka
-public class BroadcastingApplication {
+public class BroadcastingApplication
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
+
 		SpringApplication.run(BroadcastingApplication.class, args);
 	}
 

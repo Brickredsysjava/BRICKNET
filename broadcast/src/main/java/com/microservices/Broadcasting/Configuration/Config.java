@@ -22,11 +22,14 @@ public class Config {
     private broadCastingImpl broadCastingImpl1;
 
     @Bean
-    public WebClient.Builder webClientBuilder() {
+    public WebClient.Builder webClientBuilder()
+    {
+
         return WebClient.builder();
     }
 
-    private Map<String, Object> producerProps() {
+    private Map<String, Object> producerProps()
+    {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // Replace with your Kafka broker(s) address
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -36,17 +39,20 @@ public class Config {
     }
 
     @Bean
-    public ProducerFactory<String, broadCastingImpl> producerFactory() {
+    public ProducerFactory<String, broadCastingImpl> producerFactory()
+    {
         return new DefaultKafkaProducerFactory<>(producerProps());
     }
 
     @Bean
-    public KafkaTemplate<String, broadCastingImpl> kafkaTemplate() {
+    public KafkaTemplate<String, broadCastingImpl> kafkaTemplate()
+    {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(ConsumerFactory<String, String> consumerFactory) {
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(ConsumerFactory<String, String> consumerFactory)
+    {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;

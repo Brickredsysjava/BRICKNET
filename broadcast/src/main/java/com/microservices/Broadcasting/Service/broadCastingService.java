@@ -1,22 +1,32 @@
 package com.microservices.Broadcasting.Service;
 
-import com.microservices.Broadcasting.Dto.NotificationDTO;
+import com.microservices.Broadcasting.Dto.BroadcastingDto;
+import com.microservices.Broadcasting.Dto.NotificationDto;
+import com.microservices.Broadcasting.Eception.BroadcastingException;
+import com.microservices.Broadcasting.Entity.BroadCasting;
+import com.microservices.Broadcasting.Entity.EventType;
 import com.microservices.Broadcasting.Entity.User;
-import com.microservices.Broadcasting.Entity.broadCasting;
-import jakarta.mail.MessagingException;
+
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.List;
 
 @Service
 public interface broadCastingService {
 
-    public broadCasting insertDataIntoDb(broadCasting broadCasting1);
+    public void createBroadcast(BroadcastingDto broadcastingDto) throws BroadcastingException;
 
-    public void sendMail(broadCasting broadCasting1) throws MessagingException, IOException;
+    public void pushNotification(NotificationDto notificationDTO) throws BroadcastingException;
 
-    public void pushNotification(NotificationDTO notificationDTO);
+    public User createUser(User user) throws BroadcastingException;
 
-    public User createUser(User user);
+//    public void uploadFile(MultipartFile file) throws IOException,FileNotFoundException;
+
+    public  List<EventType> getAllEventType();
+
+//    public List<String> getAllReceiverEmails();
+
+
+    public void addFile(BroadCasting broadCasting) throws BroadcastingException;
 
 }

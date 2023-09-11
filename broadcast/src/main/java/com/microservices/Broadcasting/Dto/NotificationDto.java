@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NotificationDTO {
+public class NotificationDto {
 
     private String recipient;
 
     private String message;
-    //private LocalDateTime timestamp;
+    private LocalDateTime timeStamp;
 }

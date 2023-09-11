@@ -33,9 +33,11 @@ public interface SuggestionService {
 
     public List<SuggestionDto> getAllSuggestionsNeedToVerified() throws SuggestionException;
 
-    String adminVerification(String ticket_id,Boolean adminVerified) throws SuggestionException;
+    String adminVerification(String ticket_id,Boolean adminVerified) throws SuggestionException, ServiceNotFoundException;
 
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException;
+
+    public String getEmailIdByUserName(String username);
 
 
 

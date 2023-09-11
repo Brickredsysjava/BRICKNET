@@ -1,11 +1,14 @@
 package com.microservices.Broadcasting.Controller;
 
-import com.microservices.Broadcasting.Dto.NotificationDTO;
-import com.microservices.Broadcasting.Entity.User;
-import com.microservices.Broadcasting.Entity.broadCasting;
+import com.microservices.Broadcasting.Dto.BroadcastingDto;
 
-import com.microservices.Broadcasting.Service.GetBroadcastinginfo;
+import com.microservices.Broadcasting.Eception.BroadcastingException;
+import com.microservices.Broadcasting.Entity.BroadCasting;
+import com.microservices.Broadcasting.Entity.EventType;
+import com.microservices.Broadcasting.Entity.User;
+
 import com.microservices.Broadcasting.Service.broadCastingService;
+import com.microservices.Broadcasting.ServiceImpl.FileTypeIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,11 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalDateTime;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,84 +32,107 @@ import java.util.List;
 public class broadCastController {
 
     @Autowired
-    private broadCastingService broadCastingService1;
+    private broadCastingService broadCastingService;
 
-    @Autowired
-    private GetBroadcastinginfo getBroadcastinginfo;
+
     @Value("${upload.path}")
     private String uploadPath;
 
-    @PostMapping("/insert")
-    public ResponseEntity<String> insertDataIntoDb(@RequestParam("title") String title ,
-                                                         @RequestParam("email") String email,
-                                                         @RequestParam("message") String message,
-                                                         @RequestParam("selectedDate") String selectedDate,
-                                                         @RequestParam("time") String time,
-                                                         @RequestParam("typeOfEvent") String typeOfEvents,
-                                                         @RequestParam("selectedOption") String selectedOption,
-                                                         @RequestParam("uploadedFile") MultipartFile uploadedFile){
-    try {
-        broadCasting broadCastingSaved = new broadCasting();
-        NotificationDTO notificationDTO = new NotificationDTO();
+    @PostMapping("/createBroadcast")
+    public ResponseEntity<String> createBroadcast(BroadcastingDto broadcastingDto) throws BroadcastingException{
+        broadCastingService.createBroadcast(broadcastingDto);
+        return ResponseEntity.ok("Broadcast Created Successfully");
+    }
 
-        broadCastingSaved.setTitle(title);
-        broadCastingSaved.setEmail(email);
-        broadCastingSaved.setMessage(message);
-        broadCastingSaved.setSelectedDate(selectedDate);
-        broadCastingSaved.setTime(time);
-        broadCastingSaved.setTypeOfEvent(typeOfEvents);
-        broadCastingSaved.setSelectedOption(selectedOption);
-        broadCastingService1.insertDataIntoDb(broadCastingSaved);
-        String fileName = uploadedFile.getOriginalFilename();
-        broadCastingService1.sendMail(broadCastingSaved);
-
-        notificationDTO.setRecipient(email);
-        notificationDTO.setMessage(message);
-        //notificationDTO.setTimestamp(LocalDateTime.now());
-        broadCastingService1.pushNotification(notificationDTO);
-        //This is for uploading the file at particular location
-        String filePath = uploadPath + File.separator + fileName;
-        uploadedFile.transferTo(new File(filePath));
-        return ResponseEntity.ok("User created successfully");
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user");
-    }
-    }
 
     @GetMapping("/getMailId")
-    public ResponseEntity<List<String>> gettheemailIdfromDb(){
+    public ResponseEntity<List<String>> getTheEmailIdFromDb() {
         List<String> listOfEmailId = new ArrayList<>();
         listOfEmailId.add("piyushraiangry256@gmail.com");
         listOfEmailId.add("karl98perfect@gmail.com");
         listOfEmailId.add("tubbu32@gmail.com");
         listOfEmailId.add("piyushrai558@gmail.com");
+        listOfEmailId.add("parth21@gmail.com");
         return new ResponseEntity<>(listOfEmailId, HttpStatus.OK);
     }
 
-    @PostMapping("/upload_file")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file){
-        try {
-            // Save the file to the specified upload path
-            String fileName = file.getOriginalFilename();
-            String filePath = uploadPath + File.separator + fileName;
-            file.transferTo(new File(filePath));
-            return ResponseEntity.ok("File uploaded successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file.");
+
+
+
+
+    @PostMapping("/create_user")
+    public ResponseEntity<User> createUser(@RequestBody User user) throws BroadcastingException {
+        return new ResponseEntity<>(this.broadCastingService.createUser(user), HttpStatus.CREATED);
+    }
+
+
+//    @PostMapping("/file")
+//    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+//        try {
+//            // Validate and upload the file
+//            if (file != null && !file.isEmpty()) {
+//                broadCastingService.uploadFile(file);
+//                return ResponseEntity.ok("File uploaded successfully.");
+//            } else {
+//                return ResponseEntity.badRequest().body("Please select a file to upload.");
+//            }
+//        } catch (IOException e) {
+//            return ResponseEntity.status(500).body("File upload failed: " + e.getMessage());
+//        }
+//    }
+
+
+
+
+    @GetMapping("/getAllEventType")
+    public List<EventType> getAllEventTypes() {
+        return broadCastingService.getAllEventType();
+    }
+
+
+
+//    @GetMapping("/receiver-emails")
+//    public List<String> getAllReceiverEmails() {
+//        return broadCastingService.getAllReceiverEmails();
+//    }
+
+
+    @PostMapping("/images/upload-api")
+    @ResponseBody
+    public String handleUpload(@RequestBody MultipartFile file, @RequestParam String title, @RequestParam String description) throws BroadcastingException {
+
+
+        if (file instanceof MultipartFile == true) {
+            try {
+                BroadCasting broadCastingFile = BroadCasting.builder()
+                        .title(title)
+                        .message(description)
+                        .startTime(String.valueOf(new Date()))
+                        .endTime(String.valueOf(new Date()))
+                        .build();
+
+                // Get the original filename of the uploaded file
+                String originalFilename = file.getOriginalFilename();
+                FileTypeIdentifier identifier = new FileTypeIdentifier();
+                broadCastingFile.setContentType(identifier.identifyFileType(originalFilename));
+                // Save the uploaded file to the upload directory
+                Path path = Paths.get(uploadPath + originalFilename);
+                Files.write(path, file.getBytes());
+                broadCastingFile.setContent(originalFilename);
+                broadCastingService.addFile(broadCastingFile);
+                return "File uploaded successfully: " + originalFilename;
+            } catch (IOException e) {
+                // Return an error response if the file upload fails
+                return "Error uploading file: " + e.getMessage();
+            }
+        } else {
+
+            throw new BroadcastingException("Provided file is not a media type file");
         }
     }
 
-    @PostMapping("/create_user")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        return new ResponseEntity<>(this.broadCastingService1.createUser(user), HttpStatus.CREATED);
-    }
 
-    @GetMapping("/getFromNotification")
-    public String getFromNotification(){
-        return this.getBroadcastinginfo.getBroadcastinginfoMethod();
-    }
+
+
 
 }
