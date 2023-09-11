@@ -10,13 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.ServiceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/suggestions")
+@RequestMapping("/suggestion/api/verification")
 public class SuggestionVerificationController
 {
     @Autowired
@@ -35,8 +36,7 @@ public class SuggestionVerificationController
 
     @PostMapping("/adminVerification")
     @Operation(summary = "FOR VERIFICATION FROM THE ADMIN")
-    public ResponseEntity<String> adminVerification(@RequestParam String ticket_id, @RequestParam Boolean adminVerified) throws SuggestionException
-    {
+    public ResponseEntity<String> adminVerification(@RequestParam String ticket_id, @RequestParam Boolean adminVerified) throws SuggestionException, ServiceNotFoundException {
         String res=suggestionService.adminVerification(ticket_id,adminVerified);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
