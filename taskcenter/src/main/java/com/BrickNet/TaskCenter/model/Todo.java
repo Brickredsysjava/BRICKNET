@@ -28,9 +28,13 @@ public class Todo {
 
     private String description;
 
-    private LocalDateTime completionDate;
+    private LocalDate estimatedStartDate;
 
-    private LocalDateTime dueDate;
+    private LocalDate actualStartDate;
+
+    private LocalDate estimatedEndDate;
+
+    private LocalDate actualEndDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

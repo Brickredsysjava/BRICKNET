@@ -7,8 +7,6 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,9 +26,13 @@ public class TodoDTO {
 
     private String description;
 
-    private LocalDateTime completionDate;
+    private LocalDate estimatedStartDate;
 
-    private LocalDateTime dueDate;
+    private LocalDate actualStartDate;
+
+    private LocalDate estimatedEndDate;
+
+    private LocalDate actualEndDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

@@ -40,12 +40,12 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public TodoDTO addToDo(TodoDTO todoDTO) throws TodoException , ServiceNotFoundException{
-//
-//        if (todoDTO==null) {
-//            throw new TodoException("Details not exist");
-//        }
 
-//        else {
+        if (todoDTO==null) {
+            throw new TodoException("Details not exist");
+        }
+
+        else {
             Todo todo1 = modelMapper.map(todoDTO, Todo.class);
             todoRepository.save(todo1);
 
@@ -53,8 +53,10 @@ public class TodoServiceImpl implements TodoService{
                 Todo t = new Todo();
                 t.setTaskName(todo1.getTaskName());
                 t.setDescription(todo1.getDescription());
-                t.setCompletionDate(todo1.getCompletionDate());
-                t.setDueDate(todo1.getDueDate());
+                t.setActualEndDate(todo1.getActualEndDate());
+                t.setActualStartDate(todo1.getActualStartDate());
+                t.setEstimatedEndDate(todo1.getEstimatedEndDate());
+                t.setEstimatedStartDate(todo1.getEstimatedStartDate());
                 t.setStatus(todo1.getStatus());
                 t.setPriority(todo1.getPriority());
                 t.setAssignedBy(todo1.getAssignedBy());
@@ -85,7 +87,7 @@ public class TodoServiceImpl implements TodoService{
                 System.out.println("CONNECTION REFUSED");
             }
 
-//        }
+        }
             return todoDTO;
     }
 
@@ -117,8 +119,10 @@ public class TodoServiceImpl implements TodoService{
 
                 t1.setTaskName(todoDTO.getTaskName());
                 t1.setDescription(todoDTO.getDescription());
-                t1.setCompletionDate(todoDTO.getCompletionDate());
-                t1.setDueDate(todoDTO.getDueDate());
+                t1.setActualEndDate(todoDTO.getActualEndDate());
+                t1.setActualStartDate(todoDTO.getActualStartDate());
+                t1.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
+                t1.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
                 t1.setStatus(todoDTO.getStatus());
                 t1.setPriority(todoDTO.getPriority());
                 t1.setAssignedBy(todoDTO.getAssignedBy());
@@ -131,8 +135,10 @@ public class TodoServiceImpl implements TodoService{
 
             t.setTaskName(todoDTO.getTaskName());
             t.setDescription(todoDTO.getDescription());
-            t.setCompletionDate(todoDTO.getCompletionDate());
-            t.setDueDate(todoDTO.getDueDate());
+            t.setActualEndDate(todoDTO.getActualEndDate());
+            t.setActualStartDate(todoDTO.getActualStartDate());
+            t.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
+            t.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
             t.setStatus(todoDTO.getStatus());
             t.setPriority(todoDTO.getPriority());
             t.setAssignedBy(todoDTO.getAssignedBy());
