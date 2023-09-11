@@ -20,7 +20,7 @@ import javax.management.ServiceNotFoundException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/suggestions")
+@RequestMapping("/suggestion/api/suggestions")
 public class SuggestionController
 {
 

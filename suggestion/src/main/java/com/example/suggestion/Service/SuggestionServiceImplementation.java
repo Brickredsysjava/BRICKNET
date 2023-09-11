@@ -218,17 +218,60 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
     @Override
-    public String adminVerification(String ticket_id, Boolean adminVerified) throws SuggestionException
-    {
+    public String adminVerification(String ticket_id, Boolean adminVerified) throws SuggestionException, ServiceNotFoundException {
+
+        Optional<Suggestion> suggestion=suggestionRepository.findById(ticket_id);
+
+        SuggestionDto suggestionNew = new SuggestionDto();
+        suggestionNew.setSubjectTitle(suggestion.get().getSubjectTitle());
+        suggestionNew.setUsername(suggestion.get().getUsername());
+        suggestionNew.setDepartment(suggestion.get().getDepartment());
+
+
         Suggestion suggestionVerification = suggestionRepository.findById(ticket_id).orElseThrow(() -> new SuggestionException("post not found"));
 
         if (adminVerified) {
             suggestionVerification.setAdminVerified(true);
             suggestionVerification.setVerificationStatusMessage("Approved");
 
-        } else {
+
+            Date date = new Date();
+            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            String message =
+                    "\n"+    "Hey,  " + suggestionNew.getUsername() + "\n"
+                            + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
+                            +"About  "+suggestionNew.getDepartment()+"  Department is Accepted.  "+ "\n"
+                            + "CLICK HERE for more info" + "\n" +
+                            "\n";
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setMessage(message);
+            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+            notificationDto.setTimeStamp(localDateTime);
+
+            pushNotification(notificationDto);
+
+
+        }
+
+        else {
             suggestionVerification.setAdminVerified(false);
             suggestionVerification.setVerificationStatusMessage("Rejected");
+
+            Date date = new Date();
+            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            String message =
+                    "\n"+  "Hey,   " + suggestionNew.getUsername() + "\n"
+                            + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
+                            +"About  "+suggestionNew.getDepartment()+"  Department" +"  is Rejected.  "+ "\n"
+                            + "CLICK HERE for more info" + "\n" +
+                            "\n";
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setMessage(message);
+            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+            notificationDto.setTimeStamp(localDateTime);
+
+            pushNotification(notificationDto);
+
         }
         suggestionRepository.save(suggestionVerification);
 
@@ -241,10 +284,20 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.78:8096/send")
+        webClientBuilder.baseUrl("http://192.168.1.71:8080/send")
                 .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
     }
 
+    @Override
+    public String getEmailIdByUserName(String username) {
+        HashMap<String, String> emailIdHashMap = new HashMap<>();
+        emailIdHashMap.put("Parth", "parthsainis17@gmail.com");
+        emailIdHashMap.put("Piyush", "piyushrai558@gmail.com");
+        emailIdHashMap.put("Pankaj", "karl98perfect@gmail.com");
+        emailIdHashMap.put("Debayan", "tubbu32@gmail.com");
+        String email = emailIdHashMap.get(username);
+        return email;
+    }
 
 
     @Override
