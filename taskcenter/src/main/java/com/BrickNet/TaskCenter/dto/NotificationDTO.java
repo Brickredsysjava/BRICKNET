@@ -1,5 +1,6 @@
 package com.BrickNet.TaskCenter.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationDTO {
+    @NotNull
     private String message;
 
+    @NotNull
     private String recipient;
 
+    @NotNull
     private LocalDateTime timeStamp;
 
 }
