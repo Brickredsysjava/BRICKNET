@@ -83,7 +83,8 @@ public class TodoServiceImpl implements TodoService{
                 notificationDTO.setTimeStamp(localDateTime);
 
                 pushNotification(notificationDTO);
-            } finally {
+            } catch(Exception e) {
+                e.printStackTrace();
                 System.out.println("CONNECTION REFUSED");
             }
 
@@ -193,7 +194,7 @@ public class TodoServiceImpl implements TodoService{
     public void pushNotification (NotificationDTO notificationDTO) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.25:8096/send")
+        webClientBuilder.baseUrl("http://20.198.3.41:8080/send")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
     }
 }
