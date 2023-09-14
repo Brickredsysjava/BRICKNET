@@ -39,7 +39,7 @@ public class TodoServiceImpl implements TodoService{
     private RestTemplate restTemplate;
 
     @Override
-    public TodoDTO addToDo(TodoDTO todoDTO) throws TodoException , ServiceNotFoundException{
+    public TodoDTO addToDo(TodoDTO todoDTO) throws TodoException {
 
         if (todoDTO==null) {
             throw new TodoException("Details not exist");
@@ -48,24 +48,7 @@ public class TodoServiceImpl implements TodoService{
         else {
             Todo todo1 = modelMapper.map(todoDTO, Todo.class);
             todoRepository.save(todo1);
-
-            if (!todoDTO.getAssignedTo().equals(todoDTO.getAssignedBy())) {
-                Todo t = new Todo();
-                t.setTitle(todo1.getTitle());
-                t.setDescription(todo1.getDescription());
-                t.setActualEndDate(todo1.getActualEndDate());
-                t.setActualStartDate(todo1.getActualStartDate());
-                t.setEstimatedEndDate(todo1.getEstimatedEndDate());
-                t.setEstimatedStartDate(todo1.getEstimatedStartDate());
-                t.setStatus(todo1.getStatus());
-                t.setPriority(todo1.getPriority());
-                t.setAssignedBy(todo1.getAssignedBy());
-                t.setAssignedTo(todo1.getAssignedTo());
-                t.setEmployeeCode(todo1.getAssignedTo());
-
-                todoRepository.save(t);
-                todoDTO.setId(t.getId());
-            }
+            todoDTO.setId(todo1.getId());
 
             try {
                 Date date = new Date();
@@ -99,11 +82,18 @@ public class TodoServiceImpl implements TodoService{
             throw new TodoException("Details not exist");
         }
         else {
-            List<Todo> todoList = todoRepository.findByStringEmployeeCode(employeeCode);
+            List<Todo> todoList = todoRepository.findByStringAssignedBy(employeeCode);
+            List<Todo> todoList1 = todoRepository.findByStringAssignedTo(employeeCode);
+
             List<TodoDTO> todoDTOList = new ArrayList<>();
+
             for (Todo t : todoList) {
                 todoDTOList.add(modelMapper.map(t, TodoDTO.class));
             }
+            for (Todo t : todoList1) {
+                todoDTOList.add(modelMapper.map(t, TodoDTO.class));
+            }
+
             return todoDTOList;
         }
     }
@@ -115,80 +105,37 @@ public class TodoServiceImpl implements TodoService{
         }
         else {
             Todo t = todoRepository.findByStringId(id);
-            String title = t.getTitle() , assignedBy = t.getAssignedBy();
 
-            if (!t.getAssignedTo().equals(t.getAssignedBy())) {
-                Todo t1 = todoRepository.findRowByAssignedColumns(t.getTitle(), t.getAssignedTo());
+                t.setTitle(todoDTO.getTitle());
+                t.setDescription(todoDTO.getDescription());
+                t.setActualEndDate(todoDTO.getActualEndDate());
+                t.setActualStartDate(todoDTO.getActualStartDate());
+                t.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
+                t.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
+                t.setStatus(todoDTO.getStatus());
+                t.setPriority(todoDTO.getPriority());
+                t.setAssignedBy(todoDTO.getAssignedBy());
+                t.setAssignedTo(todoDTO.getAssignedTo());
+                t.setEmployeeCode(todoDTO.getAssignedTo());
 
-                t1.setTitle(todoDTO.getTitle());
-                t1.setDescription(todoDTO.getDescription());
-                t1.setActualEndDate(todoDTO.getActualEndDate());
-                t1.setActualStartDate(todoDTO.getActualStartDate());
-                t1.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
-                t1.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
-                t1.setStatus(todoDTO.getStatus());
-                t1.setPriority(todoDTO.getPriority());
-                t1.setAssignedBy(todoDTO.getAssignedBy());
-                t1.setAssignedTo(todoDTO.getAssignedTo());
-                t1.setEmployeeCode(todoDTO.getAssignedTo());
-
-                todoRepository.save(t1);
-            }
-
-            Todo t1 = todoRepository.findRowByAssignedColumns(title,assignedBy);
-
-            t1.setTitle(todoDTO.getTitle());
-            t1.setDescription(todoDTO.getDescription());
-            t1.setActualEndDate(todoDTO.getActualEndDate());
-            t1.setActualStartDate(todoDTO.getActualStartDate());
-            t1.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
-            t1.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
-            t1.setStatus(todoDTO.getStatus());
-            t1.setPriority(todoDTO.getPriority());
-            t1.setAssignedBy(todoDTO.getAssignedBy());
-            t1.setAssignedTo(todoDTO.getAssignedTo());
-            t1.setEmployeeCode(todoDTO.getEmployeeCode());
-
-//        String str = restTemplate.getForObject(uri, String.class);
-//        t.setEmployeeCode(str);
-
-            todoRepository.save(t);
+                todoRepository.save(t);
 
             return modelMapper.map(t, TodoDTO.class);
         }
     }
 
     @Override
-    public void deleteCreatedToDo(String assignedBy, String title, String assignedTo) throws TodoException {
-
-        if(assignedBy==null || title==null || assignedTo==null) {
-            throw new TodoException("Details not exist");
-        }
-        else if (todoRepository.checkToDoTaskExist(assignedBy,assignedTo,title)==null) {
-            throw new TodoException("Details not exist");
-        }
-        else {
-//            todoRepository.deleteByStringIdForCreateToDo(assignedBy, title);
-//            if (!assignedBy.equals(assignedTo)) {
-//                todoRepository.deleteByStringIdForAssignedToDoUser(title, assignedTo);
-//            }
-            todoRepository.deleteToDoTask(assignedBy,assignedTo,title);
-        }
-    }
-
-    @Override
-    public void deleteToDo(String id1, String id2) throws TodoException{
-        if(id1==null || id2==null) {
+    public void deleteToDo(String id1) throws TodoException{
+        if(id1==null) {
             throw new TodoException("Details not exist");
         }
 
-        else if(todoRepository.findByStringId(id1)==null || todoRepository.findByStringId(id2)==null) {
+        else if(todoRepository.findByStringId(id1)==null) {
             throw new TodoException("Details not exist");
         }
 
         else {
             todoRepository.deleteByStringId(id1);
-            todoRepository.deleteByStringId(id2);
         }
 
     }

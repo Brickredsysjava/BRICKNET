@@ -31,25 +31,19 @@ public class TodoController {
          return new ResponseEntity<TodoDTO>(savedTodo,HttpStatus.CREATED);
     }
 
-    @GetMapping("/show-created-to-do/{empId}")
-    public ResponseEntity<List<TodoDTO>> showCreatedToDo(@PathVariable String empId) throws TodoException{
-        return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(empId), HttpStatus.CREATED.OK);
+    @GetMapping("/show-created-to-do")
+    public ResponseEntity<List<TodoDTO>> showCreatedToDo(@RequestParam("empId") String empId) throws TodoException{
+        return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(empId), HttpStatus.OK);
     }
 
-    @PutMapping("/update-created-to-do/{id}")
-    public ResponseEntity<TodoDTO> updateCreatedToDo(@PathVariable String id,@RequestBody TodoDTO todoDTO) throws TodoException {
+    @PutMapping("/update-created-to-do")
+    public ResponseEntity<TodoDTO> updateCreatedToDo(@RequestParam("id") String id,@RequestBody TodoDTO todoDTO) throws TodoException {
         return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id,todoDTO),HttpStatus.CREATED.OK);
     }
 
-    @DeleteMapping("/delete-Created-To-Do/{assignedBy}/{title}/{assignedTo}")
-    public String deleteCreatedToDo( @PathVariable String assignedBy,@PathVariable String title,@PathVariable String assignedTo) throws TodoException{
-         todoService.deleteCreatedToDo(assignedBy,title,assignedTo);
-         return "Deleted Successfully";
-    }
-
-    @DeleteMapping("/delete-To-Do/{id1}/{id2}")
-    public String deleteToDo(@RequestParam("id1") String id1, @RequestParam("id2") String id2) throws TodoException{
-        todoService.deleteToDo(id1,id2);
+    @DeleteMapping("/delete-To-Do")
+    public String deleteToDo(@RequestParam("id1") String id1) throws TodoException{
+        todoService.deleteToDo(id1);
         return "Delete Successfully";
     }
 
