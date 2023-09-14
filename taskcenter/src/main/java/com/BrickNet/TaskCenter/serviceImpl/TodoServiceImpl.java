@@ -51,7 +51,7 @@ public class TodoServiceImpl implements TodoService{
 
             if (!todoDTO.getAssignedTo().equals(todoDTO.getAssignedBy())) {
                 Todo t = new Todo();
-                t.setTaskName(todo1.getTaskName());
+                t.setTitle(todo1.getTitle());
                 t.setDescription(todo1.getDescription());
                 t.setActualEndDate(todo1.getActualEndDate());
                 t.setActualStartDate(todo1.getActualStartDate());
@@ -64,6 +64,7 @@ public class TodoServiceImpl implements TodoService{
                 t.setEmployeeCode(todo1.getAssignedTo());
 
                 todoRepository.save(t);
+                todoDTO.setId(t.getId());
             }
 
             try {
@@ -74,7 +75,7 @@ public class TodoServiceImpl implements TodoService{
                                 + "TASK DETAILS--" + "\n"
                                 + "FROM:  " + todoDTO.getAssignedBy() + "\n"
                                 + "To:  " + todoDTO.getAssignedTo() + "\n"
-                                + "TITLE:  " + todoDTO.getTaskName() + "\n"
+                                + "TITLE:  " + todoDTO.getTitle() + "\n"
                                 + "CLICK HERE for more info" + "\n" +
                                 "\n";
                 NotificationDTO notificationDTO = new NotificationDTO();
@@ -114,11 +115,12 @@ public class TodoServiceImpl implements TodoService{
         }
         else {
             Todo t = todoRepository.findByStringId(id);
+            String title = t.getTitle() , assignedBy = t.getAssignedBy();
 
             if (!t.getAssignedTo().equals(t.getAssignedBy())) {
-                Todo t1 = todoRepository.findRowByAssignedToColumn(t.getTaskName(), t.getAssignedTo());
+                Todo t1 = todoRepository.findRowByAssignedColumns(t.getTitle(), t.getAssignedTo());
 
-                t1.setTaskName(todoDTO.getTaskName());
+                t1.setTitle(todoDTO.getTitle());
                 t1.setDescription(todoDTO.getDescription());
                 t1.setActualEndDate(todoDTO.getActualEndDate());
                 t1.setActualStartDate(todoDTO.getActualStartDate());
@@ -133,18 +135,19 @@ public class TodoServiceImpl implements TodoService{
                 todoRepository.save(t1);
             }
 
+            Todo t1 = todoRepository.findRowByAssignedColumns(title,assignedBy);
 
-            t.setTaskName(todoDTO.getTaskName());
-            t.setDescription(todoDTO.getDescription());
-            t.setActualEndDate(todoDTO.getActualEndDate());
-            t.setActualStartDate(todoDTO.getActualStartDate());
-            t.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
-            t.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
-            t.setStatus(todoDTO.getStatus());
-            t.setPriority(todoDTO.getPriority());
-            t.setAssignedBy(todoDTO.getAssignedBy());
-            t.setAssignedTo(todoDTO.getAssignedTo());
-            t.setEmployeeCode(todoDTO.getEmployeeCode());
+            t1.setTitle(todoDTO.getTitle());
+            t1.setDescription(todoDTO.getDescription());
+            t1.setActualEndDate(todoDTO.getActualEndDate());
+            t1.setActualStartDate(todoDTO.getActualStartDate());
+            t1.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
+            t1.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
+            t1.setStatus(todoDTO.getStatus());
+            t1.setPriority(todoDTO.getPriority());
+            t1.setAssignedBy(todoDTO.getAssignedBy());
+            t1.setAssignedTo(todoDTO.getAssignedTo());
+            t1.setEmployeeCode(todoDTO.getEmployeeCode());
 
 //        String str = restTemplate.getForObject(uri, String.class);
 //        t.setEmployeeCode(str);
@@ -156,20 +159,20 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void deleteCreatedToDo(String assignedBy, String taskName, String assignedTo) throws TodoException {
+    public void deleteCreatedToDo(String assignedBy, String title, String assignedTo) throws TodoException {
 
-        if(assignedBy==null || taskName==null || assignedTo==null) {
+        if(assignedBy==null || title==null || assignedTo==null) {
             throw new TodoException("Details not exist");
         }
-        else if (todoRepository.checkToDoTaskExist(assignedBy,assignedTo,taskName)==null) {
+        else if (todoRepository.checkToDoTaskExist(assignedBy,assignedTo,title)==null) {
             throw new TodoException("Details not exist");
         }
         else {
-//            todoRepository.deleteByStringIdForCreateToDo(assignedBy, taskName);
+//            todoRepository.deleteByStringIdForCreateToDo(assignedBy, title);
 //            if (!assignedBy.equals(assignedTo)) {
-//                todoRepository.deleteByStringIdForAssignedToDoUser(taskName, assignedTo);
+//                todoRepository.deleteByStringIdForAssignedToDoUser(title, assignedTo);
 //            }
-            todoRepository.deleteToDoTask(assignedBy,assignedTo,taskName);
+            todoRepository.deleteToDoTask(assignedBy,assignedTo,title);
         }
     }
 

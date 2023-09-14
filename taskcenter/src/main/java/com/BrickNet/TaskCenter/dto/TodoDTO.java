@@ -24,7 +24,7 @@ public class TodoDTO {
     private String id;
 
     @NotNull
-    private String taskName;
+    private String title;
 
     @NotNull
     private String description;

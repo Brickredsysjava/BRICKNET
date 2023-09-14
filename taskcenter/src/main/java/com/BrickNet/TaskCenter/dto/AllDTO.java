@@ -19,7 +19,7 @@ import lombok.*;
 public class AllDTO {
 
     @NotNull
-    private String taskName;
+    private String title;
 
     @NotNull
     private String description;

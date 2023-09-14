@@ -37,7 +37,7 @@ public class AllServiceImpl implements AllService {
 
             for (TodoDTO todoDTO : todoDTOList) {
                 AllDTO allDTO = new AllDTO();
-                allDTO.setTaskName(todoDTO.getTaskName());
+                allDTO.setTitle(todoDTO.getTitle());
                 allDTO.setStatus(todoDTO.getStatus());
                 allDTO.setDescription(todoDTO.getDescription());
                 allDTO.setAssignedTo(todoDTO.getAssignedTo());
@@ -53,7 +53,7 @@ public class AllServiceImpl implements AllService {
 
                 for (String str : storiesDTO.getUserAssigned()) {
                     AllDTO allDTO = new AllDTO();
-                    allDTO.setTaskName(storiesDTO.getTitle());
+                    allDTO.setTitle(storiesDTO.getTitle());
                     allDTO.setStatus(storiesDTO.getStatus());
                     allDTO.setDescription(storiesDTO.getDescription());
                     allDTO.setAssignedBy(storiesDTO.getCreatorId());

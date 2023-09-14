@@ -15,7 +15,7 @@ public interface TodoService {
 
     TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException;
 
-    void deleteCreatedToDo(String employeeCode,String taskName,String assignedTo) throws TodoException;
+    void deleteCreatedToDo(String employeeCode,String title,String assignedTo) throws TodoException;
 
     void deleteToDo(String id1, String id2) throws TodoException;
 

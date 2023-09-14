@@ -24,7 +24,7 @@ public class Todo {
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
 
-    private String taskName;
+    private String title;
 
     private String description;
 
