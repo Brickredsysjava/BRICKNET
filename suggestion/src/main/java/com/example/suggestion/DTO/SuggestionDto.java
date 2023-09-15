@@ -5,13 +5,12 @@ import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 
 @Data
@@ -20,31 +19,28 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
+@ToString
 public class SuggestionDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticket_id;
 
+    private String ticket_id;
+
+    @NotNull
+    private String username;
 
     @NotEmpty
     private String subjectTitle;
 
-
     @NotEmpty
     private String description;
-
 
     @NotEmpty
     @Enumerated(EnumType.STRING)
     private Department department;
 
-
     @NonNull
     @Enumerated
     private Status status;
-
 
     @NonNull
     private int likeCount;
@@ -53,12 +49,17 @@ public class SuggestionDto {
     private int dislikeCount;
 
     private double likePercentage;
+
     private double dislikePercentage;
-
-
 
     @Column(name = "suggestion_date")
     private LocalDate suggestionDate;
+
+    private Boolean adminVerified;
+
+
+
+    private String verificationStatusMessage;
 
 
 }

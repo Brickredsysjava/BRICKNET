@@ -1,0 +1,12 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092  # Replace with your Kafka broker(s) address
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: localhost:9092  # Replace with your Kafka broker(s) address
+      group-id: my-consumer-group  # Set your consumer group ID
+      auto-offset-reset: earliest  # Set to 'earliest' or 'latest' based on your needs
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
