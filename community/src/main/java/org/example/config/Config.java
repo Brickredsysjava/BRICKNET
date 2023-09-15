@@ -24,4 +24,11 @@ public class Config {
     public WebClient.Builder webClientBuilder(){
         return WebClient.builder();
     }
+
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+//        resolver.setDefaultEncoding("utf-8"); // Set the character encoding
+//        return resolver;
+//    }
 }

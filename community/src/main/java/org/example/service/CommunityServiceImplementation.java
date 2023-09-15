@@ -2,9 +2,7 @@ package org.example.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.example.dto.CommunityGetDto;
-import org.example.dto.CommunityUpdateDto;
-import org.example.dto.NotificationDto;
+import org.example.dto.*;
 import org.example.exception.CommunityException;
 import org.example.model.Community;
 import org.example.model.ContentDetails;
@@ -59,9 +57,11 @@ public class CommunityServiceImplementation implements CommunityService {
                 notificationDto.setTimestamp(localDateTime);
 
                 pushNotification(notificationDto);
+            }catch(Exception e){
+                System.out.println("Connection refused");
             }
             finally {
-                System.out.println("Connection refused");
+
                 communityRepository.save(community);
             }
 
@@ -88,9 +88,10 @@ public class CommunityServiceImplementation implements CommunityService {
                 notificationDto.setTimestamp(localDateTime);
 
                 pushNotification(notificationDto);
+            }catch (Exception e){
+                System.out.println("Connection refused");
             }
             finally {
-                System.out.println("Connection refused");
                 communityRepository.save(community);
             }
 //            communityRepository.save(community);
@@ -170,7 +171,7 @@ public class CommunityServiceImplementation implements CommunityService {
 
 
     @Override
-    public String addlike(String postId, String employeeCode, Boolean like) throws CommunityException {
+    public String addlike(String postId, String employeeCode, CommunityAddLikeDto communityAddLikeDto) throws CommunityException {
         Community currentPost = communityRepository.findById(postId).orElseThrow(() -> new CommunityException("post not found"));
 
 
@@ -181,11 +182,11 @@ public class CommunityServiceImplementation implements CommunityService {
             }
             boolean alreadyLiked = likedEmployee.contains(employeeCode);
 
-            if (like && !alreadyLiked) {
+            if (communityAddLikeDto.getLike() && !alreadyLiked) {
                 //add a new like
                 likedEmployee.add(employeeCode);
 
-            } else if (!like && alreadyLiked) {
+            } else if (!communityAddLikeDto.getLike() && alreadyLiked) {
                 //remove an existing like
                 likedEmployee.remove(employeeCode);
 
@@ -194,11 +195,11 @@ public class CommunityServiceImplementation implements CommunityService {
 
             currentPost.setLikedEmployee(likedEmployee);
             communityRepository.save(currentPost);
-        return "done";
+        return employeeCode+" have successfully liked the post";
     }
 
     @Override
-    public String postVerification(String postId, Boolean adminVerfied) throws CommunityException {
+    public String postVerification(String postId, Boolean adminVerfied) throws CommunityException, ServiceNotFoundException {
         Community currentPost = communityRepository.findById(postId).orElseThrow(() -> new CommunityException("post not found"));
 
 
@@ -207,20 +208,62 @@ public class CommunityServiceImplementation implements CommunityService {
             currentPost.setVerificationStatusMessage("Approved");
 //            currentPost.setAdminVerificationStatus(true);
 
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message ="\nHi "+currentPost.getEmployee_code()+"!"+
+                        "\nYour Post has been Approved"+
+                                "\nTitle - " + currentPost.getTitle()
+                        +"\nFrom Admin,";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient(getEmailIdByUserName(currentPost.getEmployee_code()));
+                notificationDto.setTimestamp(localDateTime);
+
+                pushNotification(notificationDto);
+            }
+            catch (Exception e){
+                System.out.println("Connection refused");
+            }
+            finally {
+                communityRepository.save(currentPost);
+            }
+
         } else {
             currentPost.setAdminVerified(false);
             currentPost.setVerificationStatusMessage("Rejected");
+
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message ="Hi"+currentPost.getEmployee_code()+"!"+
+                        "\nYour Post has been Rejected"+
+                                "\nTitle - " + currentPost.getTitle()
+                        +"\nFrom Admin,";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient(getEmailIdByUserName(currentPost.getEmployee_code()));
+                notificationDto.setTimestamp(localDateTime);
+
+                pushNotification(notificationDto);
+            }catch (Exception e){
+                System.out.println("Connection refused");
+            }
+            finally {
+                communityRepository.save(currentPost);
+            }
+
         }
 
         
         //else do nothing
-        communityRepository.save(currentPost);
+//        communityRepository.save(currentPost);
 
         return "done";
     }
 
     @Override
-    public String deletePost(String postId,String employeeCode) throws  CommunityException{
+    public String deletePost(String postId, String employeeCode) throws  CommunityException{
 
         if (postId != null) {
             // check if the employee exists
@@ -229,12 +272,9 @@ public class CommunityServiceImplementation implements CommunityService {
                 List<ContentDetails> existingPostContents = existingPost.getContents();
            for(ContentDetails contentDetails : existingPostContents) {
                if (contentDetails != null) {
-                   Path existingFilePath = Paths.get(uploadDirectory + contentDetails.getContentName());
-                   try {
-                       Files.delete(existingFilePath);
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   }
+                   contentDetailsRepository.delete(contentDetails);
+                 //  Path existingFilePath = Paths.get(uploadDirectory + contentDetails.getContentName());
+                   // Files.delete(existingFilePath);
                }
            }
                 // delete the employee by id
@@ -276,9 +316,10 @@ public class CommunityServiceImplementation implements CommunityService {
                       notificationDto.setTimestamp(localDateTime);
 
                       pushNotification(notificationDto);
+                  }catch (Exception e){
+                      System.out.println("Connection refused");
                   }
                   finally {
-                      System.out.println("Connection refused");
                       communityRepository.save(existingPost);
                   }
 
@@ -306,12 +347,8 @@ public class CommunityServiceImplementation implements CommunityService {
                     // Delete the ContentDetails record from the database
                     contentDetailsRepository.delete(contentDetails);
                     // Optionally, delete the corresponding file from the file system
-                    Path existingFilePath = Paths.get(uploadDirectory + contentDetails.getContentName());
-                    try {
-                        Files.delete(existingFilePath);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    Path existingFilePath = Paths.get(uploadDirectory + contentDetails.getContentName());
+                    //                        Files.delete(existingFilePath);
                 }
             }
 
@@ -319,23 +356,18 @@ public class CommunityServiceImplementation implements CommunityService {
             List<ContentDetails> contents = new ArrayList<>();
             FileTypeIdentifier identifier = new FileTypeIdentifier();
             for (MultipartFile file : files) {
-                try {
-                    // Get the original filename of the uploaded file
-                    String originalFilename = file.getOriginalFilename();
-                    ContentDetails contentDetails = new ContentDetails();
-                    contentDetails.setContentName(originalFilename);
-                    assert originalFilename != null;
-                    contentDetails.setContentType(FileTypeIdentifier.identifyFileType(originalFilename));
+                // Get the original filename of the uploaded file
+                String originalFilename = file.getOriginalFilename();
+                ContentDetails contentDetails = new ContentDetails();
+                contentDetails.setFile(originalFilename);
+                assert originalFilename != null;
+                contentDetails.setFileType(FileTypeIdentifier.identifyFileType(originalFilename));
 
-                    // Save the uploaded file to the upload directory
+                // Save the uploaded file to the upload directory
                     Path path = Paths.get(uploadDirectory + originalFilename);
                     Files.write(path, file.getBytes());
 
-                    contents.add(contentDetails);
-                } catch (IOException e) {
-                    // Handle error if file upload fails (you can modify this as needed)
-                    return "Error uploading file: " + e.getMessage();
-                }
+                contents.add(contentDetails);
             }
 
             // Set the new ContentDetails records for the Community entity
@@ -358,9 +390,11 @@ public class CommunityServiceImplementation implements CommunityService {
                 notificationDto.setTimestamp(localDateTime);
 
                 pushNotification(notificationDto);
+            }catch (Exception e){
+                System.out.println("Connection refused");
             }
             finally {
-                System.out.println("Connection refused");
+
                 communityRepository.save(existingPost);
             }
             // Save the updated Community entity
@@ -410,8 +444,19 @@ public class CommunityServiceImplementation implements CommunityService {
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException {
 
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.78:8096/send")
+        webClientBuilder.baseUrl("http://20.198.3.41:80/send")
                 .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
+    }
+
+    @Override
+    public String getEmailIdByUserName(String username) {
+        HashMap<String, String> emailIdHashMap = new HashMap<>();
+        emailIdHashMap.put("BR123", "piyushrai558@gmail.com");
+        emailIdHashMap.put("Piyush", "piyushrai558@gmail.com");
+        emailIdHashMap.put("Pankaj", "karl98perfect@gmail.com");
+        emailIdHashMap.put("Debayan", "tubbu32@gmail.com");
+        String email = emailIdHashMap.get(username);
+        return email;
     }
 
 
