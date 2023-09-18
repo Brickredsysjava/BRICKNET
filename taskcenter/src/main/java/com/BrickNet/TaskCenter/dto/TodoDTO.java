@@ -3,6 +3,7 @@ package com.BrickNet.TaskCenter.dto;
 import com.BrickNet.TaskCenter.model.Priority;
 import com.BrickNet.TaskCenter.model.Status;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -24,35 +25,45 @@ public class TodoDTO {
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Title can't be null")
     private String title;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Description can't be null")
     private String description;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Estimated Start Date can't be null")
     private LocalDate estimatedStartDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Actual Start Date can't be null")
     private LocalDate actualStartDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Estimate End Date can't be null")
     private LocalDate estimatedEndDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Actual End Date can't be null")
     private LocalDate actualEndDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Status can't be null")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Priority can't be null")
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned By can't be null")
     private String employeeAssignedBy;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned To can't be null")
     private List<String> employeeAssignedTo;
 }

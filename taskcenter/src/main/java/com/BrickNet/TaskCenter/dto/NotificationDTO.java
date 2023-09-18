@@ -13,13 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationDTO {
-    @NotNull
+
+    @NotNull(message = "message can't be null")
     private String message;
 
-    @NotNull
+    @NotNull(message = "recipient can't be null")
     private String recipient;
 
-    @NotNull
+    @NotNull(message = "timeStamp can't be null")
     private LocalDateTime timeStamp;
 
 }

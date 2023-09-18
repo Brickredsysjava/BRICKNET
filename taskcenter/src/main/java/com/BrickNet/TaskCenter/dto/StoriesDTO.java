@@ -18,25 +18,32 @@ import java.util.List;
 @AllArgsConstructor
 public class StoriesDTO {
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Title can't be null")
     private String title;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Description can't be null")
     private String description;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Status can't be null")
     private Status status;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned By can't be null")
     private String employeeAssignedBy;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned To can't be null")
     private List<String> employeeAssignedTo;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Estimate Start Date can't be null")
     private LocalDate estimatedStartDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee End Date can't be null")
     private LocalDate estimatedEndDate;
 
 }

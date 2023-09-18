@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -19,26 +20,33 @@ import lombok.*;
 @Getter
 public class AllDTO {
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Title can't be null")
     private String title;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Description can't be null")
     private String description;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Status can't be null")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Estimate Start Date can't be null")
     private LocalDate estimatedStartDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Estimate End Date can't be null")
     private LocalDate estimatedEndDate;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned By can't be null")
     private String employeeAssignedBy;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Employee Assigned To can't be null")
     private List<String> employeeAssignedTo;
 
 }
