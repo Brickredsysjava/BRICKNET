@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoServiceImpl implements TodoService{
@@ -56,8 +57,8 @@ public class TodoServiceImpl implements TodoService{
                 String message =
                         "You have a new Task Assigned \n" + "\n"
                                 + "TASK DETAILS--" + "\n"
-                                + "FROM:  " + todoDTO.getAssignedBy() + "\n"
-                                + "To:  " + todoDTO.getAssignedTo() + "\n"
+                                + "FROM:  " + todoDTO.getEmployeeAssignedBy() + "\n"
+                                + "To:  " + todoDTO.getEmployeeAssignedTo() + "\n"
                                 + "TITLE:  " + todoDTO.getTitle() + "\n"
                                 + "CLICK HERE for more info" + "\n" +
                                 "\n";
@@ -78,19 +79,22 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public List<TodoDTO> showCreatedToDo(String employeeCode) throws TodoException {
-        if( employeeCode==null || todoRepository.findByStringEmployeeCode(employeeCode)==null){
+
+        if( employeeCode==null || (todoRepository.findAll()==null) ){
             throw new TodoException("Details not exist");
         }
+
+        List<Todo> todoList = todoRepository.findAll().stream().filter(t->t.getEmployeeAssignedBy().equals(employeeCode) || t.getEmployeeAssignedTo().contains(employeeCode)).collect(Collectors.toList());
+
+        if (todoList==null) {
+            throw new TodoException("Details not exist");
+        }
+
         else {
-            List<Todo> todoList = todoRepository.findByStringAssignedBy(employeeCode);
-            List<Todo> todoList1 = todoRepository.findByStringAssignedTo(employeeCode);
 
             List<TodoDTO> todoDTOList = new ArrayList<>();
 
             for (Todo t : todoList) {
-                todoDTOList.add(modelMapper.map(t, TodoDTO.class));
-            }
-            for (Todo t : todoList1) {
                 todoDTOList.add(modelMapper.map(t, TodoDTO.class));
             }
 
@@ -114,9 +118,8 @@ public class TodoServiceImpl implements TodoService{
                 t.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
                 t.setStatus(todoDTO.getStatus());
                 t.setPriority(todoDTO.getPriority());
-                t.setAssignedBy(todoDTO.getAssignedBy());
-                t.setAssignedTo(todoDTO.getAssignedTo());
-                t.setEmployeeCode(todoDTO.getAssignedTo());
+                t.setEmployeeAssignedBy(todoDTO.getEmployeeAssignedBy());
+                t.setEmployeeAssignedTo(todoDTO.getEmployeeAssignedTo());
 
                 todoRepository.save(t);
 

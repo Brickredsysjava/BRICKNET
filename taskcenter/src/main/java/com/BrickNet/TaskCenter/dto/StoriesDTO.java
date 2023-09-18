@@ -1,11 +1,13 @@
 package com.BrickNet.TaskCenter.dto;
 
 import com.BrickNet.TaskCenter.model.Status;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,10 +28,10 @@ public class StoriesDTO {
     private Status status;
 
     @NotNull
-    private String creatorId;
+    private String employeeAssignedBy;
 
     @NotNull
-    private List<String> userAssigned;
+    private List<String> employeeAssignedTo;
 
     @NotNull
     private LocalDate estimatedStartDate;

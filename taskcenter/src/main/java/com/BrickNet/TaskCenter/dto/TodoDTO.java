@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,11 +51,8 @@ public class TodoDTO {
     private Priority priority;
 
     @NotNull
-    private String assignedBy;
+    private String employeeAssignedBy;
 
     @NotNull
-    private String assignedTo;
-
-    @NotNull
-    private String employeeCode;
+    private List<String> employeeAssignedTo;
 }

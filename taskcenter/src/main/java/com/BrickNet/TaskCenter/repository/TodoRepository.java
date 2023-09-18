@@ -11,14 +11,13 @@ import java.util.List;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo,Integer> {
-    @Query("SELECT t FROM Todo t WHERE t.employeeCode = ?1")
-    List<Todo> findByStringEmployeeCode(String employeeCode);
 
-    @Query("SELECT t FROM Todo t WHERE t.assignedBy = ?1")
-    List<Todo> findByStringAssignedBy(String assignedBy);
-
-    @Query("SELECT t FROM Todo t WHERE t.assignedTo = ?1")
-    List<Todo> findByStringAssignedTo(String assignedTo);
+//
+//    @Query("SELECT t FROM Todo t WHERE t.employeeAssignedBy = ?1")
+//    List<Todo> findByStringAssignedBy(String employeeAssignedBy);
+//
+//    @Query("SELECT t FROM Todo t WHERE t.employeeAssignedTo = ?1")
+//    List<Todo> findByStringAssignedTo(String employeeAssignedTo);
 
     @Query("SELECT t FROM Todo t WHERE t.id = ?1")
     Todo findByStringId(String id);

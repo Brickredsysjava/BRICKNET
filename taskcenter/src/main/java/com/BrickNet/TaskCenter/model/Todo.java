@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -42,9 +43,8 @@ public class Todo {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    private String assignedBy;
+    private String employeeAssignedBy;
 
-    private String assignedTo;
+    private List<String> employeeAssignedTo;
 
-    private String employeeCode;
 }

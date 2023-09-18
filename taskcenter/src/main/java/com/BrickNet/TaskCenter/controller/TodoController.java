@@ -32,8 +32,8 @@ public class TodoController {
     }
 
     @GetMapping("/show-created-to-do")
-    public ResponseEntity<List<TodoDTO>> showCreatedToDo(@RequestParam("empId") String empId) throws TodoException{
-        return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(empId), HttpStatus.OK);
+    public ResponseEntity<List<TodoDTO>> showCreatedToDo(@RequestParam("employeeCode") String employeeCode) throws TodoException{
+        return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(employeeCode), HttpStatus.OK);
     }
 
     @PutMapping("/update-created-to-do")
@@ -42,8 +42,8 @@ public class TodoController {
     }
 
     @DeleteMapping("/delete-To-Do")
-    public String deleteToDo(@RequestParam("id1") String id1) throws TodoException{
-        todoService.deleteToDo(id1);
+    public String deleteToDo(@RequestParam("id") String id) throws TodoException{
+        todoService.deleteToDo(id);
         return "Delete Successfully";
     }
 

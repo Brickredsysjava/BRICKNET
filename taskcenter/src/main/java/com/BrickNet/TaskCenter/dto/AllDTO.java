@@ -6,6 +6,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -35,9 +36,9 @@ public class AllDTO {
     private LocalDate estimatedEndDate;
 
     @NotNull
-    private String assignedBy;
+    private String employeeAssignedBy;
 
     @NotNull
-    private String assignedTo;
+    private List<String> employeeAssignedTo;
 
 }
