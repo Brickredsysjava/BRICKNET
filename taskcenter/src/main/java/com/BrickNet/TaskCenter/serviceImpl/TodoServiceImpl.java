@@ -72,7 +72,6 @@ public class TodoServiceImpl implements TodoService{
                 e.printStackTrace();
                 System.out.println("CONNECTION REFUSED");
             }
-
         }
             return todoDTO;
     }
@@ -80,7 +79,7 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public List<TodoDTO> showCreatedToDo(String employeeCode) throws TodoException {
 
-        if( employeeCode==null || (todoRepository.findAll()==null) ){
+        if(employeeCode==null || (todoRepository.findAll()==null) ){
             throw new TodoException("Details not exist");
         }
 
