@@ -27,28 +27,45 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @PostMapping("/create-to-do")
-    public ResponseEntity<TodoDTO> addToDo( @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException , ServiceNotFoundException {
-            todoDTO.setEmployeeAssignedBy((String)request.getAttribute("employeeCode"));
+    public ResponseEntity<?> addToDo( @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException , ServiceNotFoundException {
+        try{
+            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             TodoDTO savedTodo = todoService.addToDo(todoDTO);
             return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.CREATED);
+        }catch (TodoException todoException) {
+            return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/show-created-to-do")
-    public ResponseEntity<List<TodoDTO>> showCreatedToDo(HttpServletRequest request) throws TodoException{
-        String employeeCode = (String) request.getAttribute("employeeCode");
-        return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(employeeCode), HttpStatus.OK);
+    public ResponseEntity<?> showCreatedToDo(HttpServletRequest request) throws TodoException{
+        try{
+            String employeeCode = (String) request.getAttribute("employeeCode");
+            return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(employeeCode), HttpStatus.OK);
+        }catch (TodoException todoException) {
+            return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/update-created-to-do")
-    public ResponseEntity<TodoDTO> updateCreatedToDo(@RequestParam("id") String id, @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException {
-        todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
-        return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id,todoDTO),HttpStatus.CREATED);
+    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id, @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException {
+        try{
+            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
+            return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.CREATED);
+        }catch (TodoException todoException) {
+            return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/delete-To-Do")
     public ResponseEntity<String> deleteToDo(@RequestParam("id") String id, HttpServletRequest request) throws TodoException{
-        todoService.deleteToDo(id);
-        return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
+       try {
+           todoService.deleteToDo(id);
+           return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
+       }catch (TodoException todoException){
+           return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+       }
+
     }
 
 }

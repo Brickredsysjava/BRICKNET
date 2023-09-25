@@ -24,17 +24,12 @@ public class StoriesController {
 //    private String baseUrl = "http://192.168.1.107:8089/todo/myTask";
 
     @GetMapping("/getStories")
-    public ResponseEntity<List<AllDTO>> getStories(@RequestParam("userId") String userId)throws TodoException {
-//        String url = baseUrl + "?userId=" + userId;
-//        ResponseEntity<List<StoriesDTO>> responseEntity = restTemplate.exchange(
-//                url,
-//                HttpMethod.GET,
-//                null,
-//                new ParameterizedTypeReference<List<StoriesDTO>>() {}
-//        );
-//        List<StoriesDTO> storiesDTOList = responseEntity.getBody();
-        return new ResponseEntity<>(storiesTaskService.getAll(userId), HttpStatus.CREATED);
-
+    public ResponseEntity<?> getStories(@RequestParam("userId") String userId)throws TodoException {
+        try{
+            return new ResponseEntity<List<AllDTO>>(storiesTaskService.getAll(userId), HttpStatus.CREATED);
+        }catch(TodoException todoException) {
+            return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
