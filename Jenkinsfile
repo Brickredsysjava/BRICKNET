@@ -87,6 +87,33 @@ pipeline {
         }        
 
         
+        
+        stage('Build SuperAdmin') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd SuperAdmin && mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Deploy SuperAdmin') {
+            steps {
+
+                // sh "ssh root@192.168.1.9 'cd /root'"
+                sh "ssh root@192.168.1.9 'rm -rf /root/SuperAdmin || true'"
+                sh "ssh root@192.168.1.9 'mkdir /root/SuperAdmin'"
+                
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/SuperAdmin.jar root@192.168.1.9:~/SuperAdmin/'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/Dockerfile root@192.168.1.9:~/SuperAdmin/'
+
+                sh "ssh root@192.168.1.9 'docker stop SuperAdmin || true'"
+                sh "ssh root@192.168.1.9 'docker rm SuperAdmin || true'"
+                sh "ssh root@192.168.1.9 'docker rmi SuperAdmin ||true'"
+                sh "ssh root@192.168.1.9 'docker build -t SuperAdmin /root/SuperAdmin'"
+                sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --name SuperAdmin SuperAdmin'"
+            }
+        }        
+
+        
         // stage('Build attendance') {
         //     steps {
         //         // Build the Spring Boot application using Maven
@@ -298,34 +325,7 @@ pipeline {
         //     }
         // }
 
-                        
-        
-        // stage('Build apigateway') {
-        //     steps {
-        //         // Build the Spring Boot application using Maven
-        //         sh 'cd apigateway && mvn clean package -DskipTests'
-        //     }
-        // }
-
-        // stage('Deploy apigateway') {
-        //     steps {
-
-        //         sh "ssh root@192.168.1.9 'cd /root'"
-        //         sh "ssh root@192.168.1.9 'rm -rf apigateway || true'"
-        //         sh "ssh root@192.168.1.9 'mkdir apigateway'"
-                
-        //         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/apigateway/target/apigateway.jar root@192.168.1.9:~/apigateway/'
-        //         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/apigateway/Dockerfile root@192.168.1.9:~/apigateway/'
-
-        //         sh "ssh root@192.168.1.9 'docker stop apigateway || true'"
-        //         sh "ssh root@192.168.1.9 'docker rm apigateway || true'"
-        //         sh "ssh root@192.168.1.9 'docker rmi apigateway ||true'"
-        //         sh "ssh root@192.168.1.9 'docker build -t apigateway /root/test-1'"
-        //         sh "ssh root@192.168.1.9 'docker run -it -d -p : --name apigateway apigateway'"
-        //     }
-        // }
-
-        
+                    
                         
         
         // stage('Build workflow') {
