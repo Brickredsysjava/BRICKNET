@@ -99,17 +99,17 @@ pipeline {
             steps {
 
                 // sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf /root/SuperAdmin || true'"
-                sh "ssh root@192.168.1.9 'mkdir /root/SuperAdmin'"
+                sh "ssh root@192.168.1.9 'rm -rf /root/superadmin || true'"
+                sh "ssh root@192.168.1.9 'mkdir /root/superadmin'"
                 
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/SuperAdmin.jar root@192.168.1.9:~/SuperAdmin/'
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/Dockerfile root@192.168.1.9:~/SuperAdmin/'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/superadmin/target/superadmin.jar root@192.168.1.9:~/superadmin/'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/superadmin/Dockerfile root@192.168.1.9:~/superadmin/'
 
-                sh "ssh root@192.168.1.9 'docker stop SuperAdmin || true'"
-                sh "ssh root@192.168.1.9 'docker rm SuperAdmin || true'"
-                sh "ssh root@192.168.1.9 'docker rmi SuperAdmin ||true'"
-                sh "ssh root@192.168.1.9 'docker build -t SuperAdmin /root/SuperAdmin'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --name SuperAdmin SuperAdmin'"
+                sh "ssh root@192.168.1.9 'docker stop superadmin || true'"
+                sh "ssh root@192.168.1.9 'docker rm superadmin || true'"
+                sh "ssh root@192.168.1.9 'docker rmi superadmin ||true'"
+                sh "ssh root@192.168.1.9 'docker build -t superadmin /root/superadmin'"
+                sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --name superadmin superadmin'"
             }
         }        
 
