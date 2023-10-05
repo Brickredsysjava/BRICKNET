@@ -82,7 +82,7 @@ pipeline {
                 sh "ssh root@192.168.1.9 'docker rm auth-server || true'"
                 sh "ssh root@192.168.1.9 'docker rmi auth-server ||true'"
                 sh "ssh root@192.168.1.9 'docker build -t auth-server /root/auth-server'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --name auth-server auth-server'"
+                sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:8083 --name auth-server auth-server'"
             }
         }        
 
