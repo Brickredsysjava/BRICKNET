@@ -68,7 +68,7 @@ pipeline {
             }
         }
 
-        stage('Deploy api-gatewayauth-server') {
+        stage('Deploy auth-server') {
             steps {
 
                 // sh "ssh root@192.168.1.9 'cd /root'"
