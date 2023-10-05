@@ -61,6 +61,32 @@ pipeline {
         }        
 
         
+        stage('Build auth-server') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd auth-server && mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Deploy api-gatewayauth-server') {
+            steps {
+
+                // sh "ssh root@192.168.1.9 'cd /root'"
+                sh "ssh root@192.168.1.9 'rm -rf /root/auth-server || true'"
+                sh "ssh root@192.168.1.9 'mkdir /root/auth-server'"
+                
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/target/auth-server.jar root@192.168.1.9:~/auth-server/'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/Dockerfile root@192.168.1.9:~/auth-server/'
+
+                sh "ssh root@192.168.1.9 'docker stop auth-server || true'"
+                sh "ssh root@192.168.1.9 'docker rm auth-server || true'"
+                sh "ssh root@192.168.1.9 'docker rmi auth-server ||true'"
+                sh "ssh root@192.168.1.9 'docker build -t auth-server /root/auth-server'"
+                sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --name auth-server auth-server'"
+            }
+        }        
+
+        
         // stage('Build attendance') {
         //     steps {
         //         // Build the Spring Boot application using Maven
