@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RestController
 @Validated
+@RequestMapping("/user")
 public class BankDetailsController {
     @Autowired
     private BankDetailsService bankDetailsService;

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
+@RequestMapping("/user")
 public class UserController {
     @Autowired
    private ModelMapper modelMapper;

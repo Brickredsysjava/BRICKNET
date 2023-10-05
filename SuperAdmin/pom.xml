@@ -118,6 +118,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
+		<finalName>superAdmin</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @Validated
 @RestController
+@RequestMapping("/user")
 public class AddressController {
     @Autowired
     private AddressService service;
