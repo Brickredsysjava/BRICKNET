@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/profile")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
