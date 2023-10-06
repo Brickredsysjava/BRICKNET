@@ -5,7 +5,7 @@ import com.bricknet.authserver.Dto.ForgetPassword;
 import com.bricknet.authserver.Dto.NotificationDto;
 import com.bricknet.authserver.Dto.UserAuthInfo;
 import com.bricknet.authserver.FeignClient.Notification;
-import com.bricknet.authserver.FeignClient.Userprofile;
+import com.bricknet.authserver.FeignClient.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Random;
 public class AuthService {
 
     @Autowired
-    private Userprofile userprofile;
+    private UserProfile userprofile;
     @Autowired
     private PasswordEncoder passwordEncoder;
    @Autowired
@@ -29,7 +29,7 @@ public class AuthService {
 
 
     public String login(AuthRequest authRequest) {
-       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(authRequest.getUsername()).getBody();
+       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(authRequest.getUsername()).block();
        if(userAuthInfo==null){
            return "Username not found";
        }
@@ -46,7 +46,7 @@ public class AuthService {
         return token;
     }
    public String getOtp(String username){
-       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).getBody();
+       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).block();
        String token= jwtService.generateToken(userAuthInfo);
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
@@ -58,7 +58,7 @@ public class AuthService {
 
     public String checkOtp(String username,String Otp){
      String OTP= redisService.get(username);
-        UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).getBody();
+        UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).block();
         String token= jwtService.generateToken(userAuthInfo);
 
      if(OTP.equals(Otp)){
@@ -70,7 +70,7 @@ return token;
     }
 
     public String resetPassword(ForgetPassword forgetPassword){
-        UserAuthInfo userAuthInfo=userprofile.passwordUpdate(forgetPassword).getBody();
+        UserAuthInfo userAuthInfo=userprofile.passwordUpdate(forgetPassword).block();
         return "password updated for "+userAuthInfo.getEmployeeCode();
     }
 }
