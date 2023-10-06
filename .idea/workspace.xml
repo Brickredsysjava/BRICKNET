@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-server/src/main/java/com/bricknet/authserver/FeignClient/Userprofile.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-server/src/main/java/com/bricknet/authserver/FeignClient/Userprofile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

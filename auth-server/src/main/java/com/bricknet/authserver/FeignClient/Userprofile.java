@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("super-admin/user/profile")
+@FeignClient(name = "super-admin")
 public interface Userprofile {
 
-    @GetMapping("/profileFromUserName")
+    @GetMapping("/user/profile/profileFromUserName")
     public ResponseEntity<UserAuthInfo> getByUserName(@RequestParam String username) ;
     @PostMapping("/passwordUpdate")
     public ResponseEntity<UserAuthInfo>passwordUpdate(@RequestBody ForgetPassword forgetPassword);
