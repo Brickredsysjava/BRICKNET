@@ -31,7 +31,7 @@ public class UserProfile {
 
     public Mono<UserAuthInfo> getByUserName(String username) {
         return webClientBuilder.build().get()
-                .uri(uriBuilder -> uriBuilder.path("/user/profile/profileFromUserName")
+                .uri(uriBuilder -> uriBuilder.path("/profileFromUserName")
                         .queryParam("username", username)
                         .build())
                 .retrieve()
