@@ -1,5 +1,5 @@
-server :
-  port : 9090
+#server :
+#  port : 9090
 
 spring :
   application :
@@ -7,7 +7,7 @@ spring :
   cloud:
     gateway:
       routes:
-        - id: login
+        - id: auth-server
           uri: http://192.168.1.9:8083
           predicates:
             - Path=/auth/**
@@ -20,11 +20,11 @@ spring :
           predicates:
             - Path=/**
 
-eureka :
-  instance :
-    prefer-ip-address : true
-  client :
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka :
+#  instance :
+#    prefer-ip-address : true
+#  client :
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
