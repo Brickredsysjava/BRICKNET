@@ -29,7 +29,7 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**","/auth-server/auth/checkOtp/**","/auth-server/auth/login/**").permitAll()
+                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**","/auth-server/auth/checkOtp/**","/auth-server/auth/login/**", "/user/**").permitAll()
                         .pathMatchers("/profile/AllProfile/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
