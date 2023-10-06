@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @Validated
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/address")
 public class AddressController {
     @Autowired
     private AddressService service;
@@ -80,5 +80,10 @@ public class AddressController {
         } else {
             return new ResponseEntity<>("Address with ID " + id + " not found.", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "Super Admin is up and running";
     }
 }
