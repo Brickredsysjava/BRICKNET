@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "super-admin")
+@FeignClient("super-admin")
 public interface Userprofile {
 
     @GetMapping("/user/profile/profileFromUserName")
