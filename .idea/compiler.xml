@@ -8,8 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="workflow" />
-        <module name="auth-server" />
         <module name="suggestion" />
+        <module name="auth-server" />
         <module name="Eureka-Server" />
         <module name="SuperAdmin (2)" />
         <module name="Login" />
