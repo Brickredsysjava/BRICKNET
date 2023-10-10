@@ -17,7 +17,7 @@ pipeline {
                 sh "ssh root@192.168.1.9 'docker stop eureka || true'"
                 sh "ssh root@192.168.1.9 'docker rm eureka || true'"
                 sh "ssh root@192.168.1.9 'docker rmi eureka ||true'"
-
+                sh "ssh root@192.168.1.9 'rm -rf ~/eureka.jar || true'"
             }
         }
 
@@ -30,6 +30,8 @@ pipeline {
                 sh "ssh root@192.168.1.9 'docker stop api-gateway || true'"
                 sh "ssh root@192.168.1.9 'docker rm api-gateway || true'"
                 sh "ssh root@192.168.1.9 'docker rmi api-gateway ||true'"
+                sh "ssh root@192.168.1.9 'rm -rf ~/api-gateway.jar || true'"
+
             }
         }
 
@@ -42,6 +44,7 @@ pipeline {
                 sh "ssh root@192.168.1.9 'docker stop auth-server || true'"
                 sh "ssh root@192.168.1.9 'docker rm auth-server || true'"
                 sh "ssh root@192.168.1.9 'docker rmi auth-server ||true'"
+                sh "ssh root@192.168.1.9 'rm -rf ~/auth-server.jar || true'"
 
             }
         }
@@ -55,6 +58,7 @@ pipeline {
                 sh "ssh root@192.168.1.9 'docker stop SuperAdmin || true'"
                 sh "ssh root@192.168.1.9 'docker rm SuperAdmin || true'"
                 sh "ssh root@192.168.1.9 'docker rmi SuperAdmin ||true'"
+                sh "ssh root@192.168.1.9 'rm -rf ~/superadmin.jar || true'"
             }
         }
 
