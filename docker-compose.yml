@@ -19,7 +19,7 @@ services:
   auth-server:
     image: kabiraneja/ubuntu-java-maven
     ports:
-      - "8083:9090"
+      - "8083:8083"
     volumes:
       - ~/auth-server.jar:/auth-server.jar
     command: ["java", "-jar", "/auth-server.jar"]
@@ -27,7 +27,7 @@ services:
   superadmin:
     image: kabiraneja/ubuntu-java-maven
     ports:
-      - "8081:9090"
+      - "8081:8081"
     volumes:
       - ~/superadmin.jar:/superadmin.jar
     command: ["java", "-jar", "/superadmin.jar"]
