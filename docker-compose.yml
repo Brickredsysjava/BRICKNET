@@ -1,0 +1,34 @@
+version: '3'
+services:
+  eureka:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8761:8761"
+    volumes:
+      - ~/eureka.jar:/eureka.jar
+    command: ["java", "-jar", "/eureka.jar"]
+
+  api-gateway:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "9090:9090"
+    volumes:
+      - ~/api-gateway.jar:/api-gateway.jar
+    command: ["java", "-jar", "/api-gateway.jar"]
+
+  auth-server:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8083:9090"
+    volumes:
+      - ~/auth-server.jar:/auth-server.jar
+    command: ["java", "-jar", "/auth-server.jar"]
+
+  superadmin:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8081:9090"
+    volumes:
+      - ~/superadmin.jar:/superadmin.jar
+    command: ["java", "-jar", "/superadmin.jar"]
+

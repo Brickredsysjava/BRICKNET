@@ -13,105 +13,39 @@ pipeline {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd Eureka-Server && mvn clean package -DskipTests'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/target/eureka.jar root@192.168.1.9:~/'
+
             }
         }
-
-        stage('Deploy Eureka-Server') {
-            steps {
-
-                // sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf /root/eureka || true'"
-                sh "ssh root@192.168.1.9 'mkdir /root/eureka'"
-                
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/target/eureka.jar root@192.168.1.9:~/eureka/'
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/Dockerfile root@192.168.1.9:~/eureka/'
-
-                sh "ssh root@192.168.1.9 'docker stop eureka || true'"
-                sh "ssh root@192.168.1.9 'docker rm eureka || true'"
-                sh "ssh root@192.168.1.9 'docker rmi eureka ||true'"
-                sh "ssh root@192.168.1.9 'docker build -t eureka /root/eureka'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 8761:8761 --name eureka eureka'"
-            }
-        }        
 
 
         stage('Build api-gateway') {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd api-gateway && mvn clean package -DskipTests'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/api-gateway/target/api-gateway.jar root@192.168.1.9:~/'
+
             }
         }
-
-        stage('Deploy api-gateway') {
-            steps {
-
-                // sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf /root/api-gateway || true'"
-                sh "ssh root@192.168.1.9 'mkdir /root/api-gateway'"
-                
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/api-gateway/target/api-gateway.jar root@192.168.1.9:~/api-gateway/'
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/api-gateway/Dockerfile root@192.168.1.9:~/api-gateway/'
-
-                sh "ssh root@192.168.1.9 'docker stop api-gateway || true'"
-                sh "ssh root@192.168.1.9 'docker rm api-gateway || true'"
-                sh "ssh root@192.168.1.9 'docker rmi api-gateway ||true'"
-                sh "ssh root@192.168.1.9 'docker build -t api-gateway /root/api-gateway'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --name api-gateway api-gateway'"
-            }
-        }        
 
         
         stage('Build auth-server') {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd auth-server && mvn clean package -DskipTests'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/target/auth-server.jar root@192.168.1.9:~/'
+
             }
         }
 
-        stage('Deploy auth-server') {
-            steps {
-
-                // sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf /root/auth-server || true'"
-                sh "ssh root@192.168.1.9 'mkdir /root/auth-server'"
-                
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/target/auth-server.jar root@192.168.1.9:~/auth-server/'
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/Dockerfile root@192.168.1.9:~/auth-server/'
-
-                sh "ssh root@192.168.1.9 'docker stop auth-server || true'"
-                sh "ssh root@192.168.1.9 'docker rm auth-server || true'"
-                sh "ssh root@192.168.1.9 'docker rmi auth-server ||true'"
-                sh "ssh root@192.168.1.9 'docker build -t auth-server /root/auth-server'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --name auth-server auth-server'"
-            }
-        }        
-
-        
         
         stage('Build SuperAdmin') {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd SuperAdmin && mvn clean package -DskipTests'
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/superadmin.jar root@192.168.1.9:~/'
             }
         }
-
-        stage('Deploy SuperAdmin') {
-            steps {
-
-                // sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf /root/superadmin || true'"
-                sh "ssh root@192.168.1.9 'mkdir /root/superadmin'"
-                
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/superadmin.jar root@192.168.1.9:~/superadmin/'
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/Dockerfile root@192.168.1.9:~/superadmin/'
-
-                sh "ssh root@192.168.1.9 'docker stop superadmin || true'"
-                sh "ssh root@192.168.1.9 'docker rm superadmin || true'"
-                sh "ssh root@192.168.1.9 'docker rmi superadmin ||true'"
-                sh "ssh root@192.168.1.9 'docker build -t superadmin /root/superadmin'"
-                sh "ssh root@192.168.1.9 'docker run -it -d -p 8081:8081 --name superadmin superadmin'"
-            }
-        }        
 
         
         // stage('Build attendance') {
