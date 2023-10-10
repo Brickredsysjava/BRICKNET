@@ -32,10 +32,6 @@ public class ValidationHandler {
         // Log validation errors
         System.out.println("Validation errors for " + dto.getClass().getSimpleName() + ":");
         errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
-
-        // You can also throw a custom exception here if needed
-        // For example, you could create a custom ValidationException and throw it
-        // throw new ValidationException("Validation errors occurred.");
     }
 }
 

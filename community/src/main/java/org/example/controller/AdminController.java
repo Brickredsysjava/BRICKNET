@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.example.dto.AdminPostVerificationDto;
 import org.example.dto.CommunityGetDto;
 import org.example.exception.CommunityException;
 import org.example.service.CommunityServiceImplementation;
@@ -14,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/communityPost")
+@RequestMapping("/communityPost/admin")
 @CrossOrigin("*")
 public class AdminController {
 
@@ -22,16 +23,21 @@ public class AdminController {
     private CommunityServiceImplementation communityService;
     @PostMapping("/postVerification")
     @Operation(summary = "For verification from the admin")
-    public ResponseEntity<String> postVerification(@RequestParam String post_id, @RequestParam Boolean adminVerified) throws CommunityException, ServiceNotFoundException {
+    public ResponseEntity<String> postVerification(@RequestBody AdminPostVerificationDto adminPostVerificationDto) throws CommunityException, ServiceNotFoundException {
 
-        String res=communityService.postVerification(post_id,adminVerified);
+        String res=communityService.postVerification(adminPostVerificationDto);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("/getAllPostNeedToVerified")
     @Operation(summary = "For getting the post to be verified")
-    public ResponseEntity<List<CommunityGetDto>> getAllPostNeedToVerified() throws CommunityException{
-        List<CommunityGetDto> e1 = communityService.getAllPostNeedToVerified();
-        return new ResponseEntity<>( e1, HttpStatus.OK);
+    public ResponseEntity<?> getAllPostNeedToVerified() throws CommunityException{
+
+            List<CommunityGetDto> e1 = communityService.getAllPostNeedToVerified();
+            if(!e1.isEmpty()){
+            return new ResponseEntity<>(e1, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("No post for the verification",HttpStatus.ALREADY_REPORTED);
+        }
     }
 }

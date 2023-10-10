@@ -1,6 +1,7 @@
 package org.example.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -14,8 +15,8 @@ import java.util.List;
 @Builder
 public class CommunityPostDto {
 
-    @NotBlank(message = "Employee code is required")
-    private String employee_code;
+  // @NotNull(message = "Employee code is required")
+    private String employeeCode;
 
     @NotBlank(message = "Title is required")
     private String title;
@@ -23,6 +24,8 @@ public class CommunityPostDto {
     @NotBlank(message = "Description is required")
     @Size(max = 255, message = "Description must be at most 255 characters long")
     private String description;
+
+    private List<String> fileName;
 
 
 }
