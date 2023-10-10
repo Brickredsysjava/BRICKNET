@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
@@ -36,6 +37,11 @@ public class AuthController {
 
             return  new ResponseEntity<>(authService.resetPassword(forgetPassword), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return  "Auth server is up and running";
     }
 
 

@@ -3,59 +3,6 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="workflow" />
-        <module name="suggestion" />
-        <module name="auth-server" />
-        <module name="Eureka-Server" />
-        <module name="Login" />
-        <module name="SuperAdmin (1)" />
-        <module name="SuperAdmin" />
-        <module name="Notification" />
-        <module name="Task-Center" />
-        <module name="media-service" />
-        <module name="Broadcasting" />
-        <module name="api-gateway" />
-        <module name="attendanceApiForApp" />
-        <module name="bricknet-community-service" />
-      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="api-gateway" target="17" />
-      <module name="attendanceApiForApp" target="17" />
-      <module name="auth-server" target="17" />
-      <module name="bricknet-community-service" target="17" />
-      <module name="Broadcasting" target="17" />
-      <module name="Eureka-Server" target="17" />
-      <module name="Login" target="17" />
-      <module name="media-service" target="17" />
-      <module name="Notification" target="17" />
-      <module name="suggestion" target="17" />
-      <module name="SuperAdmin" target="17" />
-      <module name="SuperAdmin (1)" target="17" />
-      <module name="Task-Center" target="17" />
-      <module name="workflow" target="17" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Broadcasting" options="-parameters" />
-      <module name="Eureka-Server" options="-parameters" />
-      <module name="Login" options="-parameters" />
-      <module name="Notification" options="-parameters" />
-      <module name="SuperAdmin" options="-parameters" />
-      <module name="SuperAdmin (1)" options="-parameters" />
-      <module name="Task-Center" options="-parameters" />
-      <module name="api-gateway" options="-parameters" />
-      <module name="attendanceApiForApp" options="-parameters" />
-      <module name="auth-server" options="-parameters" />
-      <module name="bricknet-community-service" options="-parameters" />
-      <module name="media-service" options="-parameters" />
-      <module name="suggestion" options="-parameters" />
-      <module name="workflow" options="-parameters" />
-    </option>
   </component>
 </project>
