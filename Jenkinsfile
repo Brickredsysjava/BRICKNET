@@ -47,7 +47,12 @@ pipeline {
             }
         }
 
-        
+        stage('Deploy All Microservices') { 
+            steps {
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.1.9:~/'
+                sh " ssh root@192.168.1.9 'docker-compose up -d'"
+            }
+        }
         // stage('Build attendance') {
         //     steps {
         //         // Build the Spring Boot application using Maven
