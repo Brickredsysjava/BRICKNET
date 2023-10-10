@@ -1,7 +1,10 @@
 package org.example.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @Getter
@@ -11,10 +14,18 @@ import lombok.*;
 @Builder
 public class CommunityUpdateDto {
 
-    @NotBlank(message = "Title is required")
+    @NotNull(message = "postId is required")
+    private String postId;
+
+    @NotNull(message = "employeeCode is required")
+    private String employeeCode;
+
+    @NotNull(message = "Title is required")
     private String title;
 
-    @NotBlank(message = "Description is required")
+    @NotNull(message = "Description is required")
     private String description;
+
+    private List<String> fileName;
 
 }
