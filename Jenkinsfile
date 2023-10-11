@@ -66,7 +66,7 @@ pipeline {
             }
         }
 
-        stage('Build Notification') {
+        stage('Build notification') {
                     steps {
                         // Build the Spring Boot application using Maven
                         sh 'cd notification && mvn clean package -DskipTests'
