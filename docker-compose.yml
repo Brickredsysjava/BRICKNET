@@ -40,3 +40,10 @@ services:
       - ~/notification.jar:/notification.jar
     command: [ "java", "-jar", "/notification.jar" ]
 
+  community:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8082:8082"
+    volumes:
+      - ~/community.jar:/community.jar
+    command: [ "java", "-jar", "/community.jar" ]

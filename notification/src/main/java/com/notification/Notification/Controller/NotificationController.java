@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
-@RestController
 @CrossOrigin("*")
+@RestController
 @RequestMapping("/send")
 public class NotificationController {
 
@@ -33,7 +33,7 @@ public class NotificationController {
         return this.notificationService.getMessage(recipient);
     }
 
-    @GetMapping("/test")
+    @GetMapping("/tests")
     public String getTest(){
         return "Notification services are up and running";
     }
