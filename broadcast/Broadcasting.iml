@@ -147,5 +147,6 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-observation:1.11.1" level="project" />
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-commons:1.11.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:unknown" level="project" />
   </component>
 </module>

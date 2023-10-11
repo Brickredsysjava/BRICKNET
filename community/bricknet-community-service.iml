@@ -137,5 +137,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webflux:6.0.11" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.5.8" level="project" />
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:unknown" level="project" />
   </component>
 </module>

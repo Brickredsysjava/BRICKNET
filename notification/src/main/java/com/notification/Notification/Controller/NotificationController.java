@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/send")
 public class NotificationController {
 
@@ -30,6 +31,11 @@ public class NotificationController {
     @GetMapping("/getNotification/{rec}")
     public List<NotificationDTO> getEmailNotification(@PathVariable("rec") String recipient){
         return this.notificationService.getMessage(recipient);
+    }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "Notification services are up and running";
     }
 
 }
