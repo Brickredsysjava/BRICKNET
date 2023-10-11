@@ -33,4 +33,9 @@ public class NotificationController {
         return this.notificationService.getMessage(recipient);
     }
 
+    @GetMapping("/test")
+    public String getTest(){
+        return "Notification services are up and running";
+    }
+
 }
