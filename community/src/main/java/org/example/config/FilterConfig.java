@@ -11,7 +11,7 @@ public class FilterConfig {
     public FilterRegistrationBean<AuthorizationFilter> tokenFilter() {
         FilterRegistrationBean<AuthorizationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new AuthorizationFilter());
-        registrationBean.addUrlPatterns("/communityPost/*"); // Set the URL pattern for your API endpoints
+        //registrationBean.addUrlPatterns("/communityPost/*"); // Set the URL pattern for your API endpoints
         return registrationBean;
     }
 }
