@@ -4,30 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broadcast/Broadcasting.iml" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/Broadcasting.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broadcast/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broadcast/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/community/bricknet-community-service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/community/bricknet-community-service.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/community/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/community/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/community/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/community/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/media-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/notification/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/suggestion/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/suggestion/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/suggestion/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/suggestion/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskcenter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/taskcenter/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskcenter/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/taskcenter/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workflow/workflow/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/workflow/workflow/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workflow/workflow/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/workflow/workflow/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
