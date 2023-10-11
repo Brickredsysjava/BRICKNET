@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd Eureka-Server && mvn clean package -DskipTests'
-                
+
                 sh "ssh root@192.168.1.9 'rm -rf ~/eureka.jar || true'"
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/target/eureka.jar root@192.168.1.9:~/'
                 sh "ssh root@192.168.1.9 'docker stop eureka || true'"
@@ -66,12 +66,26 @@ pipeline {
             }
         }
 
+        stage('Build Notification') {
+                    steps {
+                        // Build the Spring Boot application using Maven
+                        sh 'cd notification && mvn clean package -DskipTests'
+
+                        sh "ssh root@192.168.1.9 'rm -rf ~/notification.jar || true'"
+                        sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/notification/target/notification.jar root@192.168.1.9:~/'
+                        sh "ssh root@192.168.1.9 'docker stop notification || true'"
+                        sh "ssh root@192.168.1.9 'docker rm notification || true'"
+                        sh "ssh root@192.168.1.9 'docker rmi notification ||true'"
+                    }
+                }
+
         stage('Deploy All Microservices') { 
             steps {
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.1.9:~/'
                 sh " ssh root@192.168.1.9 'docker-compose up -d'"
             }
         }
+
         // stage('Build attendance') {
         //     steps {
         //         // Build the Spring Boot application using Maven

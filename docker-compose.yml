@@ -32,3 +32,11 @@ services:
       - ~/superadmin.jar:/superadmin.jar
     command: ["java", "-jar", "/superadmin.jar"]
 
+  notification:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8096:8096"
+    volumes:
+      - ~/notification.jar:/notification.jar
+    command: [ "java", "-jar", "/notification.jar" ]
+
