@@ -88,7 +88,7 @@ pipeline {
                                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/community/target/community.jar root@192.168.1.9:~/'
                                 sh "ssh root@192.168.1.9 'docker stop community || true'"
                                 sh "ssh root@192.168.1.9 'docker rm community || true'"
-                                sh "ssh root@192.168.1.9 'docker rmi community ||true'"
+                                sh "ssh root@192.168.1.9 'docker rmi community || true'"
                             }
                         }
 

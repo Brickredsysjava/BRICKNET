@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/SuperAdmin/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/community/src/main/java/org/example/config/FilterConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/community/src/main/java/org/example/config/FilterConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskcenter/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/taskcenter/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
