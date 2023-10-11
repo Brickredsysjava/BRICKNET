@@ -38,11 +38,11 @@ public class AuthService {
             return "Invalid Password";
         }
       String token= jwtService.generateToken(userAuthInfo);
-        try {
-            redisService.set(userAuthInfo.getEmployeeCode(), token);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            redisService.set(userAuthInfo.getEmployeeCode(), token);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return token;
     }
    public String getOtp(String username){
