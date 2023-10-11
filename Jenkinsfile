@@ -75,9 +75,9 @@ pipeline {
                         sh "ssh root@192.168.1.9 'cd /root'"
                         sh "ssh root@192.168.1.9 'rm -rf notification.jar || true'"
                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/notification/target/notification.jar root@192.168.1.9:~/'
-                        sh "ssh root@192.168.1.9 'docker stop root_auth-server_1 || true'"
-                        sh "ssh root@192.168.1.9 'docker rm root_auth-server_1 || true'"
-                        sh "ssh root@192.168.1.9 'docker rmi root_auth-server_1 ||true'"
+                        sh "ssh root@192.168.1.9 'docker stop root_notification_1 || true'"
+                        sh "ssh root@192.168.1.9 'docker rm root_notification_1 || true'"
+                        sh "ssh root@192.168.1.9 'docker rmi root_notification_1 ||true'"
                     }
                 }
 
