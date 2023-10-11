@@ -41,7 +41,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("test")
+    @GetMapping("/test")
     public String getTest(){
         return "Community is up and running";
     }
