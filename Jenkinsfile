@@ -79,6 +79,19 @@ pipeline {
                     }
                 }
 
+        stage('Build community') {
+                            steps {
+                                // Build the Spring Boot application using Maven
+                                sh 'cd community && mvn clean package -DskipTests'
+
+                                sh "ssh root@192.168.1.9 'rm -rf ~/community.jar || true'"
+                                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/community/target/community.jar root@192.168.1.9:~/'
+                                sh "ssh root@192.168.1.9 'docker stop community || true'"
+                                sh "ssh root@192.168.1.9 'docker rm community || true'"
+                                sh "ssh root@192.168.1.9 'docker rmi community ||true'"
+                            }
+                        }
+
         stage('Deploy All Microservices') { 
             steps {
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.1.9:~/'

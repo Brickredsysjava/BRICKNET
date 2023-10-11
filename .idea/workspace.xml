@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="" />
+    <list default="true" id="47597df5-22f6-4075-b742-65c5ebbcb47d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/community/src/main/java/org/example/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/community/src/main/java/org/example/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/community/src/main/java/org/example/controller/CommunityPostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/community/src/main/java/org/example/controller/CommunityPostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/community/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/community/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification/src/main/java/com/notification/Notification/Controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/java/com/notification/Notification/Controller/NotificationController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

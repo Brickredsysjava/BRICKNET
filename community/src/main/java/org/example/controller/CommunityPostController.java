@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/communityPost")
-@CrossOrigin("*")
 public class CommunityPostController {
 
 @Autowired

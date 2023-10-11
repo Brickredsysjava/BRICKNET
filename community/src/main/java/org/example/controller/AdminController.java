@@ -14,9 +14,9 @@ import javax.management.ServiceNotFoundException;
 import java.util.List;
 
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/communityPost/admin")
-@CrossOrigin("*")
 public class AdminController {
 
     @Autowired
@@ -39,5 +39,10 @@ public class AdminController {
         }else {
             return new ResponseEntity<>("No post for the verification",HttpStatus.ALREADY_REPORTED);
         }
+    }
+
+    @GetMapping("test")
+    public String getTest(){
+        return "Community is up and running";
     }
 }
