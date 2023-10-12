@@ -35,7 +35,7 @@ services:
   notification:
     image: kabiraneja/ubuntu-java-maven
     ports:
-      - "8096:8096"
+      - "8084:8084"
     volumes:
       - ~/notification.jar:/notification.jar
     command: [ "java", "-jar", "notification.jar" ]
