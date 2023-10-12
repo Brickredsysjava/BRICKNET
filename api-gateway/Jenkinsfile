@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build api-gateway') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd api-gateway && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy api-gateway') {
+             steps {
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf api-gateway || true'"
+                 sh "ssh root@192.168.1.9 'mkdir api-gateway'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/api-gateway/api-gateway/target/api-gateway.jar root@192.168.1.9:~/api-gateway/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/api-gateway/api-gateway/Dockerfile root@192.168.1.9:~/api-gateway/'
+
+                 sh "ssh root@192.168.1.9 'docker stop root_api-gateway_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rm root_api-gateway_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rmi root_api-gateway_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker build -t root_api-gateway_1 /root/api-gateway'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --name root_api-gateway_1 root_api-gateway_1'"
+             }
+         }        
+	
+     }
+     
+  }   
