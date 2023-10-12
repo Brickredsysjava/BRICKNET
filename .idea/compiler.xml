@@ -8,15 +8,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="workflow" />
-        <module name="auth-server" />
         <module name="suggestion" />
+        <module name="auth-server" />
         <module name="Eureka-Server" />
         <module name="Login" />
         <module name="SuperAdmin (2)" />
         <module name="SuperAdmin (1)" />
         <module name="Notification" />
-        <module name="Task-Center" />
         <module name="media-service" />
+        <module name="Task-Center" />
         <module name="Broadcasting" />
         <module name="api-gateway" />
         <module name="attendanceApiForApp" />

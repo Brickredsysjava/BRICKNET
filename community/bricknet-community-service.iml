@@ -182,6 +182,5 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-cache:3.0.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:6.0.11" level="project" />
     <orderEntry type="library" name="Maven: com.stoyanr:evictor:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt-api:0.11.5" level="project" />
   </component>
 </module>

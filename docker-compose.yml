@@ -47,3 +47,11 @@ services:
     volumes:
       - ~/community.jar:/community.jar
     command: [ "java", "-jar", "community.jar" ]
+
+  Suggestion:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8196:8196"
+    volumes:
+      - ~/suggestion.jar:/suggestion.jar
+    command: [ "java", "-jar", "suggestion.jar" ]
