@@ -51,7 +51,7 @@ services:
   suggestion:
     image: kabiraneja/ubuntu-java-maven
     ports:
-      - "8196:8196"
+      - "8092:8092"
     volumes:
       - ~/suggestion.jar:/suggestion.jar
     command: [ "java", "-jar", "suggestion.jar" ]
