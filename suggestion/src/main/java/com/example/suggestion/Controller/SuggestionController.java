@@ -122,6 +122,12 @@ public class SuggestionController
         return suggestionService.getSuggestionsByUsername(username);
     }
 
+    //Test API
+    @GetMapping("/test")
+    public String getTest(){
+        return "The suggestion is up and runining";
+    }
+
 
 
 }

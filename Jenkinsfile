@@ -94,6 +94,19 @@ pipeline {
                             }
                         }
 
+         stage('Build suggestion') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd suggestion && mvn clean package -DskipTests'
+                                         sh "ssh root@192.168.1.9 'cd /root'"
+                                         sh "ssh root@192.168.1.9 'rm -rf suggestion.jar || true'"
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/suggestion/target/suggestion.jar root@192.168.1.9:~/'
+                                         sh "ssh root@192.168.1.9 'docker stop root_suggestion_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_suggestion_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_suggestion_1 || true'"
+                                     }
+                                 }
+
         stage('Deploy All Microservices') { 
             steps {
                 sh "ssh root@192.168.1.9 'cd /root'"
