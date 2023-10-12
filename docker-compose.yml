@@ -48,7 +48,7 @@ services:
       - ~/community.jar:/community.jar
     command: [ "java", "-jar", "community.jar" ]
 
-  Suggestion:
+  suggestion:
     image: kabiraneja/ubuntu-java-maven
     ports:
       - "8196:8196"
