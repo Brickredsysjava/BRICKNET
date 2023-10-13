@@ -5,7 +5,7 @@ services:
     ports:
       - "8761:8761"
     volumes:
-      - ~/eureka.jar:/eureka.jar
+      - ~/eureka/eureka.jar:/eureka.jar
     command: ["java", "-jar", "eureka.jar"]
 
   api-gateway:
@@ -13,7 +13,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ~/api-gateway.jar:/api-gateway.jar
+      - ~/api-gateway/api-gateway.jar:/api-gateway.jar
     command: ["java", "-jar", "api-gateway.jar"]
 
   auth-server:
@@ -21,7 +21,7 @@ services:
     ports:
       - "8083:8083"
     volumes:
-      - ~/auth-server.jar:/auth-server.jar
+      - ~/auth-server/auth-server.jar:/auth-server.jar
     command: ["java", "-jar", "auth-server.jar"]
 
   superadmin:
@@ -29,7 +29,7 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - ~/superadmin.jar:/superadmin.jar
+      - ~/superadmin/superadmin.jar:/superadmin.jar
     command: ["java", "-jar", "superadmin.jar"]
 
   notification:
@@ -37,7 +37,7 @@ services:
     ports:
       - "8084:8084"
     volumes:
-      - ~/notification.jar:/notification.jar
+      - ~/notification/notification.jar:/notification.jar
     command: [ "java", "-jar", "notification.jar" ]
 
   community:
@@ -45,7 +45,7 @@ services:
     ports:
       - "8082:8082"
     volumes:
-      - ~/community.jar:/community.jar
+      - ~/community/community.jar:/community.jar
     command: [ "java", "-jar", "community.jar" ]
 
   suggestion:
@@ -53,5 +53,5 @@ services:
     ports:
       - "9199:9199"
     volumes:
-      - ~/suggestion.jar:/suggestion.jar
+      - ~/suggestion/suggestion.jar:/suggestion.jar
     command: [ "java", "-jar", "suggestion.jar" ]
