@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build community') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd community && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy community') {
+             steps {
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf community || true'"
+                 sh "ssh root@192.168.1.9 'mkdir community'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/community/community/target/community.jar root@192.168.1.9:~/community/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/community/community/Dockerfile root@192.168.1.9:~/community/'
+
+                 sh "ssh root@192.168.1.9 'docker stop root_community_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rm root_community_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rmi root_community_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker build -t root_community_1 /root/community'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8082:8082 --name root_community_1 root_community_1'"
+             }
+         }        
+	
+     }
+     
+  }   

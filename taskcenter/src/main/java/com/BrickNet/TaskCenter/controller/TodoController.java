@@ -68,4 +68,8 @@ public class TodoController {
 
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "Hello !! THis is taskcenter";
+    }
 }
