@@ -26,6 +26,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/media")
 public class MediaController {
     @Value("${uploadDirectory}")
     public    String uploadDirectory ;
