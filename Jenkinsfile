@@ -172,7 +172,7 @@ pipeline {
          stage('Build media-service') {
                                      steps {
                                          // Build the Spring Boot application using Maven
-                                         sh 'cd broadcast && mvn clean package -DskipTests'
+                                         sh 'cd media-service && mvn clean package -DskipTests'
 
                                          sh "ssh root@192.168.1.9 'cd /root'"
                                          sh "ssh root@192.168.1.9 'rm -rf mediaservice || true'"
