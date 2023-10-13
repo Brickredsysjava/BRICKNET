@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build SuperAdmin') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd SuperAdmin && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy SuperAdmin') {
+             steps {
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf superadmin || true'"
+                 sh "ssh root@192.168.1.9 'mkdir superadmin'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/superadmin/SuperAdmin/target/superadmin.jar root@192.168.1.9:~/superadmin/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/superadmin/SuperAdmin/Dockerfile root@192.168.1.9:~/superadmin/'
+
+                 sh "ssh root@192.168.1.9 'docker stop root_superadmin_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rm root_superadmin_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rmi root_superadmin_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker build -t root_superadmin_1 /root/superadmin'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8081:8081 --name root_superadmin_1 root_superadmin_1'"
+             }
+         }        
+	
+     }
+     
+  }   
