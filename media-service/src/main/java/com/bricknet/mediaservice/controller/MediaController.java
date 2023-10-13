@@ -101,4 +101,9 @@ public class MediaController {
         return ResponseEntity.ok(resource);
     }
 
+    @GetMapping("/test")
+    public String getTest(){
+        return "This is media service";
+    }
+
 }
