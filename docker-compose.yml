@@ -56,7 +56,7 @@ services:
       - ~/suggestion/suggestion.jar:/suggestion.jar
     command: [ "java", "-jar", "suggestion.jar" ]
 
-    taskcenter:
+  task-center:
       image: kabiraneja/ubuntu-java-maven
       ports:
         - "9099:9099"
@@ -64,7 +64,7 @@ services:
         - ~/taskcenter/taskcenter.jar:/taskcenter.jar
       command: [ "java", "-jar", "taskcenter.jar" ]
 
-      broadcast:
+  broadcast:
         image: kabiraneja/ubuntu-java-maven
         ports:
           - "8923:8923"
@@ -72,7 +72,7 @@ services:
           - ~/broadcast/broadcast.jar:/broadcast.jar
         command: [ "java", "-jar", "broadcast.jar" ]
 
-        mediaservice:
+  mediaservice:
           image: kabiraneja/ubuntu-java-maven
           ports:
             - "9268:9268"
