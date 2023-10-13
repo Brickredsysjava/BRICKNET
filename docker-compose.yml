@@ -55,3 +55,27 @@ services:
     volumes:
       - ~/suggestion/suggestion.jar:/suggestion.jar
     command: [ "java", "-jar", "suggestion.jar" ]
+
+    taskcenter:
+      image: kabiraneja/ubuntu-java-maven
+      ports:
+        - "9099:9099"
+      volumes:
+        - ~/taskcenter/taskcenter.jar:/taskcenter.jar
+      command: [ "java", "-jar", "taskcenter.jar" ]
+
+      broadcast:
+        image: kabiraneja/ubuntu-java-maven
+        ports:
+          - "8923:8923"
+        volumes:
+          - ~/broadcast/broadcast.jar:/broadcast.jar
+        command: [ "java", "-jar", "broadcast.jar" ]
+
+        mediaservice:
+          image: kabiraneja/ubuntu-java-maven
+          ports:
+            - "9268:9268"
+          volumes:
+            - ~/mediaservice/mediaservice.jar:/mediaservice.jar
+          command: [ "java", "-jar", "mediaservice.jar" ]

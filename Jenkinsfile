@@ -134,6 +134,59 @@ pipeline {
                                      }
                                  }
 
+         stage('Build taskcenter') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd taskcenter && mvn clean package -DskipTests'
+
+                                         sh "ssh root@192.168.1.9 'cd /root'"
+                                         sh "ssh root@192.168.1.9 'rm -rf taskcenter || true'"
+                                         sh "ssh root@192.168.1.9 'mkdir taskcenter'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/taskcenter/target/taskcenter.jar root@192.168.1.9:~/taskcenter/'
+
+                                         sh "ssh root@192.168.1.9 'docker stop root_taskcenter_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_taskcenter_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_taskcenter_1 || true'"
+                                     }
+                                 }
+
+
+         stage('Build broadcast') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd broadcast && mvn clean package -DskipTests'
+
+                                         sh "ssh root@192.168.1.9 'cd /root'"
+                                         sh "ssh root@192.168.1.9 'rm -rf broadcast || true'"
+                                         sh "ssh root@192.168.1.9 'mkdir broadcast'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/broadcast/target/broadcast.jar root@192.168.1.9:~/broadcast/'
+
+                                         sh "ssh root@192.168.1.9 'docker stop root_broadcast_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_broadcast_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_broadcast_1 || true'"
+                                     }
+                                 }
+
+         stage('Build media-service') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd broadcast && mvn clean package -DskipTests'
+
+                                         sh "ssh root@192.168.1.9 'cd /root'"
+                                         sh "ssh root@192.168.1.9 'rm -rf mediaservice || true'"
+                                         sh "ssh root@192.168.1.9 'mkdir mediaservice'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/media-service/target/mediaservice.jar root@192.168.1.9:~/mediaservice/'
+
+                                         sh "ssh root@192.168.1.9 'docker stop root_mediaservice_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_mediaservice_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_mediaservice_1 || true'"
+                                     }
+                                 }
+
+
         stage('Deploy All Microservices') { 
             steps {
                 sh "ssh root@192.168.1.9 'cd /root'"
