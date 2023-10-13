@@ -14,9 +14,12 @@ pipeline {
                 // Build the Spring Boot application using Maven
                 sh 'cd Eureka-Server && mvn clean package -DskipTests'
 
-                sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf eureka.jar || true'"
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/target/eureka.jar root@192.168.1.9:~/'
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf eureka || true'"
+                 sh "ssh root@192.168.1.9 'mkdir eureka'"
+
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/Eureka-Server/target/eureka.jar root@192.168.1.9:~/eureka/'
+
                 sh "ssh root@192.168.1.9 'docker stop root_eureka_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rm root_eureka_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rmi root_eureka_1 ||true'"
@@ -29,9 +32,12 @@ pipeline {
                 // Build the Spring Boot application using Maven
                 sh 'cd api-gateway && mvn clean package -DskipTests'
 
-                sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf api-gateway.jar || true'"
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/api-gateway/target/api-gateway.jar root@192.168.1.9:~/'
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf api-gateway || true'"
+                 sh "ssh root@192.168.1.9 'mkdir api-gateway'"
+
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/api-gateway/target/api-gateway.jar root@192.168.1.9:~/api-gateway/'
+
                 sh "ssh root@192.168.1.9 'docker stop root_api-gateway_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rm root_api-gateway_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rmi root_api-gateway_1 ||true'"
@@ -43,10 +49,13 @@ pipeline {
         stage('Build auth-server') {
             steps {
                 // Build the Spring Boot application using Maven
-                sh 'cd auth-server && mvn clean package -DskipTests'
-                sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf auth-server.jar || true'"
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/target/auth-server.jar root@192.168.1.9:~/'
+                 sh 'cd auth-server && mvn clean package -DskipTests'
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf auth-server || true'"
+                 sh "ssh root@192.168.1.9 'mkdir auth-server'"
+
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/auth-server/target/auth-server.jar root@192.168.1.9:~/auth-server/'
                 sh "ssh root@192.168.1.9 'docker stop root_auth-server_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rm root_auth-server_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rmi root_auth-server_1 ||true'"
@@ -59,9 +68,13 @@ pipeline {
             steps {
                 // Build the Spring Boot application using Maven
                 sh 'cd SuperAdmin && mvn clean package -DskipTests'
+
                 sh "ssh root@192.168.1.9 'cd /root'"
-                sh "ssh root@192.168.1.9 'rm -rf superadmin.jar || true'"
-                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/superadmin.jar root@192.168.1.9:~/'
+                sh "ssh root@192.168.1.9 'rm -rf superadmin || true'"
+                sh "ssh root@192.168.1.9 'mkdir superadmin'"
+
+                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/SuperAdmin/target/superadmin.jar root@192.168.1.9:~/superadmin/'
+
                 sh "ssh root@192.168.1.9 'docker stop root_superadmin_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rm root_superadmin_1 || true'"
                 sh "ssh root@192.168.1.9 'docker rmi root_superadmin_1 ||true'"
@@ -72,9 +85,14 @@ pipeline {
                     steps {
                         // Build the Spring Boot application using Maven
                         sh 'cd notification && mvn clean package -DskipTests'
+
+
                         sh "ssh root@192.168.1.9 'cd /root'"
-                        sh "ssh root@192.168.1.9 'rm -rf notification.jar || true'"
-                        sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/notification/target/notification.jar root@192.168.1.9:~/'
+                        sh "ssh root@192.168.1.9 'rm -rf notification || true'"
+                        sh "ssh root@192.168.1.9 'mkdir notification'"
+
+                        sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/notification/target/notification.jar root@192.168.1.9:~/notification/'
+
                         sh "ssh root@192.168.1.9 'docker stop root_notification_1 || true'"
                         sh "ssh root@192.168.1.9 'docker rm root_notification_1 || true'"
                         sh "ssh root@192.168.1.9 'docker rmi root_notification_1 ||true'"
@@ -85,9 +103,14 @@ pipeline {
                             steps {
                                 // Build the Spring Boot application using Maven
                                 sh 'cd community && mvn clean package -DskipTests'
+
+
                                 sh "ssh root@192.168.1.9 'cd /root'"
-                                sh "ssh root@192.168.1.9 'rm -rf community.jar || true'"
-                                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/community/target/community.jar root@192.168.1.9:~/'
+                                sh "ssh root@192.168.1.9 'rm -rf community || true'"
+                                sh "ssh root@192.168.1.9 'mkdir community'"
+
+                                sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/community/target/community.jar root@192.168.1.9:~/community/'
+
                                 sh "ssh root@192.168.1.9 'docker stop root_community_1 || true'"
                                 sh "ssh root@192.168.1.9 'docker rm root_community_1 || true'"
                                 sh "ssh root@192.168.1.9 'docker rmi root_community_1 || true'"
@@ -98,9 +121,13 @@ pipeline {
                                      steps {
                                          // Build the Spring Boot application using Maven
                                          sh 'cd suggestion && mvn clean package -DskipTests'
+
                                          sh "ssh root@192.168.1.9 'cd /root'"
-                                         sh "ssh root@192.168.1.9 'rm -rf suggestion.jar || true'"
-                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/suggestion/target/suggestion.jar root@192.168.1.9:~/'
+                                         sh "ssh root@192.168.1.9 'rm -rf suggestion || true'"
+                                         sh "ssh root@192.168.1.9 'mkdir suggestion'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/suggestion/target/suggestion.jar root@192.168.1.9:~/suggestion/'
+
                                          sh "ssh root@192.168.1.9 'docker stop root_suggestion_1 || true'"
                                          sh "ssh root@192.168.1.9 'docker rm root_suggestion_1 || true'"
                                          sh "ssh root@192.168.1.9 'docker rmi root_suggestion_1 || true'"
