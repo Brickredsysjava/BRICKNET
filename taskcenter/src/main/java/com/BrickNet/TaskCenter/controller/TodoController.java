@@ -69,7 +69,7 @@ public class TodoController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> test(){
+    public String test(){
         return "Hello !! THis is taskcenter";
     }
 }
