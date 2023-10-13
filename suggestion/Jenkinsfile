@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build suggestion') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd suggestion && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy suggestion') {
+             steps {
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf suggestion || true'"
+                 sh "ssh root@192.168.1.9 'mkdir suggestion'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/target/suggestion.jar root@192.168.1.9:~/suggestion/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/Dockerfile root@192.168.1.9:~/suggestion/'
+
+                 sh "ssh root@192.168.1.9 'docker stop root_suggestion_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rm root_suggestion_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rmi root_suggestion_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker build -t root_suggestion_1 /root/suggestion'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9199:9199 --name root_suggestion_1 root_suggestion_1'"
+             }
+         }        
+	
+     }
+     
+  }   
