@@ -64,7 +64,7 @@ public class AuthService {
         String token= jwtService.generateToken(userAuthInfo);
         try {
 //            redisService.set(userAuthInfo.getEmployeeCode(), token);
-            redisService.set(token,userAuthInfo.getEmployeeCode());
+            jwtMap.put(token,userAuthInfo.getEmployeeCode());
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class AuthService {
         String token= jwtService.generateToken(userAuthInfo);
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
-        redisService.set(username,OTP);
+        otpMap.put(username,OTP);
         NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
         notificationService.sendEmailNotification(notificationDto);
         return  OTP;
@@ -87,11 +87,11 @@ public class AuthService {
         AuthService authService=new AuthService();
 
         UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
-        String OTP= redisService.get(username);
+        String OTP= otpMap.get(username);
         String token= jwtService.generateToken(userAuthInfo);
 
         if(OTP.equals(Otp)){
-            jwtMap.put(userAuthInfo.getEmployeeCode(), token);
+            otpMap.put(userAuthInfo.getEmployeeCode(), token);
             return token;
         }
         jwtMap.remove(userAuthInfo.getEmployeeCode());
