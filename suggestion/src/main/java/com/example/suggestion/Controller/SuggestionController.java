@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/suggestion/api/suggestions")
+@RequestMapping("/suggestionPost/api/suggestions")
 public class SuggestionController
 {
 
