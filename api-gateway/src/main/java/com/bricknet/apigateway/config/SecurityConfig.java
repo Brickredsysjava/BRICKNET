@@ -28,10 +28,11 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .cors(cors -> cors.disable())
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**","/auth-server/auth/checkOtp/**","/auth-server/auth/login/**", "/user/**" , "/auth/**").permitAll()
-                        .pathMatchers("/communityPost/**", "/user/**", "/send/**", "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestion/api/**").permitAll()
+                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**"
+                                ,"/auth-server/auth/checkOtp/**","/auth-server/auth/login/**", "/user/**" , "/auth/**",
+                                "/communityPost/**", "/user/**", "/send/**", "/api/broadcasting/**",
+                                "/api/**", "/media/**", "/suggestion/api/**").permitAll()
                         .pathMatchers("/profile/AllProfile/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
