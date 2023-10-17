@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
                         .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**","/auth-server/auth/checkOtp/**","/auth-server/auth/login/**", "/user/**" , "/auth/**").permitAll()
+                        .pathMatchers("/communityPost/**", "/user/**", "/send/**", "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestion/api/**").permitAll()
                         .pathMatchers("/profile/AllProfile/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
