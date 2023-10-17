@@ -1,5 +1,4 @@
 package com.bricknet.authserver.service;
-
 import com.bricknet.authserver.Dto.AuthRequest;
 import com.bricknet.authserver.Dto.ForgetPassword;
 import com.bricknet.authserver.Dto.NotificationDto;
@@ -32,12 +31,14 @@ public class AuthService {
     private Map<String, String> otpMap;
 
     @Autowired
-    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, Notification notificationService) {
+    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, Notification notificationService, Map<String, String> jwtMap, Map<String, String> otpMap) {
         this.userProfile = userProfile;
         this.passwordEncoder = passwordEncoder;
         this.redisService = redisService;
         this.jwtService = jwtService;
         this.notificationService = notificationService;
+        this.jwtMap = jwtMap;
+        this.otpMap = otpMap;
     }
 
     public AuthService() {
@@ -88,13 +89,15 @@ public class AuthService {
 
         UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
         String OTP= otpMap.get(username);
+
+//     String OTP= redisService.get(username);
         String token= jwtService.generateToken(userAuthInfo);
 
         if(OTP.equals(Otp)){
-            otpMap.put(userAuthInfo.getEmployeeCode(), token);
+            jwtMap.put(userAuthInfo.getEmployeeCode(), token);
             return token;
         }
-        jwtMap.remove(userAuthInfo.getEmployeeCode());
+        jwtMap.remove(username);
         return  "try again";
     }
 
