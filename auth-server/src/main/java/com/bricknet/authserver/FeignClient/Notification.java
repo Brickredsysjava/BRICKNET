@@ -13,11 +13,11 @@ public class Notification {
     private WebClient.Builder webClientBuilder;
 
     public Notification(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8084/send");
+        this.webClientBuilder = webClientBuilder;
     }
 
     public void sendEmailNotification(NotificationDto notificationDto){
-        webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("/email").build())
+        webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("http://192.168.1.9:8084/send/email").build())
                 .bodyValue(notificationDto).retrieve().bodyToMono(NotificationDto.class);
     }
 
