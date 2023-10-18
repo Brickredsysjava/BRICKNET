@@ -81,7 +81,7 @@ public class AuthService {
         otpMap.put(username,OTP);
         NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
         notificationService.sendEmailNotification(notificationDto);
-        return  OTP;
+        return OTP;
     }
 
     public String checkOtp(String username,String Otp){
