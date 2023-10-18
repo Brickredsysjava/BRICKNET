@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/broadcasting")
 public class broadCastController {
 
@@ -104,6 +104,11 @@ public class broadCastController {
     @GetMapping("/getFromNotification")
     public String getFromNotification(){
         return this.getBroadcastinginfo.getBroadcastinginfoMethod();
+    }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "This is broadcast test";
     }
 
 }

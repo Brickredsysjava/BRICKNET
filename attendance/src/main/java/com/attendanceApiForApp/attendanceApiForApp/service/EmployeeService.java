@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employee> getAllEmployees();
-    Employee getEmployeeById(Long id);
+    Employee getEmployeeById(String id);
     Employee createEmployee(Employee employee);
-    Employee updateEmployee(Long id, Employee employee);
-    boolean deleteEmployee(Long id);
+    Employee updateEmployee(String id, Employee employee);
+    boolean deleteEmployee(String id);
+    public String loginApi(String emp_id, String password );
 }
 

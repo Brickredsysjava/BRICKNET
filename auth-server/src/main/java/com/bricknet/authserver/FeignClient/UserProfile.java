@@ -39,8 +39,9 @@ public class UserProfile {
     }
 
     public Mono<UserAuthInfo> passwordUpdate(ForgetPassword forgetPassword) {
-        return webClientBuilder.baseUrl("http://localhost:8081/user/profile")
-                .build().put().uri("passwordUpdate")
+        return webClientBuilder
+                .build().post().uri(uriBuilder -> uriBuilder.path("/passwordUpdate")
+                        .build())
                 .bodyValue(forgetPassword)
                 .retrieve()
                 .bodyToMono(UserAuthInfo.class);
