@@ -1,16 +1,16 @@
-package com.bricknet.apigateway.config;
-
-import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
-
-public class CorsGlobalFilter{
-
-}
-
+//package com.bricknet.apigateway.config;
+//
+//import org.springframework.cloud.gateway.filter.GatewayFilter;
+//import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+//import org.springframework.http.HttpMethod;
+//import org.springframework.http.server.reactive.ServerHttpRequest;
+//import org.springframework.stereotype.Component;
+//import reactor.core.publisher.Mono;
+////
+////public class CorsGlobalFilter{
+////
+////}
+//
 //
 //@Component
 //public class CorsGlobalFilter extends AbstractGatewayFilterFactory<CorsGlobalFilter.Config> {
@@ -55,4 +55,5 @@ public class CorsGlobalFilter{
 //                    request.getHeaders().containsKey("Access-Control-Request-Method");
 //        }
 //    }
-
+//}
+//
