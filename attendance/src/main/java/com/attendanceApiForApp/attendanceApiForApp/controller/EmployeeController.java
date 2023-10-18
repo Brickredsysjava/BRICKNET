@@ -71,5 +71,10 @@ public class EmployeeController {
         String res = employeeService.loginApi(emp_id, password);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "Attendance API are running";
+    }
 }
 
