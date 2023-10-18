@@ -9,14 +9,14 @@ pipeline {
         }
 
 
-         stage('Build broadcast') {
+         stage('Build attendance') {
             steps {
                 // Build the Spring Boot application using Maven
-                sh 'cd broadcast && mvn clean package -DskipTests'
+                sh 'cd attendance && mvn clean package -DskipTests'
             }
         }
 	
-	 stage('Deploy broadcast') {
+	 stage('Deploy attendance') {
              steps {
 
                  sh "ssh root@192.168.1.9 'cd /root'"

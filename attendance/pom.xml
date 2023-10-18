@@ -78,7 +78,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>Attendance Backend API</finalName>
 	</build>
 
 </project>
