@@ -16,8 +16,8 @@ public class Notification {
         this.webClientBuilder = webClientBuilder;
     }
 
-    public void sendEmailNotification(NotificationDto notificationDto){
-        webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("http://192.168.1.9:8084/send/email").build())
+    public Mono<NotificationDto> sendEmailNotification(NotificationDto notificationDto){
+        return webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("http://192.168.1.9:8084/send/email").build())
                 .bodyValue(notificationDto).retrieve().bodyToMono(NotificationDto.class);
     }
 
