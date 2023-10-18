@@ -8,7 +8,7 @@
 //import org.springframework.web.cors.reactive.CorsWebFilter;
 //
 //@Configuration
-//@CrossOrigin("*")
+//@CrossOrigin(origins = "*")
 //public class CorsConfig {
 //
 //    @Bean

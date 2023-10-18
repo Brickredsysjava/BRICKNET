@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 
 @Component
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class CorsGlobalFilter extends AbstractGatewayFilterFactory<CorsGlobalFilter.Config> {
 
     public CorsGlobalFilter() {
@@ -41,7 +41,7 @@ public class CorsGlobalFilter extends AbstractGatewayFilterFactory<CorsGlobalFil
         };
     }
 
-    @CrossOrigin("*")
+    @CrossOrigin(origins = "*")
     public static class Config {
         private String allowedOrigin = "*";
 

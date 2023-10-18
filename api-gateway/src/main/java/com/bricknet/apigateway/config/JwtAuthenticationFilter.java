@@ -24,7 +24,7 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationFilter implements WebFilter {
     private final JwtService jwtService;
     private final RedisService redisService;
