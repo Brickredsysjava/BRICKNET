@@ -30,7 +30,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("http://192.168.1.35:3000/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
 //                .allowedHeaders("Origin","Content-Type","Accept","Authorization","Referer");
     }
