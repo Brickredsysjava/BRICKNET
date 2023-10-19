@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping("/media")
 public class MediaController {
     @Value("${uploadDirectory}")
-    public    String uploadDirectory ;
+    public String uploadDirectory ;
     @PostMapping("/images/upload-api")
     @ResponseBody
     public ResponseEntity<Object> handleImageUpload(@RequestParam("files")
