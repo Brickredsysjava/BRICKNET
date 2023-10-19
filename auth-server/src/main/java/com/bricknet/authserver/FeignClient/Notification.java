@@ -10,14 +10,14 @@ import reactor.core.publisher.Mono;
 @Component
 public class Notification {
 
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     public Notification(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
     }
 
     public Mono<NotificationDto> sendEmailNotification(NotificationDto notificationDto){
-        return webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("http://192.168.1.9:8084/send/email").build())
+        return webClientBuilder.build().post().uri(uriBuilder -> uriBuilder.path("/send/email").build())
                 .bodyValue(notificationDto).retrieve().bodyToMono(NotificationDto.class);
     }
 

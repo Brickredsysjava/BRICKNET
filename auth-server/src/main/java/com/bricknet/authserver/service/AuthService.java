@@ -1,8 +1,6 @@
 package com.bricknet.authserver.service;
-import com.bricknet.authserver.Dto.AuthRequest;
-import com.bricknet.authserver.Dto.ForgetPassword;
-import com.bricknet.authserver.Dto.NotificationDto;
-import com.bricknet.authserver.Dto.UserAuthInfo;
+import com.bricknet.authserver.Dto.*;
+import com.bricknet.authserver.Exception.LoginException;
 import com.bricknet.authserver.FeignClient.Notification;
 import com.bricknet.authserver.FeignClient.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +51,15 @@ public class AuthService {
         return userProfile.passwordUpdate(forgetPassword);
     }
 
-    public String login(AuthRequest authRequest) {
+    public Object login(AuthRequest authRequest) throws LoginException {
+        JwtResponse response = new JwtResponse();
         UserAuthInfo userAuthInfo = AuthService.getUserByUsername(authRequest.getUsername()).block();
         if(userAuthInfo==null){
-            return "Username not found";
+            throw new LoginException("Username not found");
         }
         if (userAuthInfo == null || !passwordEncoder.matches(authRequest.getPassword(), userAuthInfo.getPassword())) {
 
-            return "Invalid Password";
+            throw new LoginException( "Invalid Password");
         }
         String token= jwtService.generateToken(userAuthInfo);
         try {
@@ -70,7 +69,13 @@ public class AuthService {
 
             e.printStackTrace();
         }
-        return token;
+        response.setRole(userAuthInfo.getRole());
+        response.setUsername(userAuthInfo.getEmployeeName());
+        response.setUserId(userAuthInfo.getUuid());
+        response.setJwtTokens(token);
+        response.setEmpCode(userAuthInfo.getEmployeeCode());
+
+        return response;
     }
     public String getOtp(String username){
         AuthService authService=new AuthService();
@@ -79,7 +84,9 @@ public class AuthService {
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
         otpMap.put(username,OTP);
-        NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
+        NotificationDto notificationDto=new NotificationDto();
+        notificationDto.setMessage("This is your OTP" + OTP);
+        notificationDto.setRecipient(userAuthInfo.getCompanyEmail());
         notificationService.sendEmailNotification(notificationDto);
         return OTP;
     }
