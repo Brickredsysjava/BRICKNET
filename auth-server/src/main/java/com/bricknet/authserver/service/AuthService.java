@@ -1,8 +1,5 @@
 package com.bricknet.authserver.service;
-import com.bricknet.authserver.Dto.AuthRequest;
-import com.bricknet.authserver.Dto.ForgetPassword;
-import com.bricknet.authserver.Dto.NotificationDto;
-import com.bricknet.authserver.Dto.UserAuthInfo;
+import com.bricknet.authserver.Dto.*;
 import com.bricknet.authserver.FeignClient.Notification;
 import com.bricknet.authserver.FeignClient.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +50,8 @@ public class AuthService {
         return userProfile.passwordUpdate(forgetPassword);
     }
 
-    public String login(AuthRequest authRequest) {
+    public Object login(AuthRequest authRequest) {
+        JwtResponse response = new JwtResponse();
         UserAuthInfo userAuthInfo = AuthService.getUserByUsername(authRequest.getUsername()).block();
         if(userAuthInfo==null){
             return "Username not found";
@@ -70,7 +68,13 @@ public class AuthService {
 
             e.printStackTrace();
         }
-        return token;
+        response.setRole(userAuthInfo.getRole());
+        response.setUsername(userAuthInfo.getEmployeeName());
+        response.setUserId(userAuthInfo.getUuid());
+        response.setJwtTokens(token);
+        response.setEmpCode(userAuthInfo.getEmployeeCode());
+
+        return response;
     }
     public String getOtp(String username){
         AuthService authService=new AuthService();

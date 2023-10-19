@@ -2,6 +2,7 @@ package com.bricknet.authserver.controller;
 
 import com.bricknet.authserver.Dto.AuthRequest;
 import com.bricknet.authserver.Dto.ForgetPassword;
+import com.bricknet.authserver.Dto.JwtResponse;
 import com.bricknet.authserver.service.AuthService;
 import com.bricknet.authserver.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<String>login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?>login(@RequestBody AuthRequest authRequest) {
 
         return  new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
     }
