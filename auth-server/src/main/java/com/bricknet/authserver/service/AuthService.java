@@ -84,7 +84,9 @@ public class AuthService {
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
         otpMap.put(username,OTP);
-        NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
+        NotificationDto notificationDto=new NotificationDto();
+        notificationDto.setMessage("This is your OTP" + OTP);
+        notificationDto.setRecipient(userAuthInfo.getCompanyEmail());
         notificationService.sendEmailNotification(notificationDto);
         return OTP;
     }

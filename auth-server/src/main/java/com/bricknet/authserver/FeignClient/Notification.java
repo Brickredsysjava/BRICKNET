@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class Notification {
 
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     public Notification(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
