@@ -1,5 +1,6 @@
 package com.bricknet.authserver.service;
 import com.bricknet.authserver.Dto.*;
+import com.bricknet.authserver.Exception.LoginException;
 import com.bricknet.authserver.FeignClient.Notification;
 import com.bricknet.authserver.FeignClient.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,15 +51,15 @@ public class AuthService {
         return userProfile.passwordUpdate(forgetPassword);
     }
 
-    public Object login(AuthRequest authRequest) {
+    public Object login(AuthRequest authRequest) throws LoginException {
         JwtResponse response = new JwtResponse();
         UserAuthInfo userAuthInfo = AuthService.getUserByUsername(authRequest.getUsername()).block();
         if(userAuthInfo==null){
-            return "Username not found";
+            throw new LoginException("Username not found");
         }
         if (userAuthInfo == null || !passwordEncoder.matches(authRequest.getPassword(), userAuthInfo.getPassword())) {
 
-            return "Invalid Password";
+            throw new LoginException( "Invalid Password");
         }
         String token= jwtService.generateToken(userAuthInfo);
         try {
