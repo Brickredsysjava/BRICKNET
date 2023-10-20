@@ -18,20 +18,21 @@ public class AuthService {
 
     @Autowired
     private static UserProfile userProfile ;
+
+    @Autowired
+    private static NotificationService notificationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private  RedisService redisService;
     @Autowired
     private JwtService jwtService;
-    @Autowired
-    private Notification notificationService;
 
     private Map<String, String> jwtMap;
     private Map<String, String> otpMap;
 
     @Autowired
-    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, Notification notificationService, Map<String, String> jwtMap, Map<String, String> otpMap) {
+    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService, Map<String, String> jwtMap, Map<String, String> otpMap) {
         this.userProfile = userProfile;
         this.passwordEncoder = passwordEncoder;
         this.redisService = redisService;
@@ -72,15 +73,18 @@ public class AuthService {
         }
         return token;
     }
-    public String getOtp(String username){
+    public String getOtp(String username) throws Exception {
         AuthService authService=new AuthService();
+        NotificationDto notificationDto = new NotificationDto();
         UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
         String token= jwtService.generateToken(userAuthInfo);
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
         otpMap.put(username,OTP);
-        NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
-        notificationService.sendEmailNotification(notificationDto);
+        notificationDto.setMessage("This is your OTP " + OTP);
+        notificationDto.setRecipient(userAuthInfo.getCompanyEmail());
+        //notificationService.sendEmailNotification(notificationDto);
+        OtpService.sendOTPEmail(userAuthInfo.getCompanyEmail(), OTP);
         return OTP;
     }
 

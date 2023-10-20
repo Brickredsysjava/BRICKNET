@@ -23,6 +23,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
+        UserDTO newUserDto = userDTO;
         User user = this.modelMapper.map(userDTO,User.class);
         User savedUser = service.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);

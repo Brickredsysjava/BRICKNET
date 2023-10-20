@@ -50,8 +50,6 @@ public class ProfileController {
         notificationDTO.setMessage(message);
         notificationDTO.setRecipient(profileDTO.getPersonalEmail());
         notificationDTO.setTimeStamp(LocalDateTime.now());
-
-
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 

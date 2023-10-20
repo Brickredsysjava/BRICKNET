@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.management.ServiceNotFoundException;
+
 @Component
 public class UserProfile {
 
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     public UserProfile(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8081/user/profile");
+        this.webClientBuilder = webClientBuilder;
     }
 
 //    public void UserProfileWebClient(WebClient.Builder webClientBuilder) {
@@ -30,8 +32,8 @@ public class UserProfile {
 //    }
 
     public Mono<UserAuthInfo> getByUserName(String username) {
-        return webClientBuilder.build().get()
-                .uri(uriBuilder -> uriBuilder.path("/profileFromUserName")
+        return webClientBuilder.baseUrl("http://192.168.1.9:9090/").build().get()
+                .uri(uriBuilder -> uriBuilder.path("user/profile/profileFromUserName")
                         .queryParam("username", username)
                         .build())
                 .retrieve()
@@ -39,8 +41,8 @@ public class UserProfile {
     }
 
     public Mono<UserAuthInfo> passwordUpdate(ForgetPassword forgetPassword) {
-        return webClientBuilder
-                .build().post().uri(uriBuilder -> uriBuilder.path("/passwordUpdate")
+        return webClientBuilder.baseUrl("http://192.168.1.9:9090/")
+                .build().post().uri(uriBuilder -> uriBuilder.path("/user/profile/passwordUpdate")
                         .build())
                 .bodyValue(forgetPassword)
                 .retrieve()
