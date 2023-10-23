@@ -145,9 +145,9 @@ pipeline {
 
                                          sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/taskcenter/target/taskcenter.jar root@192.168.1.9:~/taskcenter/'
 
-                                         sh "ssh root@192.168.1.9 'docker stop root_taskcenter_1 || true'"
-                                         sh "ssh root@192.168.1.9 'docker rm root_taskcenter_1 || true'"
-                                         sh "ssh root@192.168.1.9 'docker rmi root_taskcenter_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker stop root_task-center_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_task-center_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_task-center_1 || true'"
                                      }
                                  }
 
