@@ -58,10 +58,6 @@ public class MediaController {
         }catch (SizeLimitExceededException sizeLimitExceededException){
             return new ResponseEntity<>("Request size exceeds the allowed limit (10MB). ",HttpStatus.NOT_ACCEPTABLE);
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
     }
 
 
