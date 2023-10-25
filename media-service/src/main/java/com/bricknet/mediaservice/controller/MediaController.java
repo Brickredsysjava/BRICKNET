@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping("/media")
 public class MediaController {
     @Value("${uploadDirectory}")
-    public    String uploadDirectory ;
+    public String uploadDirectory ;
     @PostMapping("/images/upload-api")
     @ResponseBody
     public ResponseEntity<Object> handleImageUpload(@RequestParam("files")
@@ -58,6 +58,10 @@ public class MediaController {
         }catch (SizeLimitExceededException sizeLimitExceededException){
             return new ResponseEntity<>("Request size exceeds the allowed limit (10MB). ",HttpStatus.NOT_ACCEPTABLE);
         }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 
