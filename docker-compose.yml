@@ -1,76 +1,76 @@
 version: '3'
 services:
-  # eureka:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "8761:8761"
-  #   volumes:
-  #     - ~/eureka/eureka.jar:/eureka.jar
-  #   command: ["java", "-jar", "eureka.jar"]
+  eureka:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8761:8761"
+    volumes:
+      - ~/eureka/eureka.jar:/eureka.jar
+    command: ["java", "-jar", "eureka.jar"]
 
-  # api-gateway:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "9090:9090"
-  #   volumes:
-  #     - ~/api-gateway/api-gateway.jar:/api-gateway.jar
-  #   command: ["java", "-jar", "api-gateway.jar"]
+  api-gateway:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "9090:9090"
+    volumes:
+      - ~/api-gateway/api-gateway.jar:/api-gateway.jar
+    command: ["java", "-jar", "api-gateway.jar"]
 
-  # auth-server:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "8083:8083"
-  #   volumes:
-  #     - ~/auth-server/auth-server.jar:/auth-server.jar
-  #   command: ["java", "-jar", "auth-server.jar"]
+  auth-server:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8083:8083"
+    volumes:
+      - ~/auth-server/auth-server.jar:/auth-server.jar
+    command: ["java", "-jar", "auth-server.jar"]
 
-  # superadmin:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "8081:8081"
-  #   volumes:
-  #     - ~/superadmin/superadmin.jar:/superadmin.jar
-  #   command: ["java", "-jar", "superadmin.jar"]
+  superadmin:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8081:8081"
+    volumes:
+      - ~/superadmin/superadmin.jar:/superadmin.jar
+    command: ["java", "-jar", "superadmin.jar"]
 
-  # notification:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "8084:8084"
-  #   volumes:
-  #     - ~/notification/notification.jar:/notification.jar
-  #   command: [ "java", "-jar", "notification.jar" ]
+  notification:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8084:8084"
+    volumes:
+      - ~/notification/notification.jar:/notification.jar
+    command: [ "java", "-jar", "notification.jar" ]
 
-  # community:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "8082:8082"
-  #   volumes:
-  #     - ~/community/community.jar:/community.jar
-  #   command: [ "java", "-jar", "community.jar" ]
+  community:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8082:8082"
+    volumes:
+      - ~/community/community.jar:/community.jar
+    command: [ "java", "-jar", "community.jar" ]
 
-  # suggestion:
-  #   image: kabiraneja/ubuntu-java-maven
-  #   ports:
-  #     - "9199:9199"
-  #   volumes:
-  #     - ~/suggestion/suggestion.jar:/suggestion.jar
-  #   command: [ "java", "-jar", "suggestion.jar" ]
+  suggestion:
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "9199:9199"
+    volumes:
+      - ~/suggestion/suggestion.jar:/suggestion.jar
+    command: [ "java", "-jar", "suggestion.jar" ]
 
-  # task-center:
-  #     image: kabiraneja/ubuntu-java-maven
-  #     ports:
-  #       - "9099:9099"
-  #     volumes:
-  #       - ~/taskcenter/taskcenter.jar:/taskcenter.jar
-  #     command: [ "java", "-jar", "taskcenter.jar" ]
+  task-center:
+      image: kabiraneja/ubuntu-java-maven
+      ports:
+        - "9099:9099"
+      volumes:
+        - ~/taskcenter/taskcenter.jar:/taskcenter.jar
+      command: [ "java", "-jar", "taskcenter.jar" ]
 
-  # broadcast:
-  #       image: kabiraneja/ubuntu-java-maven
-  #       ports:
-  #         - "8923:8923"
-  #       volumes:
-  #         - ~/broadcast/broadcast.jar:/broadcast.jar
-  #       command: [ "java", "-jar", "broadcast.jar" ]
+  broadcast:
+        image: kabiraneja/ubuntu-java-maven
+        ports:
+          - "8923:8923"
+        volumes:
+          - ~/broadcast/broadcast.jar:/broadcast.jar
+        command: [ "java", "-jar", "broadcast.jar" ]
 
   mediaservice:
           image: kabiraneja/ubuntu-java-maven
