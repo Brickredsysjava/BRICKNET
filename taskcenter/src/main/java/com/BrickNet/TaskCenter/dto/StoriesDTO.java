@@ -34,7 +34,6 @@ public class StoriesDTO {
 
     @Valid
     @NotNull(message = "Status can't be null")
-    @NotBlank(message = "Status can't be blank")
     @NotEmpty(message = "Status can't be empty")
     private Status status;
 
