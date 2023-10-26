@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(ServerHttpSecurity.CorsSpec::disable)
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth-server/auth/getOtp/**","/auth-server/auth/checkOtp/**","/auth-server/auth/login/**", "/user/**" , "/auth/**").permitAll()
+                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth/getOtp/**","/auth/checkOtp/**","/auth/login/**", "/user/**" , "/auth/**").permitAll()
                         .pathMatchers("/communityPost/**", "/user/**", "/send/**", "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestionPost/api/**").permitAll()
                         .pathMatchers("/profile/AllProfile/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
