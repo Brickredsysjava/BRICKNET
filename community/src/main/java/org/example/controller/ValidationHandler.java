@@ -1,37 +1,39 @@
 package org.example.controller;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import org.springframework.stereotype.Component;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@Component
-public class ValidationHandler {
+@ControllerAdvice
+public class ValidationHandler extends ResponseEntityExceptionHandler {
 
-    private final Validator validator;
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 
-    public ValidationHandler(Validator validator) {
-        this.validator = validator;
-    }
+                                                                  HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-    public void validateDto(Object dto, Errors errors) {
-        validator.validate(dto, errors);
-    }
 
-    public void validateAllDtos(Object... dtos) {
-        for (Object dto : dtos) {
-            Errors errors = new BeanPropertyBindingResult(dto, dto.getClass().getName());
-            validateDto(dto, errors);
-            if (errors.hasErrors()) {
-                handleValidationErrors(dto, errors);
-            }
-        }
-    }
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) ->{
 
-    private void handleValidationErrors(Object dto, Errors errors) {
-        // Log validation errors
-        System.out.println("Validation errors for " + dto.getClass().getSimpleName() + ":");
-        errors.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+
     }
 }
+
+
 
