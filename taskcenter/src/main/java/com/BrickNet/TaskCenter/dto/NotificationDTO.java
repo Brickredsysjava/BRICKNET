@@ -27,7 +27,6 @@ public class NotificationDTO {
     private String recipient;
 
     @NotNull(message = "timeStamp can't be null")
-    @NotEmpty(message = "timeStamp can't be empty")
     private LocalDateTime timeStamp;
 
 }
