@@ -30,7 +30,7 @@ pipeline {
                  sh "ssh root@192.168.1.9 'docker rmi root_mediaservice_1 ||true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_mediaservice_1 /root/mediaservice'"
                  //sh "ssh root@192.168.1.9 'mkdir /upload/'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9268:9268 -v media_files:/upload/ --name root_mediaservice_1 root_mediaservice_1 '"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9268:9268 -v root_media_files:/upload/ --name root_mediaservice_1 root_mediaservice_1 '"
              }
          }        
 	
