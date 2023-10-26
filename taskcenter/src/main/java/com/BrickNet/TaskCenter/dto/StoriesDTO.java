@@ -1,6 +1,8 @@
 package com.BrickNet.TaskCenter.dto;
 
 import com.BrickNet.TaskCenter.model.Status;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -34,7 +36,7 @@ public class StoriesDTO {
 
     @Valid
     @NotNull(message = "Status can't be null")
-    @NotEmpty(message = "Status can't be empty")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Valid

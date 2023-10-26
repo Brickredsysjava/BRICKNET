@@ -57,13 +57,11 @@ public class TodoDTO {
 
     @Valid
     @NotNull(message = "Status can't be null")
-    @NotEmpty(message = "Status can't be empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @Valid
     @NotNull(message = "Priority can't be null")
-    @NotEmpty(message = "Priority can't be empty")
     @Enumerated(EnumType.STRING)
     private Priority priority;
 

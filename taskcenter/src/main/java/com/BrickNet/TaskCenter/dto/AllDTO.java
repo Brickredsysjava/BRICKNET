@@ -36,7 +36,6 @@ public class AllDTO {
 
     @Valid
     @NotNull(message = "Status can't be null")
-    @NotEmpty(message = "Status can't be empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 
