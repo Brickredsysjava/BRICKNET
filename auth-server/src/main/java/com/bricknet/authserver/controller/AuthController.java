@@ -24,7 +24,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?>login(@Valid @RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?>login( @RequestBody AuthRequest authRequest) {
 
        try {
             return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
@@ -42,7 +42,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.checkOtp(username,otp),HttpStatus.OK);
     }
     @PostMapping(value = "/reset")
-    public ResponseEntity<String>resetPassword(@Valid @RequestBody ForgetPassword forgetPassword) {
+    public ResponseEntity<String>resetPassword( @RequestBody ForgetPassword forgetPassword) {
 
             return  new ResponseEntity<>(authService.resetPassword(forgetPassword), HttpStatus.OK);
 
