@@ -40,21 +40,6 @@ public class JwtService {
         return
                 Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
-    public  Claims parseJwt(String jwtToken) {
-
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(jwtToken)
-                    .getBody();
-
-            return claims;
-        } catch (Exception e) {
-            // Handle exception (e.g., token is invalid or expired)
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 
 }

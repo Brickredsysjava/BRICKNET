@@ -25,7 +25,7 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 @Component
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class JwtAuthenticationFilter implements WebFilter {
+public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
     private final RedisService redisService;
       @Autowired
