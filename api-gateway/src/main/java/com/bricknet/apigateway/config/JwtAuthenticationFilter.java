@@ -21,50 +21,50 @@ import java.util.List;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
-//@Slf4j
-//@Component
-//@RequiredArgsConstructor
-//@CrossOrigin(origins = "*")
-public class JwtAuthenticationFilter {}
-//    private final JwtService jwtService;
-//    private final RedisService redisService;
-//      @Autowired
-//    private static JwtMap jwtMap;
-//    @Override
-//    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-//        String jwt = extractTokenFromRequest(exchange);
-//
-//        log.info("JWT: " + jwt);
-//        String path = exchange.getRequest().getPath().toString();
-//        log.info("Path: " + path);
-//        if (jwt != null) {
-//
-//            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwtService.extractEmployeeCode(jwt)));
-////            String comparedJwtInRedis = redisService.get(jwtService.extractEmployeeCode(jwt));
-//
-//            if (comparedJwtInRedis != null) {
-//                if (jwtService.validateToken(jwt, comparedJwtInRedis)) {
-//                    String email = jwtService.extractEmail(jwt);
-//                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
-//                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-//                            email, null, authorities
-//                    );
-//
-//                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//                    return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
-//                }
-//            }
-//        }
-//
-//        return chain.filter(exchange);
-//    }
-//
-//    private String extractTokenFromRequest(ServerWebExchange exchange) {
-//        String authorizationHeader = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
-//        log.info("Authorization header: " + authorizationHeader);
-//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-//            return authorizationHeader.substring(7);
-//        }
-//        return null;
-//    }
-//}
+@Slf4j
+@Component
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+public class JwtAuthenticationFilter implements WebFilter{
+    private final JwtService jwtService;
+    private final RedisService redisService;
+      @Autowired
+    private static JwtMap jwtMap;
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        String jwt = extractTokenFromRequest(exchange);
+
+        log.info("JWT: " + jwt);
+        String path = exchange.getRequest().getPath().toString();
+        log.info("Path: " + path);
+        if (jwt != null) {
+
+            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwtService.extractEmployeeCode(jwt)));
+//            String comparedJwtInRedis = redisService.get(jwtService.extractEmployeeCode(jwt));
+
+            if (comparedJwtInRedis != null) {
+                if (jwtService.validateToken(jwt, comparedJwtInRedis)) {
+                    String email = jwtService.extractEmail(jwt);
+                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                            email, null, authorities
+                    );
+
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
+                }
+            }
+        }
+
+        return chain.filter(exchange);
+    }
+
+    private String extractTokenFromRequest(ServerWebExchange exchange) {
+        String authorizationHeader = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
+        log.info("Authorization header: " + authorizationHeader);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null;
+    }
+}
