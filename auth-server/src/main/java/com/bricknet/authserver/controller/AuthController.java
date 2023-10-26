@@ -8,6 +8,7 @@ import com.bricknet.authserver.service.AuthService;
 import com.bricknet.authserver.service.JwtService;
 import com.bricknet.authserver.service.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?>login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?>login(@Valid @RequestBody AuthRequest authRequest) {
 
         try {
             return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
@@ -48,7 +49,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.checkOtp(username,otp),HttpStatus.OK);
     }
     @PostMapping(value = "/reset")
-    public ResponseEntity<String>resetPassword(HttpServletRequest request,@RequestBody ForgetPassword forgetPassword) {
+    public ResponseEntity<String>resetPassword(HttpServletRequest request,@Valid @RequestBody ForgetPassword forgetPassword) {
         String authorizationHeader = request.getHeader("Authorization");
 
         String username =jwtUtil.extractClaim(authorizationHeader,"employeeCode");
