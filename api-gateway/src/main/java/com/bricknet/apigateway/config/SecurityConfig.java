@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @CrossOrigin(origins = "*")
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    //private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public ReactiveAuthenticationManager authenticationManager() {
@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .pathMatchers("/profile/AllProfile/**").hasRole("ADMIN")
                         .anyExchange().authenticated()
                 )
-                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                //.addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
 
