@@ -4,6 +4,8 @@ import com.BrickNet.TaskCenter.model.Priority;
 import com.BrickNet.TaskCenter.model.Status;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,43 +29,63 @@ public class TodoDTO {
 
     @Valid
     @NotNull(message = "Title can't be null")
+    @NotBlank(message = "Title can't be blank")
+    @NotEmpty(message = "Title can't be empty")
     private String title;
 
     @Valid
     @NotNull(message = "Description can't be null")
+    @NotBlank(message = "Description can't be blank")
+    @NotEmpty(message = "Description can't be empty")
     private String description;
 
     @Valid
     @NotNull(message = "Estimated Start Date can't be null")
+    @NotBlank(message = "Estimated Start Date can't be blank")
+    @NotEmpty(message = "Estimated Start Date can't be empty")
     private LocalDate estimatedStartDate;
 
     @Valid
     @NotNull(message = "Actual Start Date can't be null")
+    @NotBlank(message = "Actual Start Date can't be blank")
+    @NotEmpty(message = "Actual Start Date can't be empty")
     private LocalDate actualStartDate;
 
     @Valid
     @NotNull(message = "Estimate End Date can't be null")
+    @NotBlank(message = "Estimate End Date can't be blank")
+    @NotEmpty(message = "Estimate End Date can't be empty")
     private LocalDate estimatedEndDate;
 
     @Valid
     @NotNull(message = "Actual End Date can't be null")
+    @NotBlank(message = "Actual End Date can't be blank")
+    @NotEmpty(message = "Actual End Date can't be empty")
     private LocalDate actualEndDate;
 
     @Valid
     @NotNull(message = "Status can't be null")
+    @NotBlank(message = "Status can't be blank")
+    @NotEmpty(message = "Status can't be empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @Valid
     @NotNull(message = "Priority can't be null")
+    @NotBlank(message = "Priority can't be blank")
+    @NotEmpty(message = "Priority can't be empty")
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
     @Valid
     @NotNull(message = "Employee Assigned By can't be null")
+    @NotBlank(message = "Employee Assigned By can't be blank")
+    @NotEmpty(message = "Employee Assigned By can't be empty")
     private String employeeAssignedBy;
 
     @Valid
     @NotNull(message = "Employee Assigned To can't be null")
+    @NotBlank(message = "Employee Assigned To can't be blank")
+    @NotEmpty(message = "Employee Assigned To can't be empty")
     private List<String> employeeAssignedTo;
 }
