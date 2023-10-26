@@ -40,7 +40,7 @@ public class UserProfile {
 
     public Mono<UserAuthInfo> passwordUpdate(ForgetPassword forgetPassword) {
         return webClientBuilder
-                .build().post().uri(uriBuilder -> uriBuilder.path("/user/profile/passwordUpdate")
+                .build().post().uri(uriBuilder ->uriBuilder.path("/user/profile/passwordUpdate")
                         .build())
                 .bodyValue(forgetPassword)
                 .retrieve()
