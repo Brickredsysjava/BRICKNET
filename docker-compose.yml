@@ -78,4 +78,7 @@ services:
             - "9268:9268"
           volumes:
             - ~/mediaservice/mediaservice.jar:/mediaservice.jar
+            - media_files:/upload:rw
           command: [ "java", "-jar", "mediaservice.jar" ]
+volumes:
+  media_files:

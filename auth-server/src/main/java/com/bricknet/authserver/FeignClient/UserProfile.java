@@ -15,10 +15,10 @@ import reactor.core.publisher.Mono;
 @Component
 public class UserProfile {
 
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
 
     public UserProfile(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8081/user/profile");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:9090");
     }
 
 //    public void UserProfileWebClient(WebClient.Builder webClientBuilder) {
@@ -31,7 +31,7 @@ public class UserProfile {
 
     public Mono<UserAuthInfo> getByUserName(String username) {
         return webClientBuilder.build().get()
-                .uri(uriBuilder -> uriBuilder.path("/profileFromUserName")
+                .uri(uriBuilder -> uriBuilder.path("/user/profile/profileFromUserName")
                         .queryParam("username", username)
                         .build())
                 .retrieve()
@@ -40,7 +40,7 @@ public class UserProfile {
 
     public Mono<UserAuthInfo> passwordUpdate(ForgetPassword forgetPassword) {
         return webClientBuilder
-                .build().post().uri(uriBuilder -> uriBuilder.path("/passwordUpdate")
+                .build().post().uri(uriBuilder ->uriBuilder.path("/user/profile/passwordUpdate")
                         .build())
                 .bodyValue(forgetPassword)
                 .retrieve()

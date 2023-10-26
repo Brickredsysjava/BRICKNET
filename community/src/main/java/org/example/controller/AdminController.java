@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.example.dto.AdminPostVerificationDto;
 import org.example.dto.CommunityGetDto;
 import org.example.exception.CommunityException;
@@ -23,7 +24,7 @@ public class AdminController {
     private CommunityServiceImplementation communityService;
     @PostMapping("/postVerification")
     @Operation(summary = "For verification from the admin")
-    public ResponseEntity<String> postVerification(@RequestBody AdminPostVerificationDto adminPostVerificationDto) throws CommunityException, ServiceNotFoundException {
+    public ResponseEntity<String> postVerification(@Valid @RequestBody AdminPostVerificationDto adminPostVerificationDto) throws CommunityException, ServiceNotFoundException {
 
         String res=communityService.postVerification(adminPostVerificationDto);
         return new ResponseEntity<>(res, HttpStatus.OK);
