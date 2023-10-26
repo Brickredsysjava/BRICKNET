@@ -55,13 +55,11 @@ public class AllDTO {
 
     @Valid
     @NotNull(message = "Estimate Start Date can't be null")
-    @NotBlank(message = "Estimated Start Date can't be blank")
     @NotEmpty(message = "Estimated Start Date can't be empty")
     private LocalDate estimatedStartDate;
 
     @Valid
     @NotNull(message = "Employee End Date can't be null")
-    @NotBlank(message = "Estimate End Date can't be blank")
     @NotEmpty(message = "Estimate End Date can't be empty")
     private LocalDate estimatedEndDate;
 

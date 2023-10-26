@@ -41,25 +41,21 @@ public class TodoDTO {
 
     @Valid
     @NotNull(message = "Estimated Start Date can't be null")
-    @NotBlank(message = "Estimated Start Date can't be blank")
     @NotEmpty(message = "Estimated Start Date can't be empty")
     private LocalDate estimatedStartDate;
 
     @Valid
     @NotNull(message = "Actual Start Date can't be null")
-    @NotBlank(message = "Actual Start Date can't be blank")
     @NotEmpty(message = "Actual Start Date can't be empty")
     private LocalDate actualStartDate;
 
     @Valid
     @NotNull(message = "Estimate End Date can't be null")
-    @NotBlank(message = "Estimate End Date can't be blank")
     @NotEmpty(message = "Estimate End Date can't be empty")
     private LocalDate estimatedEndDate;
 
     @Valid
     @NotNull(message = "Actual End Date can't be null")
-    @NotBlank(message = "Actual End Date can't be blank")
     @NotEmpty(message = "Actual End Date can't be empty")
     private LocalDate actualEndDate;
 
