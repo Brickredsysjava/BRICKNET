@@ -37,8 +37,9 @@ public class AuthController {
         }
     }
     @GetMapping(value = "/getOtp")
-    public ResponseEntity<String>getOtp(@RequestParam String username ) {
-        return new ResponseEntity<>(authService.getOtp(username),HttpStatus.OK);
+    public ResponseEntity<String>getOtp(@RequestParam String username ) throws Exception {
+        authService.getOtp(username);
+        return new ResponseEntity<>("",HttpStatus.OK);
     }
     @GetMapping(value = "/checkOtp")
     public ResponseEntity<String>checkOtp(HttpServletRequest request,@RequestParam String username, String otp ) {
