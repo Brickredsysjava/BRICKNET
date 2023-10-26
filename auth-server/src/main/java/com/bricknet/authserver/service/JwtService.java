@@ -40,55 +40,6 @@ public class JwtService {
         return
                 Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
-    public  Claims parseJwt(String jwtToken) {
 
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(jwtToken)
-                    .getBody();
-
-            return claims;
-        } catch (Exception e) {
-            // Handle exception (e.g., token is invalid or expired)
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public static Claims extractClaims(String jwtToken) {
-
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(jwtToken)
-                    .getBody();
-
-            return claims;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static String extractClaim(String authorizationHeader,String claimName) {
-        String jwtToken = extractBearerToken(authorizationHeader);
-
-        Claims claims = extractClaims(jwtToken);
-
-        if (claims != null) {
-            return (String) claims.get(claimName);
-        } else {
-            System.out.println("Failed to extract claims from JWT.");
-        }
-        return "no claim found with name "+claimName;
-    }
-
-    public static String extractBearerToken(String authorizationHeader) {
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);  // "Bearer " is 7 characters
-        }
-
-        return null;
-    }
 
 }
