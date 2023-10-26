@@ -33,7 +33,7 @@ public class AuthController {
         }
     }
     @GetMapping(value = "/getOtp")
-    public ResponseEntity<String>getOtp(@RequestParam String username ) {
+    public ResponseEntity<String>getOtp(@RequestParam String username ) throws Exception {
         return new ResponseEntity<>(authService.getOtp(username),HttpStatus.OK);
     }
     @GetMapping(value = "/checkOtp")
