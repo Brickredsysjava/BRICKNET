@@ -18,8 +18,8 @@ public class NotificationServiceImplementation implements NotificationService {
     @Override
     public void pushNotification (NotificationDTO notificationDTO) throws ServiceNotFoundException
     {
-//        String jsonBody ="{\"key\": \"value\"}";
-//        webClientBuilder.baseUrl("http://20.198.3.41:8080/send")
-//                .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
+        String jsonBody ="{\"key\": \"value\"}";
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send")
+                .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
     }
 }
