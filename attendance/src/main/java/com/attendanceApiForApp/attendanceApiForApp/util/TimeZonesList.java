@@ -7,5 +7,6 @@ public class TimeZonesList {
     public Set<String> getTimeZones() {
         Set<String> timeZones = ZoneId.getAvailableZoneIds();
         return timeZones;
+
     }
 }

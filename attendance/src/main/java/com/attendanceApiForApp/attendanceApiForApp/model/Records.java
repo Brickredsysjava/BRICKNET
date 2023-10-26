@@ -2,9 +2,11 @@ package com.attendanceApiForApp.attendanceApiForApp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,14 +18,24 @@ import java.util.Date;
 @Table(name = "record")
 public class Records {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long record_id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "record_id", columnDefinition = "VARCHAR(255)")
+    private String record_id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "auto_id", nullable = false)
     private Employee employee;
 
     @Column(nullable = false)
     private Date date;
+    @Column(nullable = true)
+    private String durations;
+    @Column(nullable = true)
+    private String timezone;
+    @Column(nullable = false)
+    private boolean status = false;
+    @Column(nullable = true)
+    private boolean timeZoneSelected = false;
 
 }
