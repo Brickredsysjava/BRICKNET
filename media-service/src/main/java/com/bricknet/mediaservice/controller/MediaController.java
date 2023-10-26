@@ -26,9 +26,10 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/media")
 public class MediaController {
     @Value("${uploadDirectory}")
-    public    String uploadDirectory ;
+    public String uploadDirectory ;
     @PostMapping("/images/upload-api")
     @ResponseBody
     public ResponseEntity<Object> handleImageUpload(@RequestParam("files")
@@ -99,6 +100,11 @@ public class MediaController {
 
         // Return the image file as a response
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping("/test")
+    public String getTest(){
+        return "This is media service";
     }
 
 }

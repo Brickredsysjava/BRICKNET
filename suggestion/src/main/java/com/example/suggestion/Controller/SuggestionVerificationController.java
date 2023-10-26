@@ -17,7 +17,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/suggestion/api/verification")
+@CrossOrigin("*")
+@RequestMapping("/suggestionPost/api/verification")
 public class SuggestionVerificationController
 {
     @Autowired
