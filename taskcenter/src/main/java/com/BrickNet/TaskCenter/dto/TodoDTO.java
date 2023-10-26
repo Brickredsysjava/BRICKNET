@@ -75,4 +75,5 @@ public class TodoDTO {
     @NotNull(message = "Employee Assigned To can't be null")
     @NotEmpty(message = "Employee Assigned To can't be empty")
     private List<String> employeeAssignedTo;
+
 }
