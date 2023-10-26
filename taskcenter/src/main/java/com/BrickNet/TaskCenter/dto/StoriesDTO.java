@@ -35,7 +35,7 @@ public class StoriesDTO {
     private String description;
 
     @Valid
-    @NotNull(message = "Status can't be null")
+    @NotNull(message = "Status can't be null or empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -46,17 +46,17 @@ public class StoriesDTO {
     private String employeeAssignedBy;
 
     @Valid
-    @NotNull(message = "Employee Assigned To can't be null")
+    @NotNull(message = "Employee Assigned To can't be null or empty")
     @NotBlank(message = "Employee Assigned To can't be blank")
     @NotEmpty(message = "Employee Assigned To can't be empty")
     private List<String> employeeAssignedTo;
 
     @Valid
-    @NotNull(message = "Estimate Start Date can't be null")
+    @NotNull(message = "Estimate Start Date can't be null or empty")
     private LocalDate estimatedStartDate;
 
     @Valid
-    @NotNull(message = "Employee End Date can't be null")
+    @NotNull(message = "Employee End Date can't be null or empty")
     private LocalDate estimatedEndDate;
 
 }

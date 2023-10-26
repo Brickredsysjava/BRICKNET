@@ -35,7 +35,7 @@ public class AllDTO {
     private String description;
 
     @Valid
-    @NotNull(message = "Status can't be null")
+    @NotNull(message = "Status can't be null or empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -51,11 +51,11 @@ public class AllDTO {
     private List<String> employeeAssignedTo;
 
     @Valid
-    @NotNull(message = "Estimate Start Date can't be null")
+    @NotNull(message = "Estimate Start Date can't be null or empty")
     private LocalDate estimatedStartDate;
 
     @Valid
-    @NotNull(message = "Employee End Date can't be null")
+    @NotNull(message = "Employee End Date can't be null or empty")
     private LocalDate estimatedEndDate;
 
 }
