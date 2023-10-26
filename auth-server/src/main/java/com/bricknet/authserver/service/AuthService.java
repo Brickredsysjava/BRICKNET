@@ -78,7 +78,7 @@ public class AuthService {
 
         return response;
     }
-    public String getOtp(String username) throws Exception {
+    public void getOtp(String username) throws Exception {
         AuthService authService=new AuthService();
         UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
         String token= jwtService.generateToken(userAuthInfo);
@@ -86,7 +86,6 @@ public class AuthService {
         String OTP= String.valueOf(100000 + random.nextInt(900000));
         otpMap.put(username,OTP);
         OtpService.sendOTPEmail(userAuthInfo.getCompanyEmail(), OTP);
-        return OTP;
     }
 
     public String checkOtp(String username,String Otp){
