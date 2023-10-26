@@ -11,6 +11,7 @@ import com.example.suggestion.Model.Suggestion;
 import com.example.suggestion.Service.SuggestionService;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class SuggestionController
 
     //API TO ADD A SUGGESTION
     @PostMapping("/addSuggestion")
-    public ResponseEntity<String> addSuggestion(@RequestBody SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException {
+    public ResponseEntity<String> addSuggestion(@Valid @RequestBody SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException {
 
         suggestionService.addSuggestion(suggestionDto);
         return ResponseEntity.ok("SUGGESTION SEND SUCCESSFULLY");
