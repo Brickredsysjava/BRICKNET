@@ -7,6 +7,7 @@ import com.BrickNet.TaskCenter.model.Todo;
 import com.BrickNet.TaskCenter.repository.TodoRepository;
 import com.BrickNet.TaskCenter.serviceImpl.TodoServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @PostMapping("/create-to-do")
-    public ResponseEntity<?> addToDo( @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException , ServiceNotFoundException {
+    public ResponseEntity<?> addToDo(@Valid @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException , ServiceNotFoundException {
         try{
             todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             TodoDTO savedTodo = todoService.addToDo(todoDTO);
@@ -49,7 +50,7 @@ public class TodoController {
     }
 
     @PutMapping("/update-created-to-do")
-    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id, @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException {
+    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException {
         try{
             todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.CREATED);

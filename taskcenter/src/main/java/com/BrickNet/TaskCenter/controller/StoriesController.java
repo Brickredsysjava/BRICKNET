@@ -22,8 +22,6 @@ public class StoriesController {
     @Autowired
     private StoriesTaskServiceImpl storiesTaskService;
 
-//    private String baseUrl = "http://192.168.1.107:8089/todo/myTask";
-
     @GetMapping("/getStories")
     public ResponseEntity<?> getStories(@RequestParam("userId") String userId)throws TodoException {
         try{
