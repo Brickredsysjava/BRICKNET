@@ -6,7 +6,6 @@ import com.bricknet.authserver.Dto.JwtResponse;
 import com.bricknet.authserver.Exception.LoginException;
 import com.bricknet.authserver.service.AuthService;
 import com.bricknet.authserver.service.JwtService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
