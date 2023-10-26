@@ -59,7 +59,7 @@ private CommunityServiceImplementation communityService;
 
     @PostMapping("/addLike")
     @Operation(summary = "For like the community post")
-    public ResponseEntity<String> addLike(@RequestBody CommunityAddLikeDto communityAddLikeDto,HttpServletRequest request) throws CommunityException {
+    public ResponseEntity<String> addLike(@Valid @RequestBody CommunityAddLikeDto communityAddLikeDto,HttpServletRequest request) throws CommunityException {
 
         communityAddLikeDto.setEmployeeCode((String) request.getAttribute("employeeCode"));
         String res=communityService.addlike(communityAddLikeDto);
@@ -68,7 +68,7 @@ private CommunityServiceImplementation communityService;
 
     @DeleteMapping("/deletePost")
     @Operation(summary = "For delete the community post")
-    public ResponseEntity<String> deletePost(@RequestBody CommunityPostDeleteDto communityPostDeleteDto,HttpServletRequest request) throws CommunityException {
+    public ResponseEntity<String> deletePost(@Valid @RequestBody CommunityPostDeleteDto communityPostDeleteDto,HttpServletRequest request) throws CommunityException {
         try {
             communityPostDeleteDto.setEmployeeCode((String) request.getAttribute("employeeCode"));
             return new ResponseEntity<>(communityService.deletePost(communityPostDeleteDto), HttpStatus.OK);
