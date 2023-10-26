@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/stories")
 public class StoriesController {
 
@@ -31,5 +32,7 @@ public class StoriesController {
             return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 }

@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build taskcenter') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd taskcenter && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy taskcenter') {
+             steps {
+
+                 sh "ssh root@192.168.1.9 'cd /root'"
+                 sh "ssh root@192.168.1.9 'rm -rf taskcenter || true'"
+                 sh "ssh root@192.168.1.9 'mkdir taskcenter'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/target/taskcenter.jar root@192.168.1.9:~/taskcenter/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/Dockerfile root@192.168.1.9:~/taskcenter/'
+
+                 sh "ssh root@192.168.1.9 'docker stop root_task-center_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rm root_task-center_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker rmi root_task-center_1 || true'"
+                 sh "ssh root@192.168.1.9 'docker build -t root_task-center_1 /root/taskcenter'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9099:9099 --name root_task-center_1 root_task-center_1'"
+             }
+         }        
+	
+     }
+     
+  }   

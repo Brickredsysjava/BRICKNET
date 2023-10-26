@@ -17,6 +17,7 @@ import javax.management.ServiceNotFoundException;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/to-do")
 public class TodoController {
 
@@ -68,4 +69,8 @@ public class TodoController {
 
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "Hello !! THis is taskcenter";
+    }
 }

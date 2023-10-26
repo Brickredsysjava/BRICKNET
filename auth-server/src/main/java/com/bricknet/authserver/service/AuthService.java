@@ -1,77 +1,119 @@
 package com.bricknet.authserver.service;
-
-import com.bricknet.authserver.Dto.AuthRequest;
-import com.bricknet.authserver.Dto.ForgetPassword;
-import com.bricknet.authserver.Dto.NotificationDto;
-import com.bricknet.authserver.Dto.UserAuthInfo;
+import com.bricknet.authserver.Dto.*;
+import com.bricknet.authserver.Exception.LoginException;
 import com.bricknet.authserver.FeignClient.Notification;
 import com.bricknet.authserver.FeignClient.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.Random;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UserProfile userprofile;
+    private static UserProfile userProfile ;
+
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-   @Autowired
+    @Autowired
     private  RedisService redisService;
     @Autowired
     private JwtService jwtService;
+
+    private Map<String, String> jwtMap;
+    private Map<String, String> otpMap;
+
     @Autowired
-    private Notification notificationService;
+    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService, Map<String, String> jwtMap, Map<String, String> otpMap) {
+        this.userProfile = userProfile;
+        this.passwordEncoder = passwordEncoder;
+        this.redisService = redisService;
+        this.jwtService = jwtService;
+        this.notificationService = notificationService;
+        this.jwtMap = jwtMap;
+        this.otpMap = otpMap;
+    }
 
+    public AuthService() {
 
+    }
 
-    public String login(AuthRequest authRequest) {
-       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(authRequest.getUsername()).block();
-       if(userAuthInfo==null){
-           return "Username not found";
-       }
+    public static Mono<UserAuthInfo> getUserByUsername(String username) {
+        return userProfile.getByUserName(username);
+    }
+
+    public static Mono<UserAuthInfo> updatePassword(ForgetPassword forgetPassword) {
+        return userProfile.passwordUpdate(forgetPassword);
+    }
+
+    public Object login(AuthRequest authRequest) throws LoginException {
+        JwtResponse response = new JwtResponse();
+        UserAuthInfo userAuthInfo = AuthService.getUserByUsername(authRequest.getUsername()).block();
+        if(userAuthInfo==null){
+            throw new LoginException("Username not found");
+        }
         if (userAuthInfo == null || !passwordEncoder.matches(authRequest.getPassword(), userAuthInfo.getPassword())) {
 
-            return "Invalid Password";
+            throw new LoginException( "Invalid Password");
         }
-      String token= jwtService.generateToken(userAuthInfo);
-//        try {
+        String token= jwtService.generateToken(userAuthInfo);
+        try {
 //            redisService.set(userAuthInfo.getEmployeeCode(), token);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        return token;
+            jwtMap.put(token,userAuthInfo.getEmployeeCode());
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        response.setRole(userAuthInfo.getRole());
+        response.setUsername(userAuthInfo.getEmployeeName());
+        response.setUserId(userAuthInfo.getUuid());
+        response.setJwtTokens(token);
+        response.setEmpCode(userAuthInfo.getEmployeeCode());
+
+        return response;
     }
-   public String getOtp(String username){
-       UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).block();
-       String token= jwtService.generateToken(userAuthInfo);
+    public String getOtp(String username) throws Exception {
+        AuthService authService=new AuthService();
+        UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
+        String token= jwtService.generateToken(userAuthInfo);
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
-        redisService.set(username,OTP);
-        NotificationDto notificationDto=new NotificationDto("This is your OTP  "+OTP,userAuthInfo.getCompanyEmail());
-        notificationService.sendEmailNotification(notificationDto);
-        return  OTP;
+        otpMap.put(username,OTP);
+        OtpService.sendOTPEmail(userAuthInfo.getCompanyEmail(), OTP);
+        return OTP;
     }
 
     public String checkOtp(String username,String Otp){
-     String OTP= redisService.get(username);
-        UserAuthInfo userAuthInfo = (UserAuthInfo) userprofile.getByUserName(username).block();
+        AuthService authService=new AuthService();
+
+        UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
+        String OTP= otpMap.get(username);
+
+//     String OTP= redisService.get(username);
         String token= jwtService.generateToken(userAuthInfo);
 
-     if(OTP.equals(Otp)){
-         redisService.set(userAuthInfo.getEmployeeCode(), token);
-return token;
-     }
-     redisService.remove(username);
-     return  "try again";
+        if(OTP.equals(Otp)){
+            jwtMap.put(userAuthInfo.getEmployeeCode(), token);
+            return token;
+        }
+        jwtMap.remove(username);
+        return  "try again";
     }
 
     public String resetPassword(ForgetPassword forgetPassword){
-        UserAuthInfo userAuthInfo=userprofile.passwordUpdate(forgetPassword).block();
+
+        UserAuthInfo userAuthInfo=AuthService.updatePassword(forgetPassword).block();
         return "password updated for "+userAuthInfo.getEmployeeCode();
+    }
+    public String checkJwt(  String jwt ) {
+        return jwtMap.get(jwt);
     }
 }
 
+ 
