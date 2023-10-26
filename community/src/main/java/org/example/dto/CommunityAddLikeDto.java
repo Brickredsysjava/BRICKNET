@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Builder
 public class CommunityAddLikeDto {
 
-   @NotNull
-   @NotBlank
+   @NotNull(message = "The postId must not be null")
+   @NotBlank(message = "The postId must not be blank")
    private String postId;
 
-   @NotNull
-   @NotBlank
+   @NotNull(message = "The employeeCode must not be null")
+   @NotBlank(message = "The employeeCode must not be blank")
    private String employeeCode;
 
    @NotNull(message = "The boolean field must not be null")
