@@ -28,7 +28,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?>login(@Valid @RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?>login(@RequestBody AuthRequest authRequest) {
 
         try {
             return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
