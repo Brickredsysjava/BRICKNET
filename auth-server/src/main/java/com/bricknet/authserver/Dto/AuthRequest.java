@@ -1,5 +1,6 @@
 package com.bricknet.authserver.Dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
