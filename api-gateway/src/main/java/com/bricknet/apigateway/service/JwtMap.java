@@ -9,7 +9,7 @@ public class JwtMap {
     private WebClient.Builder webClientBuilder;
 
     public JwtMap(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8083/auth");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://localhost:8083/auth");
     }
 
 
