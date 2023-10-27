@@ -44,7 +44,7 @@ public class ProfileController {
         NotificationDTO notificationDTO = new NotificationDTO();
         String message =
                 "You are created  \n" + "\n"
-                        + "UserId " + profileDTO.getCompanyEmail() + "\n"
+                        + "UserId " + profileDTO.getEmployeeCode() + "\n"
                         + "FROM: " + profileDTO.getPassword() +"\n" +
                         "\n";
 
