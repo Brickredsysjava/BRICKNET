@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter implements WebFilter{
         log.info("Path: " + path);
         if (jwt != null) {
 
-            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwtService.extractEmployeeCode(jwt)));
+            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwt));
 //            String comparedJwtInRedis = redisService.get(jwtService.extractEmployeeCode(jwt));
 
             if (comparedJwtInRedis != null) {
