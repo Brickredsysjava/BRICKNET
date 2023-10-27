@@ -3,6 +3,7 @@ package com.example.SuperAdmin.Controller;
 import com.example.SuperAdmin.DTO.UserDTO;
 import com.example.SuperAdmin.Entity.*;
 import com.example.SuperAdmin.ServiceImplementation.UserServiceImplementation;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class UserController {
     private UserServiceImplementation service;
 
     @PostMapping("/addUser")
-    public ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO) {
         User user = this.modelMapper.map(userDTO,User.class);
         User savedUser = service.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
@@ -30,7 +31,7 @@ public class UserController {
 
 
     @PostMapping("/addListOfUser")
-    public ResponseEntity<List<User>> addUserList(@RequestBody List<UserDTO> userDTOList) {
+    public ResponseEntity<List<User>> addUserList(@Valid @RequestBody List<UserDTO> userDTOList) {
     List<User> users = userDTOList.stream()
             .map(userDTO -> modelMapper.map(userDTO, User.class))
             .collect(Collectors.toList());
