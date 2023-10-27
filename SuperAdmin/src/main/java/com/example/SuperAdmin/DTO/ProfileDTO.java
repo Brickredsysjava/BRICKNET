@@ -30,7 +30,6 @@ public class ProfileDTO {
 
     @Valid
     @NotNull(message = "profile image is required")
-    @NotBlank(message = "profile image is required")
     private List<String> profileImage;
 
     @Valid
