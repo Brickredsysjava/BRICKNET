@@ -15,7 +15,7 @@ public class JwtMap {
 
     public Mono<String> getByjwt(String jwt) {
         return webClientBuilder.build().get()
-                .uri( "/checkJwt/"+jwt)
+                .uri( uriBuilder -> uriBuilder.path("/checkJwt").queryParam(jwt).build())
                 .retrieve()
                 .bodyToMono(String.class);
     }
