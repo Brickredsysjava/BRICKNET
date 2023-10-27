@@ -56,7 +56,7 @@ public class ProfileController {
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 
-        profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
+        //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
     }
