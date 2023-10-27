@@ -6,6 +6,7 @@ import com.microservices.Broadcasting.Entity.broadCasting;
 
 import com.microservices.Broadcasting.Service.GetBroadcastinginfo;
 import com.microservices.Broadcasting.Service.broadCastingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -97,7 +98,7 @@ public class broadCastController {
     }
 
     @PostMapping("/create_user")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         return new ResponseEntity<>(this.broadCastingService1.createUser(user), HttpStatus.CREATED);
     }
 
