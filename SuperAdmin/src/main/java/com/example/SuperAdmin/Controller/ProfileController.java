@@ -35,7 +35,7 @@ public class ProfileController {
     @Autowired
     private ModelMapper modelMapper;
 
-
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
