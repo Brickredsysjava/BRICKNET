@@ -65,4 +65,8 @@ public class AuthController {
         return  "Auth server is up and running";
     }
 
+    @GetMapping("/checkJwt")
+    public String checkJwt(@RequestParam String jwt){
+        return authService.checkJwt(jwt);
+    }
 }
