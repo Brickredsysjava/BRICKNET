@@ -75,7 +75,7 @@ public class AuthService {
         response.setUserId(userAuthInfo.getUuid());
         response.setJwtTokens(token);
         response.setEmpCode(userAuthInfo.getEmployeeCode());
-
+        response.setEmailId(userAuthInfo.getCompanyEmail());
         return response;
     }
     public void getOtp(String username) throws Exception {
