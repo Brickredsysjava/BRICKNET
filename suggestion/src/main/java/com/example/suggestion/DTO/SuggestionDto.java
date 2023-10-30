@@ -59,7 +59,6 @@ public class SuggestionDto {
 
     @Valid
     @NotNull(message = "likeCount can't be null")
-    @NotBlank(message = "likeCount can't be blank")
     private int likeCount;
 
     @Valid
