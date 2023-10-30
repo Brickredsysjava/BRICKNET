@@ -18,7 +18,7 @@ public class UserProfile {
     private final WebClient.Builder webClientBuilder;
 
     public UserProfile(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:9090");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8081");
     }
 
 //    public void UserProfileWebClient(WebClient.Builder webClientBuilder) {

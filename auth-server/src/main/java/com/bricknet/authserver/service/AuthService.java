@@ -65,7 +65,7 @@ public class AuthService {
         String token= jwtService.generateToken(userAuthInfo);
         try {
 //            redisService.set(userAuthInfo.getEmployeeCode(), token);
-            jwtMap.put(token,userAuthInfo.getEmployeeCode());
+            jwtMap.put(userAuthInfo.getEmployeeCode(),token);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class AuthService {
         response.setUserId(userAuthInfo.getUuid());
         response.setJwtTokens(token);
         response.setEmpCode(userAuthInfo.getEmployeeCode());
-
+        response.setEmailId(userAuthInfo.getCompanyEmail());
         return response;
     }
     public void getOtp(String username) throws Exception {
@@ -101,7 +101,7 @@ public class AuthService {
             jwtMap.put(userAuthInfo.getEmployeeCode(), token);
             return token;
         }
-        jwtMap.remove(username);
+        otpMap.remove(username);
         return  "try again";
     }
 
@@ -110,8 +110,8 @@ public class AuthService {
         UserAuthInfo userAuthInfo=AuthService.updatePassword(forgetPassword).block();
         return "password updated for "+userAuthInfo.getEmployeeCode();
     }
-    public String checkJwt(  String jwt ) {
-        return jwtMap.get(jwt);
+    public String checkJwt(  String empcode ) {
+        return jwtMap.get(empcode);
     }
 }
 
