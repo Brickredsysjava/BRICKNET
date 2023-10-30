@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @GetMapping("/checkJwt")
-    public String checkJwt(@RequestParam String jwt){
-        return authService.checkJwt(jwt);
+    public String checkJwt(@RequestParam String empcode){
+        return authService.checkJwt(empcode);
     }
 }
