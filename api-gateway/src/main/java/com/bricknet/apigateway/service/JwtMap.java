@@ -9,13 +9,20 @@ public class JwtMap {
     private WebClient.Builder webClientBuilder;
 
     public JwtMap(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://localhost:8083/auth");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://localhost:8083/    auth");
     }
 
 
+//    public Mono<String> getByjwt(String empcode) {
+//        return webClientBuilder.build().get()
+//                .uri( uriBuilder -> uriBuilder.path("/checkJwt").queryParam(empcode).build())
+//                .retrieve()
+//                .bodyToMono(String.class);
+//    }
+
     public Mono<String> getByjwt(String empcode) {
         return webClientBuilder.build().get()
-                .uri( uriBuilder -> uriBuilder.path("/checkJwt").queryParam(empcode).build())
+                .uri("/checkJwt?empcode="+empcode)
                 .retrieve()
                 .bodyToMono(String.class);
     }
