@@ -70,13 +70,11 @@ public class SuggestionDto {
 
     @Valid
     @NotNull(message = "likePercentage can't be null")
-    @NotBlank(message = "likePercentage can't be blank")
     private double likePercentage;
 
 
     @Valid
     @NotNull(message = "dislikePercentage can't be null")
-    @NotBlank(message = "dislikePercentage can't be blank")
     private double dislikePercentage;
 
     @Column(name = "suggestion_date")
