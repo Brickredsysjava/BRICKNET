@@ -50,7 +50,6 @@ public class SuggestionDto {
     @NotEmpty(message = "description can't be empty")
     private String description;
 
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Department department;
 
@@ -60,34 +59,24 @@ public class SuggestionDto {
 
     @Valid
     @NotNull(message = "likeCount can't be null")
-    @NotBlank(message = "likeCount can't be blank")
-    @NotEmpty(message = "likeCount can't be empty")
     private int likeCount;
 
     @Valid
     @NotNull(message = "dislikeCount can't be null")
-    @NotBlank(message = "dislikeCount can't be blank")
-    @NotEmpty(message = "dislikeCount can't be empty")
     private int dislikeCount;
 
 
     @Valid
     @NotNull(message = "likePercentage can't be null")
-    @NotBlank(message = "likePercentage can't be blank")
-    @NotEmpty(message = "likePercentage can't be empty")
     private double likePercentage;
-
 
     @Valid
     @NotNull(message = "dislikePercentage can't be null")
-    @NotBlank(message = "dislikePercentage can't be blank")
-    @NotEmpty(message = "dislikePercentage can't be empty")
     private double dislikePercentage;
 
     @Column(name = "suggestion_date")
     @Valid
     @NotNull(message = "suggestionDate can't be null")
-    @NotBlank(message = "suggestionDate can't be blank")
     @NotEmpty(message = "suggestionDate can't be empty")
     private LocalDate suggestionDate;
 
