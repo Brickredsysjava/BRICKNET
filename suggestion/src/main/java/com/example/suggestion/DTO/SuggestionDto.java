@@ -50,7 +50,6 @@ public class SuggestionDto {
     @NotEmpty(message = "description can't be empty")
     private String description;
 
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Department department;
 
