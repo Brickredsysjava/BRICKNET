@@ -38,13 +38,17 @@ public class JwtAuthenticationFilter implements WebFilter{
         log.info("JWT: " + jwt);
         String path = exchange.getRequest().getPath().toString();
         log.info("Path: " + path);
+        log.info("This is jwt -- ------");
+        log.info(jwt);
         if (jwt != null) {
 
             String empcode = jwtService.extractEmployeeCode(jwt);
-            log.info(empcode);
+            log.warn("This is empcode ---------------------");
+            log.warn(empcode);
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            log.info(comparedJwtInJWTMap);
+            log.warn("This is empcode ---------------------");
+            log.warn(comparedJwtInJWTMap);
             if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
