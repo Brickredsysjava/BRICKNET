@@ -72,7 +72,6 @@ public class SuggestionDto {
     @NotNull(message = "likePercentage can't be null")
     private double likePercentage;
 
-
     @Valid
     @NotNull(message = "dislikePercentage can't be null")
     private double dislikePercentage;
