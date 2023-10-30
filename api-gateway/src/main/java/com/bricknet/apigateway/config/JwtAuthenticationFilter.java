@@ -18,6 +18,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
@@ -28,7 +29,7 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
     private final RedisService redisService;
-      @Autowired
+    @Autowired
     private static JwtMap jwtMap;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -37,13 +38,19 @@ public class JwtAuthenticationFilter implements WebFilter{
         log.info("JWT: " + jwt);
         String path = exchange.getRequest().getPath().toString();
         log.info("Path: " + path);
+        log.info("This is jwt -- ------");
+        log.info(jwt);
         if (jwt != null) {
 
-            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwt));
-//            String comparedJwtInRedis = redisService.get(jwtService.extractEmployeeCode(jwt));
+            String empcode = jwtService.extractEmployeeCode(jwt);
+            log.warn("This is empcode ---------------------");
+            log.warn(empcode);
 
-            if (comparedJwtInRedis != null) {
-                if (jwtService.validateToken(jwt, comparedJwtInRedis)) {
+            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            log.warn("This is empcode ---------------------");
+            log.warn(comparedJwtInJWTMap);
+            if (comparedJwtInJWTMap != null) {
+                if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

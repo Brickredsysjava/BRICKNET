@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.ServiceNotFoundException;
@@ -34,8 +35,8 @@ public class ProfileController {
     @Autowired
     private ModelMapper modelMapper;
 
-
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/addProfile")
@@ -43,8 +44,8 @@ public class ProfileController {
         NotificationDTO notificationDTO = new NotificationDTO();
         String message =
                 "You are created  \n" + "\n"
-                        + "UserId " + profileDTO.getCompanyEmail() + "\n"
-                        + "FROM: " + profileDTO.getPassword() +"\n" +
+                        + "UserId:" + profileDTO.getEmployeeCode() + "\n"
+                        + "Password: " + profileDTO.getPassword() +"\n" +
                         "\n";
 
         notificationDTO.setMessage(message);
@@ -55,7 +56,7 @@ public class ProfileController {
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 
-//        profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
+        //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
     }
