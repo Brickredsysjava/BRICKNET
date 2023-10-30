@@ -84,7 +84,6 @@ public class SuggestionDto {
 
     @Valid
     @NotNull(message = "verificationStatusMessage can't be null")
-    @NotBlank(message = "verificationStatusMessage can't be blank")
     @NotEmpty(message = "verificationStatusMessage can't be empty")
     private String verificationStatusMessage;
 
