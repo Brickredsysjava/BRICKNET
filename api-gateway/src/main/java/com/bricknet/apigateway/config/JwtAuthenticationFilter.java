@@ -28,7 +28,7 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
     private final RedisService redisService;
-      @Autowired
+    @Autowired
     private static JwtMap jwtMap;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -39,11 +39,10 @@ public class JwtAuthenticationFilter implements WebFilter{
         log.info("Path: " + path);
         if (jwt != null) {
 
-            String comparedJwtInRedis = String.valueOf(jwtMap.getByjwt(jwt));
-//            String comparedJwtInRedis = redisService.get(jwtService.extractEmployeeCode(jwt));
+            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(jwtService.extractEmployeeCode(jwt)));
 
-            if (comparedJwtInRedis != null) {
-                if (jwtService.validateToken(jwt, comparedJwtInRedis)) {
+            if (comparedJwtInJWTMap != null) {
+                if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
