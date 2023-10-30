@@ -18,6 +18,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
@@ -39,8 +40,11 @@ public class JwtAuthenticationFilter implements WebFilter{
         log.info("Path: " + path);
         if (jwt != null) {
 
-            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(jwtService.extractEmployeeCode(jwt)));
+            String empcode = jwtService.extractEmployeeCode(jwt);
+            log.info(empcode);
 
+            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            log.info(comparedJwtInJWTMap);
             if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
