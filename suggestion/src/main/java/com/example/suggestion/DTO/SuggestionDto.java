@@ -26,13 +26,6 @@ public class SuggestionDto {
 
 
     @Valid
-    @NotNull(message = "ticket_id can't be null")
-    @NotBlank(message = "ticket_id can't be blank")
-    @NotEmpty(message = "ticket_id can't be empty")
-    private String ticket_id;
-
-
-    @Valid
     @NotNull(message = "username can't be null")
     @NotBlank(message = "username can't be blank")
     @NotEmpty(message = "username can't be empty")
@@ -77,7 +70,6 @@ public class SuggestionDto {
     @Column(name = "suggestion_date")
     @Valid
     @NotNull(message = "suggestionDate can't be null")
-    @NotEmpty(message = "suggestionDate can't be empty")
     private LocalDate suggestionDate;
 
     private Boolean adminVerified;
@@ -86,6 +78,7 @@ public class SuggestionDto {
     @NotNull(message = "verificationStatusMessage can't be null")
     @NotEmpty(message = "verificationStatusMessage can't be empty")
     private String verificationStatusMessage;
+
 
 
 }
