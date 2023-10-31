@@ -28,7 +28,6 @@ public class JwtMap {
                 .uri("/checkJwt?empcode="+empcode)
                 .retrieve()
                 .bodyToMono(String.class);
-        setToken(result);
         return result;
     }
 

@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn("This is empcode ---------------------");
             log.warn(empcode);
             Mono<String> monres = jwtMap.getByjwt(empcode);
+            jwtMap.setToken(monres);
             String thisii = jwtMap.getTokenFromAuth();
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
