@@ -46,8 +46,9 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn("This is empcode ---------------------");
             log.warn(empcode);
 
-            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            log.warn("This is empcode ---------------------");
+            //String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            String comparedJwtInJWTMap = redisService.get(empcode);
+            log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
             if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
