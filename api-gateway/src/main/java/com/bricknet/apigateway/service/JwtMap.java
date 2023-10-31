@@ -9,7 +9,7 @@ public class JwtMap {
     private WebClient.Builder webClientBuilder;
 
     public JwtMap(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://localhost:8083/auth");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8083/auth");
     }
 
 
@@ -21,7 +21,7 @@ public class JwtMap {
 //    }
     public Mono<String> getByjwt(String empcode) {
         return webClientBuilder.build().get()
-                .uri("/checkJwt?empcode="+empcode)
+                .uri(uriBuilder -> uriBuilder.path("/checkJwt").queryParam(empcode).build())
                 .retrieve()
                 .bodyToMono(String.class);
     }
