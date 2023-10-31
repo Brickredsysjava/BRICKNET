@@ -30,7 +30,7 @@ pipeline {
                  sh "ssh root@192.168.1.9 'docker rm root_notification_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rmi root_notification_1 || true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_notification_1 /root/notification'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8084:8084 --name root_notification_1 root_notification_1'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8084:8084 --network=root_default --name root_notification_1 root_notification_1'"
              }
          }        
 	
