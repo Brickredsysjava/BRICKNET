@@ -41,7 +41,7 @@ public class SuggestionDto {
     @NotNull(message = "description can't be null")
     @NotBlank(message = "description can't be blank")
     @NotEmpty(message = "description can't be empty")
-    private Clob description;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private Department department;

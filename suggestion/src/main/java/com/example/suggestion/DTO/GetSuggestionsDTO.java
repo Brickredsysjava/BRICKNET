@@ -23,7 +23,7 @@ public class GetSuggestionsDTO {
 
     private String subjectTitle;
 
-    private Clob description;
+    private String description;
 
     private Department department;
 

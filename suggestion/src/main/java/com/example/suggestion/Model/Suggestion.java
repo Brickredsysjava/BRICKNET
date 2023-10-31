@@ -34,7 +34,7 @@ public class Suggestion{
     private String subjectTitle;
 
     @NotNull
-    private Clob description;
+    private String description;
 
     @NotNull
     @Enumerated(EnumType.STRING)
