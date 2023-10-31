@@ -87,4 +87,5 @@ public class SuggestionDto {
     private String verificationStatusMessage;
 
 
+
 }
