@@ -20,12 +20,9 @@ public class JwtMap {
 //                .bodyToMono(String.class);
 //    }
     public Mono<String> getByjwt(String empcode) {
-        Mono<String> res = webClientBuilder.build().get()
+        return webClientBuilder.build().get()
                 .uri("/checkJwt?empcode="+empcode)
                 .retrieve()
                 .bodyToMono(String.class);
-        return res.map( res1 -> {
-            return res1;
-        });
     }
 }
