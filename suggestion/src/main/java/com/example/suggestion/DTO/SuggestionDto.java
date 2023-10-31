@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
+import java.sql.Clob;
 import java.time.LocalDate;
 
 
@@ -40,7 +41,7 @@ public class SuggestionDto {
     @NotNull(message = "description can't be null")
     @NotBlank(message = "description can't be blank")
     @NotEmpty(message = "description can't be empty")
-    private String description;
+    private Clob description;
 
     @Enumerated(EnumType.STRING)
     private Department department;

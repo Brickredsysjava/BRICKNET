@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.sql.Clob;
 import java.time.LocalDate;
 
 
@@ -32,7 +34,7 @@ public class Suggestion{
     private String subjectTitle;
 
     @NotNull
-    private String description;
+    private Clob description;
 
     @NotNull
     @Enumerated(EnumType.STRING)

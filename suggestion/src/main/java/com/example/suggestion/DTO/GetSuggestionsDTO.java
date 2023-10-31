@@ -4,6 +4,7 @@ import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import lombok.*;
 
+import java.sql.Clob;
 import java.time.LocalDate;
 
 
@@ -22,7 +23,7 @@ public class GetSuggestionsDTO {
 
     private String subjectTitle;
 
-    private String description;
+    private Clob description;
 
     private Department department;
 
