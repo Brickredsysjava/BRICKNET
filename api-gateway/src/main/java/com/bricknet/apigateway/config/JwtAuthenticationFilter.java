@@ -54,8 +54,8 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
             log.warn("This is something ------" + mm);
-            if (comparedJwtInJWTMap != null) {
-                if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
+            if (mm != null) {
+                if (jwtService.validateToken(jwt, mm)) {
                     String email = jwtService.extractEmail(jwt);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
