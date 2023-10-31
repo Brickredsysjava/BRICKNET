@@ -25,10 +25,6 @@ import java.time.LocalDate;
 public class SuggestionDto {
 
 
-    @Valid
-    @NotNull(message = "ticket_id can't be null")
-    @NotBlank(message = "ticket_id can't be blank")
-    @NotEmpty(message = "ticket_id can't be empty")
     private String ticket_id;
 
 
