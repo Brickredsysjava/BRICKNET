@@ -55,6 +55,7 @@ public class AuthService {
     public Object login(AuthRequest authRequest) throws LoginException {
         JwtResponse response = new JwtResponse();
         UserAuthInfo userAuthInfo = AuthService.getUserByUsername(authRequest.getUsername()).block();
+
         if(userAuthInfo==null){
             throw new LoginException("Username not found");
         }
@@ -64,7 +65,7 @@ public class AuthService {
         }
         String token= jwtService.generateToken(userAuthInfo);
         try {
-//            redisService.set(userAuthInfo.getEmployeeCode(), token);
+            redisService.set(userAuthInfo.getEmployeeCode(), token);
             jwtMap.put(userAuthInfo.getEmployeeCode(),token);
         } catch (Exception e) {
 
