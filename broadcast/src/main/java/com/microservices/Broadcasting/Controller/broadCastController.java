@@ -97,10 +97,10 @@ public class broadCastController {
         }
     }
 
-    @PostMapping("/create_user")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        return new ResponseEntity<>(this.broadCastingService1.createUser(user), HttpStatus.CREATED);
-    }
+//    @PostMapping("/create_user")
+//    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+//        return new ResponseEntity<>(this.broadCastingService1.createUser(user), HttpStatus.CREATED);
+//    }
 
     @GetMapping("/getFromNotification")
     public String getFromNotification(){
