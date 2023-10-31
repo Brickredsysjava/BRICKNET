@@ -47,14 +47,14 @@ public class JwtAuthenticationFilter implements WebFilter{
             String empcode = jwtService.extractEmployeeCode(jwt);
             log.warn("This is empcode ---------------------");
             log.warn(empcode);
-            String mm = jwtMap.getByjwt(empcode).subscribe().toString();
-            String thisii = String.valueOf(mm);
+            Mono<String> monres = jwtMap.getByjwt(empcode);
+            String thisii = jwtMap.getTokenFromAuth();
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
             //String comparedJwtInJWTMap = redisService.get(empcode);
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
-            log.warn("This is something ------" + mm);
+            log.warn("This is something ------" + thisii);
             if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
