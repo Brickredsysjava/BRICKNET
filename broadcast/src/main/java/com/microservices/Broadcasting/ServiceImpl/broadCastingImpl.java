@@ -84,12 +84,12 @@ public class broadCastingImpl implements broadCastingService{
                 toBodilessEntity().block();
     }
 
-    @Override
-    public User createUser(User user) {
-        String message = "User Created " + user.getId() + user.getName();
-        kafkaTemplate.send("User Created", message);
-        return this.userCreationRepo.save(user);
-    }
+//    @Override
+//    public User createUser(User user) {
+//        String message = "User Created " + user.getId() + user.getName();
+//        kafkaTemplate.send("User Created", message);
+//        return this.userCreationRepo.save(user);
+//    }
 
 
 }
