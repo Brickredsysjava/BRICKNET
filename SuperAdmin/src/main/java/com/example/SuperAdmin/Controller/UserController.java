@@ -4,6 +4,7 @@ import com.example.SuperAdmin.DTO.UserDTO;
 import com.example.SuperAdmin.Entity.*;
 import com.example.SuperAdmin.ServiceImplementation.UserServiceImplementation;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/user/creation")
@@ -25,6 +27,8 @@ public class UserController {
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO) {
         User user = this.modelMapper.map(userDTO,User.class);
+        log.warn("This is user dto ----------------------");
+        log.warn(userDTO.toString());
         User savedUser = service.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
