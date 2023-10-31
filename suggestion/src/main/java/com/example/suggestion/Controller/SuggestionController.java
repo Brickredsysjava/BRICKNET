@@ -39,7 +39,6 @@ public class SuggestionController
     }
 
 
-
     //API TO SEE ALL THE ACTIVE SUGGESTIONS
     @GetMapping("/getAllSuggestions")
      public ResponseEntity<List<Suggestion>> getAllSuggestions() throws SuggestionException
