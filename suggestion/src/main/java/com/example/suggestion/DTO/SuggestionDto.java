@@ -77,7 +77,6 @@ public class SuggestionDto {
     @Column(name = "suggestion_date")
     @Valid
     @NotNull(message = "suggestionDate can't be null")
-    @NotEmpty(message = "suggestionDate can't be empty")
     private LocalDate suggestionDate;
 
     private Boolean adminVerified;
