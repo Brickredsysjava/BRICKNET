@@ -236,46 +236,54 @@ public class SuggestionServiceImplementation implements SuggestionService{
             suggestionVerification.setAdminVerified(true);
             suggestionVerification.setVerificationStatusMessage("Approved");
 
+try {
+    Date date = new Date();
+    LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+    String message =
+            "\n" + "Hey,  " + suggestionNew.getUsername() + "\n"
+                    + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
+                    + "About  " + suggestionNew.getDepartment() + "  Department is Accepted.  " + "\n"
+                    + "CLICK HERE for more info" + "\n" +
+                    "\n";
+    NotificationDto notificationDto = new NotificationDto();
+    notificationDto.setMessage(message);
+    notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+    notificationDto.setTimeStamp(localDateTime);
 
-            Date date = new Date();
-            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-            String message =
-                    "\n"+    "Hey,  " + suggestionNew.getUsername() + "\n"
-                            + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
-                            +"About  "+suggestionNew.getDepartment()+"  Department is Accepted.  "+ "\n"
-                            + "CLICK HERE for more info" + "\n" +
-                            "\n";
-            NotificationDto notificationDto = new NotificationDto();
-            notificationDto.setMessage(message);
-            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
-            notificationDto.setTimeStamp(localDateTime);
+    pushNotification(notificationDto);
+}catch (Exception e){
+    System.out.println("Connection Refused");
+}finally {
+suggestionRepository.save(suggestionVerification);
+}
 
-            pushNotification(notificationDto);
-
-
-        }
-
-        else {
+        } else {
             suggestionVerification.setAdminVerified(false);
             suggestionVerification.setVerificationStatusMessage("Rejected");
 
-            Date date = new Date();
-            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-            String message =
-                    "\n"+  "Hey,   " + suggestionNew.getUsername() + "\n"
-                            + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
-                            +"About  "+suggestionNew.getDepartment()+"  Department" +"  is Rejected.  "+ "\n"
-                            + "CLICK HERE for more info" + "\n" +
-                            "\n";
-            NotificationDto notificationDto = new NotificationDto();
-            notificationDto.setMessage(message);
-            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
-            notificationDto.setTimeStamp(localDateTime);
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message =
+                        "\n" + "Hey,   " + suggestionNew.getUsername() + "\n"
+                                + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
+                                + "About  " + suggestionNew.getDepartment() + "  Department" + "  is Rejected.  " + "\n"
+                                + "CLICK HERE for more info" + "\n" +
+                                "\n";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+                notificationDto.setTimeStamp(localDateTime);
 
-            pushNotification(notificationDto);
+                pushNotification(notificationDto);
+            }catch (Exception e){
+                System.out.println("Connection refused");
+            }finally {
+suggestionRepository.save(suggestionVerification);
+            }
 
         }
-        suggestionRepository.save(suggestionVerification);
+//        suggestionRepository.save(suggestionVerification);
 
         return "VERIFICATION DONE";
     }
