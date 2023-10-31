@@ -30,7 +30,7 @@ pipeline {
                  sh "ssh root@192.168.1.9 'docker rm root_task-center_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rmi root_task-center_1 || true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_task-center_1 /root/taskcenter'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9099:9099 --name root_task-center_1 root_task-center_1'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9099:9099 --network=root_default --name root_task-center_1 root_task-center_1'"
              }
          }        
 	
