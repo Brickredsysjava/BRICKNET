@@ -112,7 +112,8 @@ public class AuthService {
         return "password updated for "+userAuthInfo.getEmployeeCode();
     }
     public String checkJwt(  String empcode ) {
-        return jwtMap.get(empcode);
+        //return jwtMap.get(empcode);
+        return redisService.get(empcode);
     }
 }
 
