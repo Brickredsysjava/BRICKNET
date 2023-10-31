@@ -30,7 +30,7 @@ pipeline {
                  sh "ssh root@192.168.1.9 'docker rm root_auth-server_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rmi root_auth-server_1 || true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_auth-server_1 /root/auth-server'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --name root_auth-server_1 root_auth-server_1'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --network=root_default --name root_auth-server_1 root_auth-server_1'"
              }
          }        
 	

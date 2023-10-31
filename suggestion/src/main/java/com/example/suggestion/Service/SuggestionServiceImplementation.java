@@ -65,10 +65,11 @@ public class SuggestionServiceImplementation implements SuggestionService{
                 notificationDto.setTimeStamp(localDateTime);
 
                 pushNotification(notificationDto);
-            }finally {
-                suggestionRepository.save(suggestion);
+            }catch(Exception e){
                 System.out.println("CONNECTION REFUSED");
-
+            }
+                finally {
+                suggestionRepository.save(suggestion);
             }
         }
 
@@ -195,7 +196,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
             SuggestionDto suggestionGetDto = null;
             if (Objects.equals(s.getVerificationStatusMessage(), "Pending")) {
                 suggestionGetDto = SuggestionDto.builder()
-                        .ticket_id(s.getTicket_id())
                         .subjectTitle(s.getSubjectTitle())
                         .description(s.getDescription())
                         .status(s.getStatus())
@@ -284,7 +284,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.71:8080/send")
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send")
                 .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
     }
 
