@@ -28,6 +28,8 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 @CrossOrigin(origins = "*")
 public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
+
+    @Autowired
     private final RedisService redisService;
     @Autowired
     private static JwtMap jwtMap;
