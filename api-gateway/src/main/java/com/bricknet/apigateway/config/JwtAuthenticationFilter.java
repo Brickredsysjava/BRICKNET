@@ -49,12 +49,12 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn(empcode);
             String mm = jwtMap.getByjwt(empcode).block();
 
-            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode).block());
             //String comparedJwtInJWTMap = redisService.get(empcode);
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
             log.warn("This is something ------" + mm);
-            if (mm != null) {
+            if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, mm)) {
                     String email = jwtService.extractEmail(jwt);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + jwtService.extractRole(jwt)));
