@@ -35,8 +35,8 @@ public class SecurityConfig {
                         .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth/getOtp/**","/auth/checkOtp/**","/auth/login/**" , "/auth/**").permitAll()
                         .pathMatchers("/communityPost/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestionPost/api/**").permitAll()
                         .pathMatchers("/user/profile/allProfile/**").authenticated()
-                        .anyExchange())
-                .addFilterBefore(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                        .anyExchange().authenticated())
+                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
 
