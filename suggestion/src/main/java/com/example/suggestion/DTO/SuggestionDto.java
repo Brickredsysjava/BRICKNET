@@ -24,7 +24,6 @@ import java.time.LocalDate;
 @ToString
 public class SuggestionDto {
 
-
     @Valid
     @NotNull(message = "username can't be null")
     @NotBlank(message = "username can't be blank")
@@ -78,7 +77,4 @@ public class SuggestionDto {
     @NotNull(message = "verificationStatusMessage can't be null")
     @NotEmpty(message = "verificationStatusMessage can't be empty")
     private String verificationStatusMessage;
-
-
-
 }
