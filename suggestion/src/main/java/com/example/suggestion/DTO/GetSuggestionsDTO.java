@@ -2,10 +2,19 @@ package com.example.suggestion.DTO;
 
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
+import lombok.*;
 
 import java.time.LocalDate;
 
-public class getSuggestionsDTO {
+
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
+public class GetSuggestionsDTO {
 
     private String ticket_id;
 

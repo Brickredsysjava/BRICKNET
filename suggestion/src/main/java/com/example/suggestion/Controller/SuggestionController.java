@@ -3,6 +3,7 @@ package com.example.suggestion.Controller;
 
 
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
@@ -41,9 +42,9 @@ public class SuggestionController
 
     //API TO SEE ALL THE ACTIVE SUGGESTIONS
     @GetMapping("/getAllSuggestions")
-     public ResponseEntity<List<Suggestion>> getAllSuggestions() throws SuggestionException
+     public ResponseEntity<List<GetSuggestionsDTO>> getAllSuggestions() throws SuggestionException
     {
-        List<Suggestion> s1=suggestionService.getAllSuggestions();
+        List<GetSuggestionsDTO> s1=suggestionService.getAllSuggestions();
         return new ResponseEntity<>(s1, HttpStatus.OK);
 
     }
@@ -99,10 +100,10 @@ public class SuggestionController
 
     //API TO GET SUGGESTION BASED ON THEIR DEPARTMENT
     @GetMapping("/findSuggestionByDepartment")
-    public ResponseEntity<List<Suggestion>> findSuggestionByDepartment(@RequestParam Department department)
+    public ResponseEntity<List<GetSuggestionsDTO>> findSuggestionByDepartment(@RequestParam Department department)
     {
 
-        List<Suggestion> suggestions;
+        List<GetSuggestionsDTO> suggestions;
 
         if (department == Department.All_Suggestions) {
             suggestions = suggestionService.getAllSuggestions();
