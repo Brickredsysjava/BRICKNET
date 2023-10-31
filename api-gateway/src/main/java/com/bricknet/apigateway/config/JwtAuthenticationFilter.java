@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn(empcode);
             String mm = jwtMap.getByjwt(empcode).block();
 
-            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            String comparedJwtInJWTMap = mm;
             //String comparedJwtInJWTMap = redisService.get(empcode);
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
