@@ -32,9 +32,7 @@ public class JwtMap {
     }
 
     public void setToken(Mono<String> result){
-        result.subscribe(res -> {
-            mm.set(res);
-        });
+        result.subscribe(mm::set);
     }
 
     public String getTokenFromAuth(){
