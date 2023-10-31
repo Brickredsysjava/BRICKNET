@@ -30,7 +30,7 @@ pipeline {
                  sh "ssh root@192.168.1.9 'docker rm root_api-gateway_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rmi root_api-gateway_1 || true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_api-gateway_1 /root/api-gateway'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --name root_api-gateway_1 root_api-gateway_1'"
+                 sh "ssh root@192.168.1.9 'docker run -it -d -p 9090:9090 --network=root_default --name root_api-gateway_1 root_api-gateway_1'"
              }
          }        
 	
