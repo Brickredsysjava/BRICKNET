@@ -1,7 +1,6 @@
 package com.microservices.Broadcasting.Service;
 
 import com.microservices.Broadcasting.Dto.NotificationDTO;
-import com.microservices.Broadcasting.Entity.User;
 import com.microservices.Broadcasting.Entity.broadCasting;
 import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,6 @@ public interface broadCastingService {
 
     public void pushNotification(NotificationDTO notificationDTO);
 
-    public User createUser(User user);
+//    public User createUser(User user);
 
 }

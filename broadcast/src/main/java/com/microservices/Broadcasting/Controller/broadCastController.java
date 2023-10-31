@@ -1,7 +1,6 @@
 package com.microservices.Broadcasting.Controller;
 
 import com.microservices.Broadcasting.Dto.NotificationDTO;
-import com.microservices.Broadcasting.Entity.User;
 import com.microservices.Broadcasting.Entity.broadCasting;
 
 import com.microservices.Broadcasting.Service.GetBroadcastinginfo;

@@ -1,9 +1,7 @@
 package com.microservices.Broadcasting.ServiceImpl;
 
 import com.microservices.Broadcasting.Dto.NotificationDTO;
-import com.microservices.Broadcasting.Entity.User;
 import com.microservices.Broadcasting.Entity.broadCasting;
-import com.microservices.Broadcasting.Repository.UserCreationRepo;
 import com.microservices.Broadcasting.Repository.broadCastingRepo;
 import com.microservices.Broadcasting.Service.broadCastingService;
 import jakarta.mail.MessagingException;
@@ -27,8 +25,8 @@ public class broadCastingImpl implements broadCastingService{
 
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Autowired
-    private UserCreationRepo userCreationRepo;
+//    @Autowired
+//    private UserCreationRepo userCreationRepo;
 
     @Autowired
     private broadCastingRepo  broadCastingRepo1;
