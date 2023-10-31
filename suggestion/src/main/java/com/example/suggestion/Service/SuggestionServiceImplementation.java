@@ -196,7 +196,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
             SuggestionDto suggestionGetDto = null;
             if (Objects.equals(s.getVerificationStatusMessage(), "Pending")) {
                 suggestionGetDto = SuggestionDto.builder()
-                        .ticket_id(s.getTicket_id())
                         .subjectTitle(s.getSubjectTitle())
                         .description(s.getDescription())
                         .status(s.getStatus())
