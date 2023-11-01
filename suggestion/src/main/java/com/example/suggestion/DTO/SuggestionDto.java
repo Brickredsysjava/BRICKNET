@@ -67,15 +67,9 @@ public class SuggestionDto {
     @NotNull(message = "dislikePercentage can't be null")
     private double dislikePercentage;
 
-    @Column(name = "suggestion_date")
-    @Valid
-    @NotNull(message = "suggestionDate can't be null")
     private LocalDate suggestionDate;
 
     private Boolean adminVerified;
 
-    @Valid
-    @NotNull(message = "verificationStatusMessage can't be null")
-    @NotEmpty(message = "verificationStatusMessage can't be empty")
     private String verificationStatusMessage;
 }
