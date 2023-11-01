@@ -26,6 +26,9 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private TokenCacheService tokenCacheService;
+
     private Map<String, String> jwtMap;
     private Map<String, String> otpMap;
 
@@ -65,6 +68,7 @@ public class AuthService {
         }
         String token= jwtService.generateToken(userAuthInfo);
         try {
+            TokenCacheService.storeToken(userAuthInfo.getEmployeeCode(), token);
             redisService.set(userAuthInfo.getEmployeeCode(), token);
             jwtMap.put(userAuthInfo.getEmployeeCode(),token);
         } catch (Exception e) {
@@ -113,7 +117,8 @@ public class AuthService {
     }
     public String checkJwt(  String empcode ) {
         //return jwtMap.get(empcode);
-        return redisService.get(empcode);
+        //return redisService.get(empcode);
+        return TokenCacheService.getToken(empcode);
     }
 }
 
