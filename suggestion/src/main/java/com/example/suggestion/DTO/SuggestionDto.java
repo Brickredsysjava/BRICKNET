@@ -46,7 +46,6 @@ public class SuggestionDto {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @NonNull
     @Enumerated
     private Status status;
 
