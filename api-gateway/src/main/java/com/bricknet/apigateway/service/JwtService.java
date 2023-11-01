@@ -19,7 +19,7 @@ public class JwtService {
 
 
     public String extractEmail(String jwt) {
-        return extractClaim(jwt, Claims::getSubject);
+        return extractClaim(jwt, c-> c.get("companyEmail", String.class));
     }
 
 

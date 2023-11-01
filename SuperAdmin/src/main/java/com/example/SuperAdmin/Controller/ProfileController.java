@@ -1,11 +1,9 @@
 package com.example.SuperAdmin.Controller;
 
-import com.example.SuperAdmin.DTO.NotificationDTO;
-import com.example.SuperAdmin.DTO.ProfileDTO;
-import com.example.SuperAdmin.DTO.ResetPassword;
+import com.example.SuperAdmin.DTO.*;
+import com.example.SuperAdmin.Service.EmployeeService;
 import com.example.SuperAdmin.auth.UserCredential;
 import com.example.SuperAdmin.Entity.Profile;
-import com.example.SuperAdmin.DTO.TimeLine;
 import com.example.SuperAdmin.Service.NotificationService;
 import com.example.SuperAdmin.Service.ProfileService;
 import com.example.SuperAdmin.jwt.JwtUtil;
@@ -32,6 +30,9 @@ public class ProfileController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private EmployeeService employeeService;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -42,6 +43,7 @@ public class ProfileController {
     @PostMapping("/addProfile")
     public ResponseEntity<Profile> addProfile(@RequestBody @Valid ProfileDTO profileDTO) throws ServiceNotFoundException {
         NotificationDTO notificationDTO = new NotificationDTO();
+        EmployeeDTO employeeDTO = new EmployeeDTO();
         String message =
                 "You are created  \n" + "\n"
                         + "UserId:" + profileDTO.getEmployeeCode() + "\n"
@@ -53,9 +55,16 @@ public class ProfileController {
         notificationDTO.setTimeStamp(LocalDateTime.now());
 
 
+
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 
+        employeeDTO.setAuto_id(profile.getId());
+        employeeDTO.setPassword(profileDTO.getPassword());
+        employeeDTO.setName(profileDTO.getFirstName() + profileDTO.getLastName());
+        employeeDTO.setEmail(profileDTO.getCompanyEmail());
+        employeeDTO.setEmp_id(profileDTO.getEmployeeCode());
+        employeeService.insertDataIntoDB(employeeDTO);
         //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
