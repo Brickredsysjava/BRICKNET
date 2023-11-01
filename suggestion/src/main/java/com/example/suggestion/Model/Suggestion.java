@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Clob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -55,7 +56,7 @@ public class Suggestion implements Comparable<Suggestion>{
     private double dislikePercentage;
 
     @Column(name = "suggestion_date")
-    private LocalDate suggestionDate;
+    private LocalDateTime suggestionDateTime;
 
 
     private Boolean adminVerified;
@@ -66,7 +67,7 @@ public class Suggestion implements Comparable<Suggestion>{
     @Override
     public int compareTo(Suggestion suggestion) {
         // Compare the dates using the compareTo method of the Date class
-        return suggestion.suggestionDate.compareTo(this.suggestionDate);
+        return suggestion.suggestionDateTime.compareTo(this.suggestionDateTime);
     }
 
 

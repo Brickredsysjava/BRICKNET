@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.sql.Clob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -37,7 +38,7 @@ public class GetSuggestionsDTO {
 
     private double dislikePercentage;
 
-    private LocalDate suggestionDate;
+    private LocalDateTime suggestionDateTime;
 
     private Boolean adminVerified;
 

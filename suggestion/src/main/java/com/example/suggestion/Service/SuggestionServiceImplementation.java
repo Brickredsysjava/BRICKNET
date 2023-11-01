@@ -43,7 +43,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                     .description(suggestionDto.getDescription())
                     .department(suggestionDto.getDepartment())
                     .status(suggestionDto.getStatus())
-                    .suggestionDate(LocalDateTime.now().toLocalDate())
+                    .suggestionDateTime(LocalDateTime.now())
                     .adminVerified(false)
                     .verificationStatusMessage("Pending")
                     .build();
@@ -95,7 +95,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                     .subjectTitle(p.getSubjectTitle())
                     .description(p.getDescription())
                     .department(p.getDepartment())
-                    .suggestionDate(p.getSuggestionDate())
+                    .suggestionDateTime(p.getSuggestionDateTime())
                     .status(p.getStatus())
                     .likeCount(p.getLikeCount())
                     .dislikeCount(p.getDislikeCount())
@@ -109,7 +109,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
         return getSuggestionsDTO;
     }).toList();
 
-        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDate).reversed());
+        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
 
     return newList;
     }
@@ -207,7 +207,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .username(s.getUsername())
                         .adminVerified(s.getAdminVerified())
                         .verificationStatusMessage(s.getVerificationStatusMessage())
-                        .suggestionDate(LocalDateTime.now().toLocalDate())
+                        .suggestionDateTime(LocalDateTime.now())
                         .build();
                 newDtoList.add(getSuggestionsDTO);
             }
