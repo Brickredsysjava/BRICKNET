@@ -40,9 +40,8 @@ public class TodoController {
     }
 
     @GetMapping("/show-created-to-do")
-    public ResponseEntity<?> showCreatedToDo(HttpServletRequest request) throws TodoException{
+    public ResponseEntity<?> showCreatedToDo(@RequestParam("employeeCode") String employeeCode) throws TodoException{
         try{
-            String employeeCode = (String) request.getAttribute("employeeCode");
             return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(employeeCode), HttpStatus.OK);
         }catch (TodoException todoException) {
             return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
@@ -60,7 +59,7 @@ public class TodoController {
     }
 
     @DeleteMapping("/delete-To-Do")
-    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id, HttpServletRequest request) throws TodoException{
+    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id) throws TodoException{
        try {
            todoService.deleteToDo(id);
            return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
