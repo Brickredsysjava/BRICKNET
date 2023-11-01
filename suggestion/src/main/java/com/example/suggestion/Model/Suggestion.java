@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Builder
 @ToString
 @Table(name = "suggestions")
-public class Suggestion{
+public class Suggestion implements Comparable<Suggestion>{
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -61,6 +61,13 @@ public class Suggestion{
     private Boolean adminVerified;
 
     private String verificationStatusMessage;
+
+
+    @Override
+    public int compareTo(Suggestion suggestion) {
+        // Compare the dates using the compareTo method of the Date class
+        return suggestion.suggestionDate.compareTo(this.suggestionDate);
+    }
 
 
 

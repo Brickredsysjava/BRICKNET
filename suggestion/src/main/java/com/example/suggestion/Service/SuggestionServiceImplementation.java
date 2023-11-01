@@ -108,6 +108,9 @@ public class SuggestionServiceImplementation implements SuggestionService{
         }
         return getSuggestionsDTO;
     }).toList();
+
+        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDate).reversed());
+
     return newList;
     }
 
