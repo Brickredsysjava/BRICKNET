@@ -59,7 +59,7 @@ public class ProfileController {
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 
-        employeeDTO.setAuto_id(profile.getId());
+        employeeDTO.setUserId(profile.getId());
         employeeDTO.setPassword(profileDTO.getPassword());
         employeeDTO.setName(profileDTO.getFirstName() + profileDTO.getLastName());
         employeeDTO.setEmail(profileDTO.getCompanyEmail());
