@@ -117,7 +117,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public List<Department> getAllDepartments()
     {
         return Arrays.stream(Department.values())
-                .filter(department -> department != Department.All_Suggestions)
                 .collect(Collectors.toList());
 
     }

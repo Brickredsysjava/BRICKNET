@@ -105,12 +105,8 @@ public class SuggestionController
 
         List<GetSuggestionsDTO> suggestions;
 
-        if (department == Department.All_Suggestions) {
-            suggestions = suggestionService.getAllSuggestions();
-        } else {
             // Return suggestions filtered by department
             suggestions = suggestionService.getSuggestionsByDepartment(department);
-        }
 
         return ResponseEntity.ok(suggestions);
     }
