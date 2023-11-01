@@ -65,6 +65,7 @@ public class ProfileController {
         employeeDTO.setEmail(profileDTO.getCompanyEmail());
         employeeDTO.setEmp_id(profileDTO.getEmployeeCode());
         employeeService.insertDataIntoDB(employeeDTO);
+
         //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
