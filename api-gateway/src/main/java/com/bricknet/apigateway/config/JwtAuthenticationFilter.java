@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter implements WebFilter{
     @Autowired
     private final RedisService redisService;
     @Autowired
-    private static JwtMap jwtMap;
+    private final JwtMap jwtMap;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = extractTokenFromRequest(exchange);
@@ -47,11 +47,15 @@ public class JwtAuthenticationFilter implements WebFilter{
             String empcode = jwtService.extractEmployeeCode(jwt);
             log.warn("This is empcode ---------------------");
             log.warn(empcode);
+            Mono<String> monres = jwtMap.getByjwt(empcode);
+            jwtMap.setToken(monres);
+            String thisii = jwtMap.getTokenFromAuth();
 
-            //String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            String comparedJwtInJWTMap = redisService.get(empcode);
+            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
+            //String comparedJwtInJWTMap = redisService.get(empcode);
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
+            log.warn("This is something ------" + thisii);
             if (comparedJwtInJWTMap != null) {
                 if (jwtService.validateToken(jwt, comparedJwtInJWTMap)) {
                     String email = jwtService.extractEmail(jwt);
