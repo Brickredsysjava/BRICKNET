@@ -62,11 +62,11 @@ public class ProfileController {
 
         //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
-        employeeDTO.setUserId(savedProfile.getId());
+        employeeDTO.setAuto_id(savedProfile.getId());
         employeeDTO.setPassword(profileDTO.getPassword());
-        employeeDTO.setName(profileDTO.getFirstName() + profileDTO.getLastName());
+        employeeDTO.setName(profileDTO.getFirstName() + " " + profileDTO.getLastName());
         employeeDTO.setEmail(profileDTO.getCompanyEmail());
-        employeeDTO.setEmp_id(profileDTO.getEmployeeCode());
+        employeeDTO.setEmp_id(savedProfile.getEmployeeCode());
         employeeService.insertDataIntoDB(employeeDTO);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
     }

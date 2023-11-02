@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EmployeeDTO {
 
-    private String userId;
+    private String auto_id;
 
     private String name;
 
