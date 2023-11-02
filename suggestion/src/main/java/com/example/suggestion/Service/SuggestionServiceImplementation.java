@@ -2,6 +2,7 @@ package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.NotificationDto;
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
@@ -42,7 +43,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                     .description(suggestionDto.getDescription())
                     .department(suggestionDto.getDepartment())
                     .status(suggestionDto.getStatus())
-                    .suggestionDate(LocalDateTime.now().toLocalDate())
+                    .suggestionDateTime(LocalDateTime.now())
                     .adminVerified(false)
                     .verificationStatusMessage("Pending")
                     .build();
@@ -81,20 +82,20 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
     @Override
-    public List<Suggestion> getAllSuggestions()
+    public List<GetSuggestionsDTO> getAllSuggestions()
     {
-    List<Suggestion> newList = new ArrayList<>();
-    List<Suggestion> dtoList = suggestionRepository.findAll().stream().map(p->
+    List<GetSuggestionsDTO> newList = new ArrayList<>();
+    List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().map(p->
     {
-        Suggestion suggestion = null;
+        GetSuggestionsDTO getSuggestionsDTO = null;
         if(p.getAdminVerified()){
-            suggestion = Suggestion.builder()
+            getSuggestionsDTO = GetSuggestionsDTO.builder()
                     .ticket_id(p.getTicket_id())
                     .username(p.getUsername())
                     .subjectTitle(p.getSubjectTitle())
                     .description(p.getDescription())
                     .department(p.getDepartment())
-                    .suggestionDate(p.getSuggestionDate())
+                    .suggestionDateTime(p.getSuggestionDateTime())
                     .status(p.getStatus())
                     .likeCount(p.getLikeCount())
                     .dislikeCount(p.getDislikeCount())
@@ -103,10 +104,13 @@ public class SuggestionServiceImplementation implements SuggestionService{
                     .adminVerified(p.getAdminVerified())
                     .verificationStatusMessage(p.getVerificationStatusMessage())
                     .build();
-            newList.add(suggestion);
+            newList.add(getSuggestionsDTO);
         }
-        return suggestion;
+        return getSuggestionsDTO;
     }).toList();
+
+        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
+
     return newList;
     }
 
@@ -116,7 +120,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
     public List<Department> getAllDepartments()
     {
         return Arrays.stream(Department.values())
-                .filter(department -> department != Department.All_Suggestions)
                 .collect(Collectors.toList());
 
     }
@@ -180,7 +183,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
     @Override
-    public List<Suggestion> getSuggestionsByDepartment(Department department)
+    public List<GetSuggestionsDTO> getSuggestionsByDepartment(Department department)
     {
         return suggestionRepository.findByDepartment(department);
 
@@ -189,13 +192,14 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
     @Override
-    public List<SuggestionDto> getAllSuggestionsNeedToVerified() throws SuggestionException
+    public List<GetSuggestionsDTO> getAllSuggestionsNeedToVerified() throws SuggestionException
     {
-        List<SuggestionDto> newDtoList = new ArrayList<>();
-        List<SuggestionDto> suggestionDtoList = suggestionRepository.findAll().stream().map(s -> {
-            SuggestionDto suggestionGetDto = null;
+        List<GetSuggestionsDTO> newDtoList = new ArrayList<>();
+        List<GetSuggestionsDTO> suggestionDtoList = suggestionRepository.findAll().stream().map(s -> {
+            GetSuggestionsDTO getSuggestionsDTO = null;
             if (Objects.equals(s.getVerificationStatusMessage(), "Pending")) {
-                suggestionGetDto = SuggestionDto.builder()
+                getSuggestionsDTO = GetSuggestionsDTO.builder()
+                        .ticket_id(s.getTicket_id())
                         .subjectTitle(s.getSubjectTitle())
                         .description(s.getDescription())
                         .status(s.getStatus())
@@ -203,11 +207,11 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .username(s.getUsername())
                         .adminVerified(s.getAdminVerified())
                         .verificationStatusMessage(s.getVerificationStatusMessage())
-                        .suggestionDate(LocalDateTime.now().toLocalDate())
+                        .suggestionDateTime(LocalDateTime.now())
                         .build();
-                newDtoList.add(suggestionGetDto);
+                newDtoList.add(getSuggestionsDTO);
             }
-            return suggestionGetDto;
+            return getSuggestionsDTO;
 
 
         }).toList();
@@ -234,46 +238,54 @@ public class SuggestionServiceImplementation implements SuggestionService{
             suggestionVerification.setAdminVerified(true);
             suggestionVerification.setVerificationStatusMessage("Approved");
 
+try {
+    Date date = new Date();
+    LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+    String message =
+            "\n" + "Hey,  " + suggestionNew.getUsername() + "\n"
+                    + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
+                    + "About  " + suggestionNew.getDepartment() + "  Department is Accepted.  " + "\n"
+                    + "CLICK HERE for more info" + "\n" +
+                    "\n";
+    NotificationDto notificationDto = new NotificationDto();
+    notificationDto.setMessage(message);
+    notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+    notificationDto.setTimeStamp(localDateTime);
 
-            Date date = new Date();
-            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-            String message =
-                    "\n"+    "Hey,  " + suggestionNew.getUsername() + "\n"
-                            + "Your Suggestion with TITLE:  " + suggestionNew.getSubjectTitle() + "\n"
-                            +"About  "+suggestionNew.getDepartment()+"  Department is Accepted.  "+ "\n"
-                            + "CLICK HERE for more info" + "\n" +
-                            "\n";
-            NotificationDto notificationDto = new NotificationDto();
-            notificationDto.setMessage(message);
-            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
-            notificationDto.setTimeStamp(localDateTime);
+    pushNotification(notificationDto);
+}catch (Exception e){
+    System.out.println("Connection Refused");
+}finally {
+suggestionRepository.save(suggestionVerification);
+}
 
-            pushNotification(notificationDto);
-
-
-        }
-
-        else {
+        } else {
             suggestionVerification.setAdminVerified(false);
             suggestionVerification.setVerificationStatusMessage("Rejected");
 
-            Date date = new Date();
-            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-            String message =
-                    "\n"+  "Hey,   " + suggestionNew.getUsername() + "\n"
-                            + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
-                            +"About  "+suggestionNew.getDepartment()+"  Department" +"  is Rejected.  "+ "\n"
-                            + "CLICK HERE for more info" + "\n" +
-                            "\n";
-            NotificationDto notificationDto = new NotificationDto();
-            notificationDto.setMessage(message);
-            notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
-            notificationDto.setTimeStamp(localDateTime);
+            try {
+                Date date = new Date();
+                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                String message =
+                        "\n" + "Hey,   " + suggestionNew.getUsername() + "\n"
+                                + "Your Suggestion with TITLE:   " + suggestionNew.getSubjectTitle() + "\n"
+                                + "About  " + suggestionNew.getDepartment() + "  Department" + "  is Rejected.  " + "\n"
+                                + "CLICK HERE for more info" + "\n" +
+                                "\n";
+                NotificationDto notificationDto = new NotificationDto();
+                notificationDto.setMessage(message);
+                notificationDto.setRecipient(getEmailIdByUserName(suggestionNew.getUsername()));
+                notificationDto.setTimeStamp(localDateTime);
 
-            pushNotification(notificationDto);
+                pushNotification(notificationDto);
+            }catch (Exception e){
+                System.out.println("Connection refused");
+            }finally {
+suggestionRepository.save(suggestionVerification);
+            }
 
         }
-        suggestionRepository.save(suggestionVerification);
+//        suggestionRepository.save(suggestionVerification);
 
         return "VERIFICATION DONE";
     }

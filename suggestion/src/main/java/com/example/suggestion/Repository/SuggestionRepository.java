@@ -1,5 +1,6 @@
 package com.example.suggestion.Repository;
 
+import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
 import com.example.suggestion.Model.Suggestion;
@@ -25,5 +26,5 @@ public interface SuggestionRepository extends JpaRepository<Suggestion,String> {
     List<String> findAllDepartments();
 
     @Query("SELECT s FROM   Suggestion s WHERE s.department=:department AND s.adminVerified=true")
-    List<Suggestion> findByDepartment(Department department);
+    List<GetSuggestionsDTO> findByDepartment(Department department);
 }

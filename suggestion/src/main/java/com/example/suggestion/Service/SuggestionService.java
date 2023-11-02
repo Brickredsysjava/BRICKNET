@@ -2,6 +2,7 @@ package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.NotificationDto;
 import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
 import com.example.suggestion.Model.Department;
@@ -15,7 +16,7 @@ public interface SuggestionService {
 
     public void addSuggestion(SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException;
 
-    List<Suggestion> getAllSuggestions();
+    List<GetSuggestionsDTO> getAllSuggestions();
 
     List<Department> getAllDepartments();
 
@@ -27,11 +28,11 @@ public interface SuggestionService {
 
     public void deleteSuggestionByID(String id) throws SuggestionException;
 
-    public List<Suggestion> getSuggestionsByDepartment(Department department);
+    public List<GetSuggestionsDTO> getSuggestionsByDepartment(Department department);
 
     public List<Suggestion> getSuggestionsByUsername(String Username);
 
-    public List<SuggestionDto> getAllSuggestionsNeedToVerified() throws SuggestionException;
+    public List<GetSuggestionsDTO> getAllSuggestionsNeedToVerified() throws SuggestionException;
 
     String adminVerification(String ticket_id,Boolean adminVerified) throws SuggestionException, ServiceNotFoundException;
 

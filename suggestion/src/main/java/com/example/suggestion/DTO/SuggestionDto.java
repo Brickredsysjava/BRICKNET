@@ -11,8 +11,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
+import java.sql.Clob;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 
 @Data
@@ -45,7 +46,6 @@ public class SuggestionDto {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @NonNull
     @Enumerated
     private Status status;
 
@@ -66,15 +66,9 @@ public class SuggestionDto {
     @NotNull(message = "dislikePercentage can't be null")
     private double dislikePercentage;
 
-    @Column(name = "suggestion_date")
-    @Valid
-    @NotNull(message = "suggestionDate can't be null")
-    private LocalDate suggestionDate;
+    private LocalDateTime suggestionDateTime;
 
     private Boolean adminVerified;
 
-    @Valid
-    @NotNull(message = "verificationStatusMessage can't be null")
-    @NotEmpty(message = "verificationStatusMessage can't be empty")
     private String verificationStatusMessage;
 }
