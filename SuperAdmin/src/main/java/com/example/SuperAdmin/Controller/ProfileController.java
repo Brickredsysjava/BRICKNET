@@ -59,14 +59,15 @@ public class ProfileController {
         notificationService.pushNotification(notificationDTO);
         Profile profile = modelMapper.map(profileDTO, Profile.class);
 
-        employeeDTO.setAuto_id(profile.getId());
-        employeeDTO.setPassword(profileDTO.getPassword());
-        employeeDTO.setName(profileDTO.getFirstName() + profileDTO.getLastName());
-        employeeDTO.setEmail(profileDTO.getCompanyEmail());
-        employeeDTO.setEmp_id(profileDTO.getEmployeeCode());
-        employeeService.insertDataIntoDB(employeeDTO);
+
         //profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         Profile savedProfile = profileService.saveProfile(profile);
+        employeeDTO.setAuto_id(savedProfile.getId());
+        employeeDTO.setPassword(profileDTO.getPassword());
+        employeeDTO.setName(profileDTO.getFirstName() + " " + profileDTO.getLastName());
+        employeeDTO.setEmail(profileDTO.getCompanyEmail());
+        employeeDTO.setEmp_id(savedProfile.getEmployeeCode());
+        employeeService.insertDataIntoDB(employeeDTO);
         return new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
     }
 
