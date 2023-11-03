@@ -2,6 +2,7 @@ package org.example.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.OrderColumn;
@@ -27,7 +28,10 @@ public class Community implements Comparable<Community>{
     @Column(name = "post_id", columnDefinition = "VARCHAR(255)")
     private String  postId;
 
+    @NotNull
     private String employeeCode;
+
+    private String username;
 
     private String title;
 
