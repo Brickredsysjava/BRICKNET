@@ -63,9 +63,9 @@ public class TimeSheetController {
         }
     }
 
-    @GetMapping("/getTimeSheetData/{month}/{year}")
-    public  ResponseEntity<?> getMonthlyTimeSheetData( @PathVariable int month ,@PathVariable int year ){
-        ArrayList<TimeSheetDto>  timeSheet = (ArrayList<TimeSheetDto>) timeSheetService.getTimeSheetData(month,year);
+    @GetMapping("/getTimeSheetData/{month}/{year}/{autoId}")
+    public  ResponseEntity<?> getMonthlyTimeSheetData( @PathVariable int month ,@PathVariable int year, @PathVariable String autoId ){
+        ArrayList<TimeSheetDto>  timeSheet = (ArrayList<TimeSheetDto>) timeSheetService.getTimeSheetData(month,year, autoId);
         if (timeSheet != null) {
             return ResponseEntity.ok(timeSheet);
         } else {

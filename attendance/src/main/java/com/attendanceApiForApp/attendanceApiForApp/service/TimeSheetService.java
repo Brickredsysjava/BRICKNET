@@ -14,6 +14,6 @@ public interface TimeSheetService {
     TimeSheet updateTimeSheet(String id ,TimeSheet timeSheet);
      TimeSheet updateTimeSheetByDate(LocalDate dates, TimeSheet timeSheet) throws TimesheetException;
     boolean deleteTimeSheet(String id);
-    public List<TimeSheetDto> getTimeSheetData(int month,int year);
+    public List<TimeSheetDto> getTimeSheetData(int month,int year, String autoId);
     public List<TimeSheetDto> getWeeklyTimeSheetData(LocalDate weekStartDate);
 }

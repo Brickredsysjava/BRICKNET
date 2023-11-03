@@ -1,6 +1,7 @@
 package com.attendanceApiForApp.attendanceApiForApp.dto;
 
 
+import com.attendanceApiForApp.attendanceApiForApp.model.Employee;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;

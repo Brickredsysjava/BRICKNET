@@ -23,6 +23,9 @@ public class TimeSheet {
     @Column(name = "timesheet_id", columnDefinition = "VARCHAR(255)")
     private String timesheet_id;
 
+    @ManyToOne
+    @JoinColumn(name = "auto_id", nullable = false)
+    private Employee employee;
     @ElementCollection
     private List<String> Task;
     @Column
