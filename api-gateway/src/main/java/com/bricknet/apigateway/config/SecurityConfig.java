@@ -24,8 +24,6 @@ public class SecurityConfig {
         return authentication -> Mono.empty();
     }
 
-
-
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
