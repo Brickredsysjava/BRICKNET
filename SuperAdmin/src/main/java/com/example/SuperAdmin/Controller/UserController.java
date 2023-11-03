@@ -1,7 +1,12 @@
 package com.example.SuperAdmin.Controller;
 
+import com.example.SuperAdmin.DTO.EmployeeDTO;
+import com.example.SuperAdmin.DTO.NotificationDTO;
+import com.example.SuperAdmin.DTO.ProfileDTO;
 import com.example.SuperAdmin.DTO.UserDTO;
 import com.example.SuperAdmin.Entity.*;
+import com.example.SuperAdmin.Service.EmployeeService;
+import com.example.SuperAdmin.Service.NotificationService;
 import com.example.SuperAdmin.ServiceImplementation.UserServiceImplementation;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.ServiceNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +31,37 @@ public class UserController {
     @Autowired
     private UserServiceImplementation service;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private EmployeeService employeeService;
+
     @PostMapping("/addUser")
-    public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO) throws ServiceNotFoundException {
+        NotificationDTO notificationDTO = new NotificationDTO();
+        EmployeeDTO employeeDTO = new EmployeeDTO();
         User user = this.modelMapper.map(userDTO,User.class);
-        log.warn("This is user dto ----------------------");
-        log.warn(userDTO.toString());
+        ProfileDTO profileDTO = userDTO.getProfileDTO();
+        String message =
+                "You are created  \n" + "\n"
+                        + "UserId:" + profileDTO.getEmployeeCode() + "\n"
+                        + "Password: " + profileDTO.getPassword() +"\n" +
+                        "\n";
+        notificationDTO.setMessage(message);
+        notificationDTO.setRecipient(profileDTO.getPersonalEmail());
+        notificationDTO.setTimeStamp(LocalDateTime.now());
+
+
         User savedUser = service.saveUser(user);
+        Profile savedProfile = savedUser.getProfile();
+        employeeDTO.setAuto_id(savedProfile.getId());
+        employeeDTO.setPassword(profileDTO.getPassword());
+        employeeDTO.setName(profileDTO.getFirstName() + " " + profileDTO.getLastName());
+        employeeDTO.setEmail(profileDTO.getCompanyEmail());
+        employeeDTO.setEmp_id(savedProfile.getEmployeeCode());
+        employeeService.insertDataIntoDB(employeeDTO);
+        notificationService.pushNotification(notificationDTO);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 

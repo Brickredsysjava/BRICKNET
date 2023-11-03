@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter implements WebFilter{
             log.warn(empcode);
             Mono<String> monres = jwtMap.getByjwt(empcode);
             jwtMap.setToken(monres);
-            String thisii = jwtMap.getByjwt(empcode).block();
+            String thisii = jwtMap.getTokenFromAuth();
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
             //String comparedJwtInJWTMap = redisService.get(empcode);
@@ -64,12 +64,11 @@ public class JwtAuthenticationFilter implements WebFilter{
                     String role = jwtService.extractRole(jwt);
                     log.warn("This is role " + role);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
-
+                    log.warn("This is authorities");
+                    log.warn(String.valueOf(authorities));
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                             email, null, authorities
                     );
-
-                    
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
