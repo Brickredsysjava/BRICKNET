@@ -33,6 +33,7 @@ private CommunityServiceImplementation communityService;
 
         Community community = Community.builder()
                 .employeeCode(communityPostDto.getEmployeeCode())
+                .username(communityPostDto.getUsername())
                 .title(communityPostDto.getTitle())
                 .dateTime(LocalDateTime.now())
                 .fileName(communityPostDto.getFileName())
