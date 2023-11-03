@@ -19,7 +19,6 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
