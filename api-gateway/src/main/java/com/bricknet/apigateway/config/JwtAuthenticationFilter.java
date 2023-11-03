@@ -68,14 +68,17 @@ public class JwtAuthenticationFilter implements WebFilter{
                     String role = jwtService.extractRole(jwt);
 
                     log.warn("This is role " + role);
+
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
+                    log.warn(authorities.toString());
 
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                             email, null, authorities
                     );
+                    System.out.println(usernamePasswordAuthenticationToken);
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
+                    System.out.println(SecurityContextHolder.getContext());
                     return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
                 }
             }
