@@ -99,6 +99,7 @@ public class CommunityServiceImplementation implements CommunityService {
                 communityGetDto = CommunityGetDto.builder()
                         .postId(p.getPostId())
                         .title(p.getTitle())
+                        .username(p.getUsername())
                         .employeeCode(p.getEmployeeCode())
                         .dateTime(p.getDateTime())
                         .likeCount((long) likedEmployee.size())
