@@ -28,8 +28,7 @@ private CommunityServiceImplementation communityService;
 
     @PostMapping("/addPost")
     //@Operation(summary = "Save File to the disk", operationId = "1", description = "Save the file to the disk y passing json value")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addPost(@Valid @RequestBody CommunityPostDto communityPostDto) throws CommunityException, ServiceNotFoundException {
+    public ResponseEntity<?> addPost(@Valid @RequestBody CommunityPostDto communityPostDto) throws CommunityException, ServiceNotFoundException {
 
         Community community = Community.builder()
                 .employeeCode(communityPostDto.getEmployeeCode())
@@ -45,7 +44,7 @@ private CommunityServiceImplementation communityService;
                 .build();
 
         communityService.addPost(community);
-
+    return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/getAllPosts")
