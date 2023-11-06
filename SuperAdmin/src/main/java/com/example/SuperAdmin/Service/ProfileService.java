@@ -27,4 +27,6 @@ public interface ProfileService {
     UserCredential getByUserName(String username);
 
     UserCredential updatePassword(ResetPassword resetPassword);
+
+    String getEmailByEmployeeCode(String empcode);
 }
