@@ -29,9 +29,9 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @PostMapping("/create-to-do")
-    public ResponseEntity<?> addToDo(@Valid @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException , ServiceNotFoundException {
+    public ResponseEntity<?> addToDo(@Valid @RequestBody TodoDTO todoDTO) throws TodoException , ServiceNotFoundException {
         try{
-            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
+//            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             TodoDTO savedTodo = todoService.addToDo(todoDTO);
             return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.CREATED);
         }catch (TodoException todoException) {
@@ -49,9 +49,9 @@ public class TodoController {
     }
 
     @PutMapping("/update-created-to-do")
-    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO, HttpServletRequest request) throws TodoException {
+    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
         try{
-            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
+//            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.CREATED);
         }catch (TodoException todoException) {
             return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
