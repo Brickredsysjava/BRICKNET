@@ -37,51 +37,53 @@ public class JwtAuthenticationFilter implements WebFilter{
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = extractTokenFromRequest(exchange);
 
-        log.info("JWT: " + jwt);
+        //log.info("JWT: " + jwt);
         String path = exchange.getRequest().getPath().toString();
-        log.info("Path: " + path);
-        log.info("This is jwt -- ------");
-        log.info(jwt);
+//        log.info("Path: " + path);
+//        log.info("This is jwt -- ------");
+//        log.info(jwt);
         if (jwt != null) {
 
             String empcode = jwtService.extractEmployeeCode(jwt);
-            log.warn("This is empcode ---------------------");
+            //log.warn("This is empcode ---------------------");
             log.warn(empcode);
 
             Mono<String> monres = jwtMap.getByjwt(empcode);
             jwtMap.setToken(monres);
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            log.warn("This is comparedJwtInJwtMap   ---------------------");
-            log.warn(comparedJwtInJWTMap);
+//            log.warn("This is comparedJwtInJwtMap   ---------------------");
+//            log.warn(comparedJwtInJWTMap);
+
+            String email = jwtService.extractEmail(jwt);
+
+//            log.warn("This is email " + email);
+            String role = jwtService.extractRole(jwt);
+
+//            log.warn("This is role " + role);
+
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
+//            log.warn(authorities.toString());
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                    email, null, authorities
+            );
 
 
-            String thisis = jwtMap.getByjwt(empcode).block();
-            log.warn("This is something ------" + thisis);
+            return monres.flatMap( thisis -> {
 
-            if (thisis != null) {
-                if (thisis.equals(jwt)) {
-                    log.warn("I am in after if jwt");
-                    String email = jwtService.extractEmail(jwt);
+                if(thisis != null && thisis.equals(jwt)) {
 
-                    log.warn("This is email " + email);
-                    String role = jwtService.extractRole(jwt);
-
-                    log.warn("This is role " + role);
-
-                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
-                    log.warn(authorities.toString());
-
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                            email, null, authorities
-                    );
+//                    log.warn("I am in after if jwt new ---");
+//                    log.warn(thisis);
                     System.out.println(usernamePasswordAuthenticationToken);
-
+                    if(!role.equals("ADMIN")) {
+                        return null;
+                    }
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     System.out.println(SecurityContextHolder.getContext());
-                    return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
                 }
-            }
+                return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
+            });
         }
 
         return chain.filter(exchange);
