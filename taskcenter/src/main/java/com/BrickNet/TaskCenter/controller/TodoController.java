@@ -40,12 +40,10 @@ public class TodoController {
     }
 
     @GetMapping("/show-created-to-do")
-    public ResponseEntity<?> showCreatedToDo(@RequestParam("employeeCode") String employeeCode) throws TodoException{
-        try{
+    public ResponseEntity<List<TodoDTO>> showCreatedToDo(@RequestParam("employeeCode") String employeeCode) throws TodoException{
+
             return new ResponseEntity<List<TodoDTO>>(todoService.showCreatedToDo(employeeCode), HttpStatus.OK);
-        }catch (TodoException todoException) {
-            return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @PutMapping("/update-created-to-do")
