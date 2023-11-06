@@ -78,7 +78,6 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public String getEmployeeEmailByEmployeeCode(String employeeCode) {
-
         return webClientBuilder.baseUrl("http://192.168.1.9:8081")
                 .build().get().uri("/user/profile/getEmailByEmployeeCode?employeeCode=" + employeeCode).retrieve().bodyToMono(String.class).block();
     }
