@@ -28,7 +28,9 @@ public class CommunityPostDto {
     @Size(max = 255, message = "Description must be at most 255 characters long")
     private String description;
 
-    private List<String> fileName;
+  private String username;
+
+  private List<String> fileName;
 
 
 }
