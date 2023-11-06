@@ -1,5 +1,6 @@
 package com.example.suggestion.Controller;
 
+import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Service.SuggestionService;
@@ -27,9 +28,9 @@ public class SuggestionVerificationController
 
     @GetMapping("/getAllSuggestionsNeedToVerified")
     @Operation(summary = "FOR GETTING THE SUGGESTIONS THAT NEED TO BE VERIFIED")
-    public ResponseEntity<List<SuggestionDto>> getAllSuggestionsNeedToVerified() throws SuggestionException
+    public ResponseEntity<List<GetSuggestionsDTO>> getAllSuggestionsNeedToVerified() throws SuggestionException
     {
-        List<SuggestionDto> e1 = suggestionService.getAllSuggestionsNeedToVerified();
+        List<GetSuggestionsDTO> e1 = suggestionService.getAllSuggestionsNeedToVerified();
         return new ResponseEntity<>( e1, HttpStatus.OK);
     }
 

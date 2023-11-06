@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.sql.Clob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -16,7 +19,7 @@ import java.time.LocalDate;
 @Builder
 @ToString
 @Table(name = "suggestions")
-public class Suggestion{
+public class Suggestion implements Comparable<Suggestion>{
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -53,12 +56,19 @@ public class Suggestion{
     private double dislikePercentage;
 
     @Column(name = "suggestion_date")
-    private LocalDate suggestionDate;
+    private LocalDateTime suggestionDateTime;
 
 
     private Boolean adminVerified;
 
     private String verificationStatusMessage;
+
+
+    @Override
+    public int compareTo(Suggestion suggestion) {
+        // Compare the dates using the compareTo method of the Date class
+        return suggestion.suggestionDateTime.compareTo(this.suggestionDateTime);
+    }
 
 
 

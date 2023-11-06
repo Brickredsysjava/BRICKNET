@@ -2,10 +2,21 @@ package com.example.suggestion.DTO;
 
 import com.example.suggestion.Model.Department;
 import com.example.suggestion.Model.Status;
+import lombok.*;
 
+import java.sql.Clob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class getSuggestionsDTO {
+
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
+public class GetSuggestionsDTO {
 
     private String ticket_id;
 
@@ -27,7 +38,7 @@ public class getSuggestionsDTO {
 
     private double dislikePercentage;
 
-    private LocalDate suggestionDate;
+    private LocalDateTime suggestionDateTime;
 
     private Boolean adminVerified;
 

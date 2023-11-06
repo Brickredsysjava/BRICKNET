@@ -18,10 +18,13 @@ import java.util.UUID;
 @Table(name = "employee")
 public class Employee {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "auto_id", columnDefinition = "VARCHAR(255)")
+//    @GeneratedValue(generator = "uuid2")
+//    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(name = "auto_id", columnDefinition = "VARCHAR(255)")
     private String auto_id;
+
+//    @Column(name = "userId", columnDefinition = "VARCHAR(255)")
+//    private String userId;
 
     @Column
     private String emp_id;

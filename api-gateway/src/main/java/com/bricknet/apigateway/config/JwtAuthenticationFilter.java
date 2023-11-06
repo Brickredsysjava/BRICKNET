@@ -17,8 +17,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
@@ -47,31 +47,38 @@ public class JwtAuthenticationFilter implements WebFilter{
             String empcode = jwtService.extractEmployeeCode(jwt);
             log.warn("This is empcode ---------------------");
             log.warn(empcode);
+
             Mono<String> monres = jwtMap.getByjwt(empcode);
             jwtMap.setToken(monres);
-            String thisii = jwtMap.getByjwt(empcode).block();
 
             String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            //String comparedJwtInJWTMap = redisService.get(empcode);
             log.warn("This is comparedJwtInJwtMap   ---------------------");
             log.warn(comparedJwtInJWTMap);
-            log.warn("This is something ------" + thisii);
-            if (thisii != null) {
-                if (thisii.equals(jwt)) {
+
+
+            String thisis = jwtMap.getByjwt(empcode).block();
+            log.warn("This is something ------" + thisis);
+
+            if (thisis != null) {
+                if (thisis.equals(jwt)) {
                     log.warn("I am in after if jwt");
                     String email = jwtService.extractEmail(jwt);
+
                     log.warn("This is email " + email);
                     String role = jwtService.extractRole(jwt);
+
                     log.warn("This is role " + role);
+
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
+                    log.warn(authorities.toString());
 
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                             email, null, authorities
                     );
-
-                    
+                    System.out.println(usernamePasswordAuthenticationToken);
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    System.out.println(SecurityContextHolder.getContext());
                     return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
                 }
             }

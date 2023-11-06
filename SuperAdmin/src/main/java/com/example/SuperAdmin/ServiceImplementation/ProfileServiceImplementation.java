@@ -35,6 +35,7 @@ public class ProfileServiceImplementation implements ProfileService {
     @Override
     public Profile saveProfile(Profile profile) {
         profile.setPassword(passwordEncoder.encode(profile.getPassword()));
+        profile.setEmployeeCode(profile.getEmployeeCode().toUpperCase());
         return profileRepository.save(profile);
     }
     @Override

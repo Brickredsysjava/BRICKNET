@@ -85,8 +85,7 @@ private CommunityServiceImplementation communityService;
 
     @GetMapping("/getMyPost")
     @Operation(summary =  "For getting my post")
-    public  ResponseEntity<?> getMyPost(HttpServletRequest request) throws CommunityException {
-         String employeeCode = (String) request.getAttribute("employeeCode");
+    public  ResponseEntity<?> getMyPost(@RequestParam("employeeCode") String employeeCode) throws CommunityException {
         List<CommunityGetDto> e1 = communityService.getMyPost(employeeCode);
         if(!e1.isEmpty()) {
             return new ResponseEntity<>(e1, HttpStatus.OK);

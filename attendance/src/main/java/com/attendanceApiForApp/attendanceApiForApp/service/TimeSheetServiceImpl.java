@@ -72,10 +72,11 @@ private  final TimeSheetRepository timeSheetRepository;
     }
 
     @Override
-    public List<TimeSheetDto> getTimeSheetData(int month,int year) {
+    public List<TimeSheetDto> getTimeSheetData(int month,int year , String autoId) {
         LocalDate startOfMonth = LocalDate.of(year, month, 1);
         LocalDate endOfMonth = startOfMonth.plusMonths(1).minusDays(1);
-        List<TimeSheet> data =timeSheetRepository.findAll().stream().filter(i->!i.getDates().isBefore(startOfMonth)&& !i.getDates().isAfter(endOfMonth)).collect(Collectors.toList());
+        List<TimeSheet> data =timeSheetRepository.findAll().stream().filter(i->!i.getDates().isBefore(startOfMonth)&& !i.getDates().isAfter(endOfMonth) && i.getEmployee().getAuto_id().equals(autoId)
+        ).collect(Collectors.toList());
     List<TimeSheetDto>newData=  data.stream()
                 .map(e ->  TimeSheetDto.builder()
                         .Task(e.getTask())
