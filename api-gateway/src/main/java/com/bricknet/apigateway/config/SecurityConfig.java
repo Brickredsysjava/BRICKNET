@@ -25,17 +25,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        return http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .cors(ServerHttpSecurity.CorsSpec::disable)
-                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth/getOtp/**","/auth/checkOtp/**","/auth/login/**" , "/auth/**").permitAll()
-                        .pathMatchers("/communityPost/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestionPost/api/**").permitAll()
-                        .pathMatchers("/user/profile/allProfile/**").hasRole("ADMIN")
-                        .anyExchange().authenticated())
-                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .build();
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
+            return http
+                    .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                    .cors(ServerHttpSecurity.CorsSpec::disable)
+                    .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
+                            .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html","/auth/getOtp/**","/auth/checkOtp/**","/auth/login/**" , "/auth/**").permitAll()
+                            .pathMatchers("/communityPost/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/communityPost/**", "/api/**", "/media/**", "/suggestionPost/api/**").permitAll()
+                            .pathMatchers("/user/profile/allProfile/**").authenticated()
+                            .anyExchange().permitAll())
+                    .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                    .build();
     }
 
 }
