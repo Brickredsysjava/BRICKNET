@@ -33,7 +33,7 @@ public class TodoController {
         try{
 //            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
             TodoDTO savedTodo = todoService.addToDo(todoDTO);
-            return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.CREATED);
+            return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.OK);
         }catch (TodoException todoException) {
             return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +52,7 @@ public class TodoController {
     public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
         try{
 //            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
-            return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.CREATED);
+            return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.OK);
         }catch (TodoException todoException) {
             return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
         }
