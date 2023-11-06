@@ -59,7 +59,6 @@ public class CommunityServiceImplementation implements CommunityService {
     public List<CommunityGetDto> getAllPosts() throws CommunityException{
         List<CommunityGetDto> newDtoList = new ArrayList<>();
         List<CommunityGetDto> dtoList = communityRepository.findAll().stream().map(p -> {
-            // Integer likeCount = p.getLikedEmployee().size();
             CommunityGetDto communityGetDto = null;
             if (p.getAdminVerified() == true) {
                 List<String> likedEmployee = p.getLikedEmployee();
@@ -67,6 +66,7 @@ public class CommunityServiceImplementation implements CommunityService {
                         .postId(p.getPostId())
                         .title(p.getTitle())
                         .employeeCode(p.getEmployeeCode())
+                        .username(p.getUsername())
                         .dateTime(p.getDateTime())
                         .likeCount((long) likedEmployee.size())
                         .likedEmployee(p.getLikedEmployee())
@@ -99,6 +99,7 @@ public class CommunityServiceImplementation implements CommunityService {
                 communityGetDto = CommunityGetDto.builder()
                         .postId(p.getPostId())
                         .title(p.getTitle())
+                        .username(p.getUsername())
                         .employeeCode(p.getEmployeeCode())
                         .dateTime(p.getDateTime())
                         .likeCount((long) likedEmployee.size())
@@ -291,6 +292,7 @@ public class CommunityServiceImplementation implements CommunityService {
                         .postId(p.getPostId())
                         .title(p.getTitle())
                         .employeeCode(p.getEmployeeCode())
+                        .username(p.getUsername())
                         .likeCount((long) likedEmployee.size())
                         .likedEmployee(p.getLikedEmployee())
                         .fileName(p.getFileName())
