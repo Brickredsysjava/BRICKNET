@@ -76,7 +76,6 @@ public class TodoServiceImpl implements TodoService{
                     pushNotification(notificationDTO);
                 }
             }
-
         } catch(Exception e) {
             e.printStackTrace();
             System.out.println("CONNECTION REFUSED");
