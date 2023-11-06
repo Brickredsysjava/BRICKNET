@@ -19,5 +19,6 @@ public interface TodoService {
 
     public void pushNotification(NotificationDTO notificationDto) throws ServiceNotFoundException;
 
+    public String getEmployeeEmailByEmployeeCode(String employeeCode);
 
 }

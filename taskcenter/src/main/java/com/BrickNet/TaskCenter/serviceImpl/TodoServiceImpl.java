@@ -64,7 +64,7 @@ public class TodoServiceImpl implements TodoService{
                                 "\n";
                 NotificationDTO notificationDTO = new NotificationDTO();
                 notificationDTO.setMessage(message);
-                notificationDTO.setRecipient("kabiraneja021@gmail.com");
+                notificationDTO.setRecipient(getEmployeeEmailByEmployeeCode(todoDTO.getEmployeeAssignedBy()));
                 notificationDTO.setTimeStamp(localDateTime);
 
                 pushNotification(notificationDTO);
@@ -74,6 +74,13 @@ public class TodoServiceImpl implements TodoService{
             }
         }
             return todoDTO;
+    }
+
+    @Override
+    public String getEmployeeEmailByEmployeeCode(String employeeCode) {
+
+        return webClientBuilder.baseUrl("http://192.168.1.9:8081")
+                .build().get().uri("/user/profile/getEmailByEmployeeCode?employeeCode=" + employeeCode).retrieve().bodyToMono(String.class).block();
     }
 
     @Override
@@ -149,4 +156,6 @@ public class TodoServiceImpl implements TodoService{
         webClientBuilder.baseUrl("http://192.168.1.9:8084/send")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
     }
+
+
 }
