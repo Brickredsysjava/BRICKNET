@@ -72,15 +72,10 @@ public class JwtAuthenticationFilter implements WebFilter{
             return monres.flatMap( thisis -> {
 
                 if(thisis != null && thisis.equals(jwt)) {
-
-//                    log.warn("I am in after if jwt new ---");
-//                    log.warn(thisis);
-                    System.out.println(usernamePasswordAuthenticationToken);
                     if(!role.equals("ADMIN")) {
                         return null;
                     }
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                    System.out.println(SecurityContextHolder.getContext());
                 }
                 return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
             });
@@ -91,7 +86,6 @@ public class JwtAuthenticationFilter implements WebFilter{
 
     private String extractTokenFromRequest(ServerWebExchange exchange) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
-        log.info("Authorization header: " + authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.substring(7);
         }
