@@ -47,24 +47,14 @@ public class TodoController {
     }
 
     @PutMapping("/update-created-to-do")
-    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
-        try{
-//            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
-            return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.OK);
-        }catch (TodoException todoException) {
-            return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<TodoDTO> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
+        return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-To-Do")
     public ResponseEntity<String> deleteToDo(@RequestParam("id") String id) throws TodoException{
-       try {
            todoService.deleteToDo(id);
            return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
-       }catch (TodoException todoException){
-           return  new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
-       }
-
     }
 
     @GetMapping("/test")
