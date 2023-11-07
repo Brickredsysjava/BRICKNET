@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,9 +53,14 @@ public class TodoController {
     }
 
     @DeleteMapping("/delete-To-Do")
-    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id) throws TodoException{
-           todoService.deleteToDo(id);
-           return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
+    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id,@RequestParam("employeeCode") String employeeCode) throws TodoException{
+        try{
+            todoService.deleteToDo(id, employeeCode);
+            return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
+        }
+        catch (TodoException todoException) {
+            return new ResponseEntity<>(todoException.getMessage(), HttpStatusCode.valueOf(401));
+        }
     }
 
     @GetMapping("/test")
