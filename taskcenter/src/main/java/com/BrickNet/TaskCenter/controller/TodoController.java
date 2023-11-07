@@ -36,7 +36,7 @@ public class TodoController {
             TodoDTO savedTodo = todoService.addToDo(todoDTO);
             return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.OK);
         }catch (TodoException todoException) {
-            return new ResponseEntity<>("Data Not Found",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Data Not Found",HttpStatus.valueOf(401));
         }
     }
 
@@ -48,8 +48,13 @@ public class TodoController {
     }
 
     @PutMapping("/update-created-to-do")
-    public ResponseEntity<TodoDTO> updateCreatedToDo(@RequestParam("id") String id,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
-        return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, todoDTO), HttpStatus.OK);
+    public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@RequestParam("employeeCode") String employeeCode,@Valid @RequestBody TodoDTO todoDTO) throws TodoException {
+        try{
+            return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, employeeCode, todoDTO), HttpStatus.OK);
+        }
+        catch (TodoException todoException) {
+            return new ResponseEntity<>(todoException.getMessage(),HttpStatusCode.valueOf(401));
+        }
     }
 
     @DeleteMapping("/delete-To-Do")

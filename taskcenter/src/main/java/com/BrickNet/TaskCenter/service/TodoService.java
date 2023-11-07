@@ -13,7 +13,7 @@ public interface TodoService {
 
     List<TodoDTO> showCreatedToDo(String employeeCode) throws TodoException;
 
-    TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException;
+    TodoDTO updateCreatedToDo(String id,String employeeCode ,TodoDTO todoDTO) throws TodoException;
 
     void deleteToDo(String id1,String employeeCode) throws TodoException;
 
