@@ -114,11 +114,12 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException {
+    public TodoDTO updateCreatedToDo(String id,String employeeCode ,TodoDTO todoDTO) throws TodoException {
         if(todoRepository.findByStringId(id)==null || todoDTO==null) {
             throw new TodoException("Details not exist");
-        }
-        else {
+        } else if (!employeeCode.equals(todoDTO.getEmployeeAssignedBy())) {
+            throw new TodoException("You cannot update task");
+        } else {
             Todo t = todoRepository.findByStringId(id);
 
                 t.setTitle(todoDTO.getTitle());
