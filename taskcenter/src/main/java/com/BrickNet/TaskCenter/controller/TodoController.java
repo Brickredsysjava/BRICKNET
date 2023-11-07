@@ -52,8 +52,8 @@ public class TodoController {
     }
 
     @DeleteMapping("/delete-To-Do")
-    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id) throws TodoException{
-           todoService.deleteToDo(id);
+    public ResponseEntity<String> deleteToDo(@RequestParam("id") String id,@RequestParam("employeeCode") String employeeCode) throws TodoException{
+           todoService.deleteToDo(id,employeeCode);
            return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
     }
 

@@ -15,7 +15,7 @@ public interface TodoService {
 
     TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException;
 
-    void deleteToDo(String id1) throws TodoException;
+    void deleteToDo(String id1,String employeeCode) throws TodoException;
 
     public void pushNotification(NotificationDTO notificationDto) throws ServiceNotFoundException;
 

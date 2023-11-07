@@ -139,7 +139,7 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void deleteToDo(String id1) throws TodoException{
+    public void deleteToDo(String id1,String employeeCode) throws TodoException{
         if(id1==null) {
             throw new TodoException("Details not exist");
         }
@@ -149,7 +149,10 @@ public class TodoServiceImpl implements TodoService{
         }
 
         else {
-            todoRepository.deleteByStringId(id1);
+            Todo todo = todoRepository.findByStringId(id1);
+            if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
+                todoRepository.deleteByStringId(id1);
+            }
         }
 
     }
