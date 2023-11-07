@@ -153,6 +153,7 @@ public class TodoServiceImpl implements TodoService{
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
                 todoRepository.deleteByStringId(id1);
             }
+            else throw new TodoException("Task not deleted");
         }
 
     }
