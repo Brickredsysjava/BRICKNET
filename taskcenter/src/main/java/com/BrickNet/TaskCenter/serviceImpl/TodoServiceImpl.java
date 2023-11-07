@@ -50,30 +50,36 @@ public class TodoServiceImpl implements TodoService{
             Todo todo1 = modelMapper.map(todoDTO, Todo.class);
             todoRepository.save(todo1);
             todoDTO.setId(todo1.getId());
-
-            try {
-                Date date = new Date();
-                LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-                String message =
-                        "You have a new Task Assigned \n" + "\n"
-                                + "TASK DETAILS--" + "\n"
-                                + "FROM:  " + todoDTO.getEmployeeAssignedBy() + "\n"
-                                + "To:  " + todoDTO.getEmployeeAssignedTo() + "\n"
-                                + "TITLE:  " + todoDTO.getTitle() + "\n"
-                                + "CLICK HERE for more info" + "\n" +
-                                "\n";
-                NotificationDTO notificationDTO = new NotificationDTO();
-                notificationDTO.setMessage(message);
-                notificationDTO.setRecipient(getEmployeeEmailByEmployeeCode(todoDTO.getEmployeeAssignedBy()));
-                notificationDTO.setTimeStamp(localDateTime);
-
-                pushNotification(notificationDTO);
-            } catch(Exception e) {
-                e.printStackTrace();
-                System.out.println("CONNECTION REFUSED");
-            }
+            sendNotification(todoDTO);
         }
             return todoDTO;
+    }
+
+    public void sendNotification(TodoDTO todoDTO) {
+        try {
+            Date date = new Date();
+            LocalDateTime localDateTime = date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            String message =
+                    "You have a new Task Assigned \n" + "\n"
+                            + "TASK DETAILS--" + "\n"
+                            + "FROM:  " + todoDTO.getEmployeeAssignedBy() + "\n"
+                            + "To:  " + todoDTO.getEmployeeAssignedTo() + "\n"
+                            + "TITLE:  " + todoDTO.getTitle() + "\n"
+                            + "CLICK HERE for more info" + "\n" +
+                            "\n";
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setMessage(message);
+            notificationDTO.setTimeStamp(localDateTime);
+            if(todoDTO.getEmployeeAssignedTo() != null){
+                for ( String i : todoDTO.getEmployeeAssignedTo()){
+                    notificationDTO.setRecipient(getEmployeeEmailByEmployeeCode(i));
+                    pushNotification(notificationDTO);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("CONNECTION REFUSED");
+        }
     }
 
     @Override
