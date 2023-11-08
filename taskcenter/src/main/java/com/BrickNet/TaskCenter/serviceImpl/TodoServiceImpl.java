@@ -100,9 +100,9 @@ public class TodoServiceImpl implements TodoService{
             Todo todo = todoRepository.findByStringId(id);
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
                 todo.setStatus(Status.valueOf(status));
-                if(status.equals(Status.InProgress)) {
+                if(Status.InProgress.equals(status)) {
                     todo.setActualStartDate(LocalDate.now());
-                } else if (status.equals(Status.Completed)) {
+                } else if (Status.Completed.equals(status)) {
                     todo.setActualStartDate(LocalDate.now());
                 }
                 todoRepository.save(todo);
@@ -113,9 +113,9 @@ public class TodoServiceImpl implements TodoService{
             for(String str : empCode) {
                 if(employeeCode.equals(str)) {
                     todo.setStatus(Status.valueOf(status));
-                    if(status.equals(Status.InProgress)) {
+                    if(Status.InProgress.equals(status)) {
                         todo.setActualStartDate(LocalDate.now());
-                    } else if (status.equals(Status.Completed)) {
+                    } else if (Status.Completed.equals(status)) {
                         todo.setActualStartDate(LocalDate.now());
                     }
                     todoRepository.save(todo);
