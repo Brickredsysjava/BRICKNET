@@ -17,6 +17,9 @@ public interface TodoRepository extends JpaRepository<Todo,Integer> {
     @Query("SELECT t FROM Todo t WHERE t.id = ?1")
     Todo findByStringId(String id);
 
+    @Query("SELECT t FROM Todo t WHERE t.employeeCode = ?1")
+    Todo findByStringEmployeeCode(String employeeCode);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Todo t WHERE t.id = ?1")
