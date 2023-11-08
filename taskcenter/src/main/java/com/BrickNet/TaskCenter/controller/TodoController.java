@@ -1,6 +1,7 @@
 package com.BrickNet.TaskCenter.controller;
 
 
+import com.BrickNet.TaskCenter.dto.PostTodoDTO;
 import com.BrickNet.TaskCenter.dto.TodoDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
 import com.BrickNet.TaskCenter.model.Todo;
@@ -30,11 +31,11 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @PostMapping("/create-to-do")
-    public ResponseEntity<?> addToDo(@Valid @RequestBody TodoDTO todoDTO) throws TodoException , ServiceNotFoundException {
+    public ResponseEntity<?> addToDo(@Valid @RequestBody PostTodoDTO postTodoDTO) throws TodoException , ServiceNotFoundException {
         try{
 //            todoDTO.setEmployeeAssignedBy((String) request.getAttribute("employeeCode"));
-            TodoDTO savedTodo = todoService.addToDo(todoDTO);
-            return new ResponseEntity<TodoDTO>(savedTodo, HttpStatus.OK);
+            PostTodoDTO savedTodo = todoService.addToDo(postTodoDTO);
+            return new ResponseEntity<>(savedTodo, HttpStatus.OK);
         }catch (TodoException todoException) {
             return new ResponseEntity<>("Data Not Found",HttpStatus.valueOf(401));
         }
@@ -66,6 +67,16 @@ public class TodoController {
         catch (TodoException todoException) {
             return new ResponseEntity<>(todoException.getMessage(), HttpStatusCode.valueOf(401));
         }
+    }
+
+    @PostMapping("/setStatus")
+    public ResponseEntity<String> setStatus(@RequestParam("employeeCode") String employeeCode, @RequestParam("status") String status)throws TodoException {
+        return new ResponseEntity<String>(todoService.setStatus(employeeCode,status),HttpStatus.OK);
+    }
+
+    @PostMapping("/setPriority")
+    public ResponseEntity<String> setPriority(@RequestParam("employeeCode") String employeeCode, @RequestParam("priority") String priority)throws TodoException {
+        return new ResponseEntity<String>(todoService.setPriority(employeeCode,priority),HttpStatus.OK);
     }
 
     @GetMapping("/test")
