@@ -115,13 +115,10 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public TodoDTO updateCreatedToDo(String id,String employeeCode ,TodoDTO todoDTO) throws TodoException {
-        if(todoRepository.findByStringId(id)==null || todoDTO==null) {
-            throw new TodoException("Details not exist");
-        } else if (!employeeCode.equals(todoDTO.getEmployeeAssignedBy())) {
-            throw new TodoException("You cannot update task");
-        } else {
+        try {
             Todo t = todoRepository.findByStringId(id);
 
+            if (todoDTO != null && t.getEmployeeAssignedBy().equals(employeeCode)) {
                 t.setTitle(todoDTO.getTitle());
                 t.setDescription(todoDTO.getDescription());
                 t.setActualEndDate(todoDTO.getActualEndDate());
@@ -135,8 +132,12 @@ public class TodoServiceImpl implements TodoService{
 
                 todoRepository.save(t);
 
-            return modelMapper.map(t, TodoDTO.class);
+                return modelMapper.map(t, TodoDTO.class);
+            }
+        } catch (Exception e) {
+            throw new TodoException("Details not exist");
         }
+        return null;
     }
 
     @Override
