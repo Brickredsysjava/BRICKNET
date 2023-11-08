@@ -96,7 +96,7 @@ public class TodoServiceImpl implements TodoService{
     public String setStatus(String employeeCode, String status)throws TodoException {
 
         try{
-            Todo todo = todoRepository.findByStringEmployeeCode(employeeCode);
+            Todo todo = todoRepository.findByStringEmployeeAssignedBy(employeeCode);
             todo.setStatus(Status.valueOf(status));
             todoRepository.save(todo);
             return "Status updated";
@@ -110,7 +110,7 @@ public class TodoServiceImpl implements TodoService{
     public String setPriority(String employeeCode, String priority)throws TodoException {
 
         try{
-            Todo todo = todoRepository.findByStringEmployeeCode(employeeCode);
+            Todo todo = todoRepository.findByStringEmployeeAssignedBy(employeeCode);
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
                 todo.setPriority(Priority.valueOf(priority));
                 todoRepository.save(todo);
