@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.springframework.web.reactive.function.client.WebClient;
 import javax.management.ServiceNotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,24 +94,46 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public String setStatus(String employeeCode, String status)throws TodoException {
+    public String setStatus(String id,String employeeCode, String status)throws TodoException {
 
         try{
-            Todo todo = todoRepository.findByStringId(employeeCode);
-            todo.setStatus(Status.valueOf(status));
-            todoRepository.save(todo);
-            return "Status updated";
+            Todo todo = todoRepository.findByStringId(id);
+            if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
+                todo.setStatus(Status.valueOf(status));
+                if(Status.InProgress.equals(status)) {
+                    todo.setActualStartDate(LocalDate.now());
+                } else if (Status.Completed.equals(status)) {
+                    todo.setActualStartDate(LocalDate.now());
+                }
+                todoRepository.save(todo);
+                return "Status updated";
+            }
+            List<String> empCode = todo.getEmployeeAssignedTo();
+
+            for(String str : empCode) {
+                if(employeeCode.equals(str)) {
+                    todo.setStatus(Status.valueOf(status));
+                    if(Status.InProgress.equals(status)) {
+                        todo.setActualStartDate(LocalDate.now());
+                    } else if (Status.Completed.equals(status)) {
+                        todo.setActualStartDate(LocalDate.now());
+                    }
+                    todoRepository.save(todo);
+                    return "Status updated";
+                }
+            }
         }
         catch (Exception e) {
             throw new TodoException("Details not exist");
         }
+        return null;
     }
 
     @Override
     public String setPriority(String employeeCode, String priority)throws TodoException {
 
         try{
-            Todo todo = todoRepository.findByStringId(employeeCode);
+            Todo todo = todoRepository.findByStringEmployeeAssignedBy(employeeCode);
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
                 todo.setPriority(Priority.valueOf(priority));
                 todoRepository.save(todo);
