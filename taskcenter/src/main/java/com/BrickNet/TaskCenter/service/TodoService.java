@@ -22,7 +22,7 @@ public interface TodoService {
 
     String getEmployeeEmailByEmployeeCode(String employeeCode);
 
-    String setStatus (String employeeCode,String status) throws TodoException;
+    String setStatus (String id,String employeeCode,String status) throws TodoException;
 
     String setPriority (String employeeCode,String priority) throws TodoException;
 }
