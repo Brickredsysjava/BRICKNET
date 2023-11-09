@@ -77,8 +77,8 @@ public class TodoController {
     }
 
     @PostMapping("/setPriority")
-    public ResponseEntity<String> setPriority(@RequestParam("employeeCode") String employeeCode, @RequestParam("priority") Priority priority)throws TodoException {
-        return new ResponseEntity<String>(todoService.setPriority(employeeCode,priority),HttpStatus.OK);
+    public ResponseEntity<String> setPriority(@RequestParam("id")String id, @RequestParam("employeeCode") String employeeCode, @RequestParam("priority") Priority priority)throws TodoException {
+        return new ResponseEntity<String>(todoService.setPriority(id,employeeCode,priority),HttpStatus.OK);
     }
 
     @GetMapping("/test")

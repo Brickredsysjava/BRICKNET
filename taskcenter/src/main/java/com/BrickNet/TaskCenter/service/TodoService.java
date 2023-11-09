@@ -26,5 +26,5 @@ public interface TodoService {
 
     String setStatus (String id, Status status) throws TodoException;
 
-    String setPriority (String employeeCode, Priority priority) throws TodoException;
+    String setPriority (String id, String employeeCode, Priority priority) throws TodoException;
 }

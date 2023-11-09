@@ -114,10 +114,10 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public String setPriority(String employeeCode, Priority priority)throws TodoException {
+    public String setPriority(String id, String employeeCode, Priority priority)throws TodoException {
 
         try{
-            Todo todo = todoRepository.findByStringEmployeeAssignedBy(employeeCode);
+            Todo todo = todoRepository.findByStringId(id);
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
                 todo.setPriority(priority);
                 todoRepository.save(todo);
