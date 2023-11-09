@@ -94,7 +94,7 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public String setStatus(String id,String employeeCode, Status status)throws TodoException {
+    public String setStatus(String id, Status status)throws TodoException {
 
         try{
             Todo todo = todoRepository.findByStringId(id);

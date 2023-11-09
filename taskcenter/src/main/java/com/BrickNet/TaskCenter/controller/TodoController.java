@@ -72,8 +72,8 @@ public class TodoController {
     }
 
     @PostMapping("/setStatus")
-    public ResponseEntity<String> setStatus(@RequestParam("id")String id,@RequestParam("employeeCode") String employeeCode, @RequestParam("status") Status status)throws TodoException {
-        return new ResponseEntity<String>(todoService.setStatus(id,employeeCode,status),HttpStatus.OK);
+    public ResponseEntity<String> setStatus(@RequestParam("id")String id, @RequestParam("status") Status status)throws TodoException {
+        return new ResponseEntity<String>(todoService.setStatus(id,status),HttpStatus.OK);
     }
 
     @PostMapping("/setPriority")
