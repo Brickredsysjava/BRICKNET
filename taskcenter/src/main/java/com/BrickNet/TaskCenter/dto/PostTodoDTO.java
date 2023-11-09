@@ -11,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -41,11 +42,11 @@ public class PostTodoDTO {
 
     @Valid
     @NotNull(message = "Estimated Start Date can't be null or empty")
-    private LocalDate estimatedStartDate;
+    private LocalDateTime estimatedStartDate;
 
     @Valid
     @NotNull(message = "Estimate End Date can't be null or empty")
-    private LocalDate estimatedEndDate;
+    private LocalDateTime estimatedEndDate;
 
     @Valid
     @NotNull(message = "Priority can't be null or empty")

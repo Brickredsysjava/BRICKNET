@@ -4,6 +4,8 @@ package com.BrickNet.TaskCenter.controller;
 import com.BrickNet.TaskCenter.dto.PostTodoDTO;
 import com.BrickNet.TaskCenter.dto.TodoDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
+import com.BrickNet.TaskCenter.model.Priority;
+import com.BrickNet.TaskCenter.model.Status;
 import com.BrickNet.TaskCenter.model.Todo;
 import com.BrickNet.TaskCenter.repository.TodoRepository;
 import com.BrickNet.TaskCenter.serviceImpl.TodoServiceImpl;
@@ -70,13 +72,13 @@ public class TodoController {
     }
 
     @PostMapping("/setStatus")
-    public ResponseEntity<String> setStatus(@RequestParam("id")String id,@RequestParam("employeeCode") String employeeCode, @RequestParam("status") String status)throws TodoException {
-        return new ResponseEntity<String>(todoService.setStatus(id,employeeCode,status),HttpStatus.OK);
+    public ResponseEntity<String> setStatus(@RequestParam("id")String id, @RequestParam("status") Status status)throws TodoException {
+        return new ResponseEntity<String>(todoService.setStatus(id,status),HttpStatus.OK);
     }
 
     @PostMapping("/setPriority")
-    public ResponseEntity<String> setPriority(@RequestParam("employeeCode") String employeeCode, @RequestParam("priority") String priority)throws TodoException {
-        return new ResponseEntity<String>(todoService.setPriority(employeeCode,priority),HttpStatus.OK);
+    public ResponseEntity<String> setPriority(@RequestParam("id")String id, @RequestParam("employeeCode") String employeeCode, @RequestParam("priority") Priority priority)throws TodoException {
+        return new ResponseEntity<String>(todoService.setPriority(id,employeeCode,priority),HttpStatus.OK);
     }
 
     @GetMapping("/test")
