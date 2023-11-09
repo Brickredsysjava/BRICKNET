@@ -102,7 +102,7 @@ public class TodoServiceImpl implements TodoService{
             if(Status.InProgress.equals(status)) {
                 todo.setActualStartDate(LocalDate.now());
             } else if (Status.Completed.equals(status)) {
-                todo.setActualStartDate(LocalDate.now());
+                todo.setActualEndDate(LocalDate.now());
             }
             todoRepository.save(todo);
             return "Status updated";
