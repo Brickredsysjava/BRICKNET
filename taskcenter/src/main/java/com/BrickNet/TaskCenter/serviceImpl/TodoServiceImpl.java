@@ -111,7 +111,6 @@ public class TodoServiceImpl implements TodoService{
         catch (Exception e) {
             throw new TodoException("Details not exist");
         }
-        return null;
     }
 
     @Override
