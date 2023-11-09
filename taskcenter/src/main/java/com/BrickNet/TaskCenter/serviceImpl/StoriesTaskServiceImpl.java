@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,8 +108,8 @@ public class StoriesTaskServiceImpl implements StoriesTaskService {
                 storiesDTO.setTitle(rs.getString("title"));
                 storiesDTO.setStatus(Status.valueOf(rs.getString("status")));
                 storiesDTO.setDescription(rs.getString("description"));
-                storiesDTO.setEstimatedEndDate(LocalDate.parse(rs.getString("estimated_end_date")));
-                storiesDTO.setEstimatedStartDate(LocalDate.parse(rs.getString("estimated_start_date")));
+                storiesDTO.setEstimatedEndDate(LocalDateTime.parse(rs.getString("estimated_end_date")));
+                storiesDTO.setEstimatedStartDate(LocalDateTime.parse(rs.getString("estimated_start_date")));
                 storiesDTO.setEmployeeAssignedBy(rs.getString("employee_assigned_by"));
                 storiesDTO.setEmployeeAssignedTo(employeeAssignedTo);
                 storiesDTOList.add(storiesDTO);
