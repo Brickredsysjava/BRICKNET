@@ -94,34 +94,19 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public String setStatus(String id,String employeeCode, String status)throws TodoException {
+    public String setStatus(String id,String employeeCode, Status status)throws TodoException {
 
         try{
             Todo todo = todoRepository.findByStringId(id);
-            if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
-                todo.setStatus(Status.valueOf(status));
-                if(Status.InProgress.equals(status)) {
-                    todo.setActualStartDate(LocalDate.now());
-                } else if (Status.Completed.equals(status)) {
-                    todo.setActualStartDate(LocalDate.now());
-                }
-                todoRepository.save(todo);
-                return "Status updated";
+            todo.setStatus(status);
+            if(Status.InProgress.equals(status)) {
+                todo.setActualStartDate(LocalDate.now());
+            } else if (Status.Completed.equals(status)) {
+                todo.setActualStartDate(LocalDate.now());
             }
-            List<String> empCode = todo.getEmployeeAssignedTo();
+            todoRepository.save(todo);
+            return "Status updated";
 
-            for(String str : empCode) {
-                if(employeeCode.equals(str)) {
-                    todo.setStatus(Status.valueOf(status));
-                    if(Status.InProgress.equals(status)) {
-                        todo.setActualStartDate(LocalDate.now());
-                    } else if (Status.Completed.equals(status)) {
-                        todo.setActualStartDate(LocalDate.now());
-                    }
-                    todoRepository.save(todo);
-                    return "Status updated";
-                }
-            }
         }
         catch (Exception e) {
             throw new TodoException("Details not exist");
@@ -130,12 +115,12 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public String setPriority(String employeeCode, String priority)throws TodoException {
+    public String setPriority(String employeeCode, Priority priority)throws TodoException {
 
         try{
             Todo todo = todoRepository.findByStringEmployeeAssignedBy(employeeCode);
             if(todo.getEmployeeAssignedBy().equals(employeeCode)) {
-                todo.setPriority(Priority.valueOf(priority));
+                todo.setPriority(priority);
                 todoRepository.save(todo);
                 return "Priority Updated";
             }

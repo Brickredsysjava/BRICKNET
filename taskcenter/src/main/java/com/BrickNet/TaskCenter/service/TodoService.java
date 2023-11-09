@@ -4,6 +4,8 @@ import com.BrickNet.TaskCenter.dto.NotificationDTO;
 import com.BrickNet.TaskCenter.dto.PostTodoDTO;
 import com.BrickNet.TaskCenter.dto.TodoDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
+import com.BrickNet.TaskCenter.model.Priority;
+import com.BrickNet.TaskCenter.model.Status;
 
 import javax.management.ServiceNotFoundException;
 import java.util.List;
@@ -22,7 +24,7 @@ public interface TodoService {
 
     String getEmployeeEmailByEmployeeCode(String employeeCode);
 
-    String setStatus (String id,String employeeCode,String status) throws TodoException;
+    String setStatus (String id, String employeeCode, Status status) throws TodoException;
 
-    String setPriority (String employeeCode,String priority) throws TodoException;
+    String setPriority (String employeeCode, Priority priority) throws TodoException;
 }
