@@ -18,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.management.ServiceNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,8 +52,9 @@ public class TodoServiceImpl implements TodoService{
         }
 
         else {
-            LocalDateTime estimateStartDate = LocalDateTime.parse(postTodoDTO.getEstimatedStartDate());
-            LocalDateTime estimateEndDate = LocalDateTime.parse(postTodoDTO.getEstimatedEndDate());
+            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime estimateStartDate = LocalDateTime.parse(postTodoDTO.getEstimatedStartDate(),formatter);
+            LocalDateTime estimateEndDate = LocalDateTime.parse(postTodoDTO.getEstimatedEndDate(),formatter);
 
             Todo todo = Todo.builder()
                     .title(postTodoDTO.getTitle())
