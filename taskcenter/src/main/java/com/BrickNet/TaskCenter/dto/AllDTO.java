@@ -6,6 +6,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -52,10 +53,10 @@ public class AllDTO {
 
     @Valid
     @NotNull(message = "Estimate Start Date can't be null or empty")
-    private LocalDate estimatedStartDate;
+    private LocalDateTime estimatedStartDate;
 
     @Valid
     @NotNull(message = "Employee End Date can't be null or empty")
-    private LocalDate estimatedEndDate;
+    private LocalDateTime estimatedEndDate;
 
 }
