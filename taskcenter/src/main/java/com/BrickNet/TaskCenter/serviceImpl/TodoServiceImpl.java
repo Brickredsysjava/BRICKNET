@@ -51,8 +51,20 @@ public class TodoServiceImpl implements TodoService{
         }
 
         else {
-            Todo todo = modelMapper.map(postTodoDTO, Todo.class);
-            todo.setStatus(Status.Initial);
+            LocalDateTime estimateStartDate = LocalDateTime.parse(postTodoDTO.getEstimatedStartDate());
+            LocalDateTime estimateEndDate = LocalDateTime.parse(postTodoDTO.getEstimatedEndDate());
+
+            Todo todo = Todo.builder()
+                    .title(postTodoDTO.getTitle())
+                    .description(postTodoDTO.getDescription())
+                    .estimatedStartDate(estimateStartDate)
+                    .estimatedEndDate(estimateEndDate)
+                    .priority(postTodoDTO.getPriority())
+                    .employeeAssignedBy(postTodoDTO.getEmployeeAssignedBy())
+                    .employeeAssignedTo(postTodoDTO.getEmployeeAssignedTo())
+                    .status(Status.Initial)
+                    .build();
+
             todoRepository.save(todo);
             postTodoDTO.setId(todo.getId());
             sendNotification(postTodoDTO);
