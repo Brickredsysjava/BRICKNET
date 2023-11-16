@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,13 +28,13 @@ public class Todo {
 
     private String description;
 
-    private LocalDate estimatedStartDate;
+    private LocalDateTime estimatedStartDate;
 
-    private LocalDate actualStartDate;
+    private LocalDateTime actualStartDate;
 
-    private LocalDate estimatedEndDate;
+    private LocalDateTime estimatedEndDate;
 
-    private LocalDate actualEndDate;
+    private LocalDateTime actualEndDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

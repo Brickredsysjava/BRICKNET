@@ -19,7 +19,7 @@ public class NotificationServiceImplementation implements NotificationService {
     public void pushNotification (NotificationDTO notificationDTO) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.1.9:8084/send")
+        webClientBuilder.baseUrl("http://192.168.0.9:8084/send")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
     }
 }
