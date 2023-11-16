@@ -144,6 +144,18 @@ public Profile updateProfileById(String id, Profile profile) {
         return userCredential;
     }
 
+    @Override
+    public String getEmailByEmployeeCode(String empcode) {
+        Profile profile = profileRepository.findByEmployeeCode(empcode);
+        if(profile != null){
+            return profile.getPersonalEmail();
+        }
+        else {
+            return null;
+        }
+
+    }
+
 
 }
 

@@ -147,5 +147,15 @@ public class ProfileController {
         return new ResponseEntity<>(userCredential,HttpStatus.OK);
     }
 
+    @GetMapping("/getEmailByEmployeeCode")
+    public ResponseEntity<String> getEmailByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        String email = profileService.getEmailByEmployeeCode(employeeCode);
+        if (email != null) {
+            return ResponseEntity.ok(email);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     }
 

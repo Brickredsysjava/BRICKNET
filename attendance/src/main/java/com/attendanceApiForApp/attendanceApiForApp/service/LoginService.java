@@ -13,7 +13,7 @@ public class LoginService {
 
 
     public LoginService(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:9090");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.0.9:9090");
     }
 
     public Mono<UserAuthDto> authLogin(LoginDto loginDto) {

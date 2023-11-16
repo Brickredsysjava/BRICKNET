@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+
+
+         stage('Build attendance') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd attendance && mvn clean package -DskipTests'
+            }
+        }
+	
+	 stage('Deploy attendance') {
+             steps {
+
+                 sh "ssh root@192.168.0.9 'cd /root'"
+                 sh "ssh root@192.168.0.9 'rm -rf attendance || true'"
+                 sh "ssh root@192.168.0.9 'mkdir attendance'"
+                 
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/attendance/attendance/target/attendance.jar root@192.168.0.9:~/attendance/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/attendance/attendance/Dockerfile root@192.168.0.9:~/attendance/'
+
+                 sh "ssh root@192.168.0.9 'docker stop root_attendance_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rm root_attendance_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rmi root_attendance_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker build -t root_attendance_1 /root/attendance'"
+                 sh "ssh root@192.168.0.9 'docker run -it -d -p 8098:8098 --network=root_default --name root_attendance_1 root_attendance_1'"
+             }
+         }        
+	
+     }
+     
+  }   
