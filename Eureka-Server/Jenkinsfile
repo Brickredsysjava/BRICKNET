@@ -18,18 +18,18 @@ pipeline {
 	
 	 stage('Deploy Eureka-Server') {
              steps {
-                 sh "ssh root@192.168.1.9 'cd /root'"
-                 sh "ssh root@192.168.1.9 'rm -rf eureka || true'"
-                 sh "ssh root@192.168.1.9 'mkdir eureka'"
+                 sh "ssh root@192.168.0.9 'cd /root'"
+                 sh "ssh root@192.168.0.9 'rm -rf eureka || true'"
+                 sh "ssh root@192.168.0.9 'mkdir eureka'"
                  
-                 sh ' scp -i id_rsa /var/jenkins_home/workspace/eureka/Eureka-Server/target/eureka.jar root@192.168.1.9:~/eureka/'
-                 sh ' scp -i id_rsa /var/jenkins_home/workspace/eureka/Eureka-Server/Dockerfile root@192.168.1.9:~/eureka/'
+                 sh ' scp -i id_rsa /var/jenkins_home/workspace/eureka/Eureka-Server/target/eureka.jar root@192.168.0.9:~/eureka/'
+                 sh ' scp -i id_rsa /var/jenkins_home/workspace/eureka/Eureka-Server/Dockerfile root@192.168.0.9:~/eureka/'
 
-                 sh "ssh root@192.168.1.9 'docker stop root_eureka_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rm root_eureka_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rmi root_eureka_1 ||true'"
-                 sh "ssh root@192.168.1.9 'docker build -t root_eureka_1 /root/eureka'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8761:8761 --name root_eureka_1 root_eureka_1 '"
+                 sh "ssh root@192.168.0.9 'docker stop root_eureka_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rm root_eureka_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rmi root_eureka_1 ||true'"
+                 sh "ssh root@192.168.0.9 'docker build -t root_eureka_1 /root/eureka'"
+                 sh "ssh root@192.168.0.9 'docker run -it -d -p 8761:8761 --name root_eureka_1 root_eureka_1 '"
              }
          }        
 	

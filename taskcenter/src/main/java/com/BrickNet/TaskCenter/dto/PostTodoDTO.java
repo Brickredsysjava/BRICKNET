@@ -1,27 +1,32 @@
 package com.BrickNet.TaskCenter.dto;
 
+import com.BrickNet.TaskCenter.model.Priority;
 import com.BrickNet.TaskCenter.model.Status;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class StoriesDTO {
+@NoArgsConstructor
+@Data
+@Builder
+@Setter
+@Getter
+public class PostTodoDTO {
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", columnDefinition = "VARCHAR(255)")
+    private String id;
 
     @Valid
     @NotNull(message = "Title can't be null")
@@ -36,9 +41,17 @@ public class StoriesDTO {
     private String description;
 
     @Valid
-    @NotNull(message = "Status can't be null or empty")
+    @NotNull(message = "Estimated Start Date can't be null or empty")
+    private LocalDateTime estimatedStartDate;
+
+    @Valid
+    @NotNull(message = "Estimate End Date can't be null or empty")
+    private LocalDateTime estimatedEndDate;
+
+    @Valid
+    @NotNull(message = "Priority can't be null or empty")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Priority priority;
 
     @Valid
     @NotNull(message = "Employee Assigned By can't be null")
@@ -47,17 +60,10 @@ public class StoriesDTO {
     private String employeeAssignedBy;
 
     @Valid
-    @NotNull(message = "Employee Assigned To can't be null or empty")
-    @NotBlank(message = "Employee Assigned To can't be blank")
+    @NotNull(message = "Employee Assigned To can't be null")
     @NotEmpty(message = "Employee Assigned To can't be empty")
     private List<String> employeeAssignedTo;
 
-    @Valid
-    @NotNull(message = "Estimate Start Date can't be null or empty")
-    private LocalDateTime estimatedStartDate;
 
-    @Valid
-    @NotNull(message = "Employee End Date can't be null or empty")
-    private LocalDateTime estimatedEndDate;
 
 }
