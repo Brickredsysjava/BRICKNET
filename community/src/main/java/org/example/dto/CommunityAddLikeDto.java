@@ -22,7 +22,5 @@ public class CommunityAddLikeDto {
    @NotBlank(message = "The employeeCode must not be blank")
    private String employeeCode;
 
-   @NotNull(message = "The boolean field must not be null")
-   @AssertTrue(message = "The boolean field must be either true or false")
    private Boolean like;
 }
