@@ -18,6 +18,8 @@ public class CommunityGetDto {
 
     private String employeeCode;
 
+    private String username;
+
     private String title;
 
 

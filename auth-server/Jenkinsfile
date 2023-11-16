@@ -19,18 +19,18 @@ pipeline {
 	 stage('Deploy auth-server') {
              steps {
 
-                 sh "ssh root@192.168.1.9 'cd /root'"
-                 sh "ssh root@192.168.1.9 'rm -rf auth-server || true'"
-                 sh "ssh root@192.168.1.9 'mkdir auth-server'"
+                 sh "ssh root@192.168.0.9 'cd /root'"
+                 sh "ssh root@192.168.0.9 'rm -rf auth-server || true'"
+                 sh "ssh root@192.168.0.9 'mkdir auth-server'"
                  
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/auth-server/auth-server/target/auth-server.jar root@192.168.1.9:~/auth-server/'
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/auth-server/auth-server/Dockerfile root@192.168.1.9:~/auth-server/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/auth-server/auth-server/target/auth-server.jar root@192.168.0.9:~/auth-server/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/auth-server/auth-server/Dockerfile root@192.168.0.9:~/auth-server/'
 
-                 sh "ssh root@192.168.1.9 'docker stop root_auth-server_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rm root_auth-server_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rmi root_auth-server_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker build -t root_auth-server_1 /root/auth-server'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8083:8083 --network=root_default --name root_auth-server_1 root_auth-server_1'"
+                 sh "ssh root@192.168.0.9 'docker stop root_auth-server_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rm root_auth-server_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rmi root_auth-server_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker build -t root_auth-server_1 /root/auth-server'"
+                 sh "ssh root@192.168.0.9 'docker run -it -d -p 8083:8083 --network=root_default --name root_auth-server_1 root_auth-server_1'"
              }
          }        
 	

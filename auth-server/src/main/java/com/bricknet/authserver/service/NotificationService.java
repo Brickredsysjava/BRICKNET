@@ -19,7 +19,7 @@ public class NotificationService {
 //    }
 
     public void sendEmailNotification(NotificationDto notificationDto){
-        webClientBuilder.baseUrl("http://192.168.1.9:8084/").build()
+        webClientBuilder.baseUrl("http://192.168.0.9:8084/").build()
 
                 .post().uri(uriBuilder -> uriBuilder.path("send/email")
                         .build())

@@ -11,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -41,19 +42,19 @@ public class TodoDTO {
 
     @Valid
     @NotNull(message = "Estimated Start Date can't be null or empty")
-    private LocalDate estimatedStartDate;
+    private LocalDateTime estimatedStartDate;
 
     @Valid
     @NotNull(message = "Actual Start Date can't be null or empty")
-    private LocalDate actualStartDate;
+    private LocalDateTime actualStartDate;
 
     @Valid
     @NotNull(message = "Estimate End Date can't be null or empty")
-    private LocalDate estimatedEndDate;
+    private LocalDateTime estimatedEndDate;
 
     @Valid
     @NotNull(message = "Actual End Date can't be null or empty")
-    private LocalDate actualEndDate;
+    private LocalDateTime actualEndDate;
 
     @Valid
     @NotNull(message = "Status can't be null or empty")
