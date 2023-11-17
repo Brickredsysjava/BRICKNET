@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/community/post")
+@RequestMapping("/communityPost/post")
 public class CommunityPostController {
 
 @Autowired
