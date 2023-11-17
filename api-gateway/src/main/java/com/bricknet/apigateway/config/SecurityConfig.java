@@ -30,9 +30,9 @@ public class SecurityConfig {
                     .csrf(ServerHttpSecurity.CsrfSpec::disable)
                     .cors(ServerHttpSecurity.CorsSpec::disable)
                     .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                            .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html", "/auth/**").permitAll()
+                            .pathMatchers("/eureka/**","/suggestionPost/api/**","/communityPost/admin/**","super-admin/swagger-ui/index.html", "/auth/**").permitAll()
                             .pathMatchers("/user/**","/community/post/**" ,"/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**").permitAll()
-                            .pathMatchers("/suggestionPost/api/verification/**","/communityPost/admin/**").hasAuthority("ADMIN")
+//                            .pathMatchers("/suggestionPost/api/verification/**","/communityPost/admin/**").hasAuthority("ADMIN")
                             .anyExchange().authenticated())
                     .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                     .build();
