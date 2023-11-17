@@ -31,7 +31,7 @@ public class SecurityConfig {
                     .cors(ServerHttpSecurity.CorsSpec::disable)
                     .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
                             .pathMatchers("/eureka/**","super-admin/swagger-ui/index.html", "/auth/**").permitAll()
-                            .pathMatchers("/user/**","/communityPost/admin/**","/suggestionPost/api/**","/community/post/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**").permitAll()
+                            .pathMatchers("/user/**","/communityPost/admin/**","/suggestionPost/api/**","/communityPost/post/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**").permitAll()
 //                            .pathMatchers("/suggestionPost/api/verification/**","/communityPost/admin/**").hasAuthority("ADMIN")
                             .anyExchange().authenticated())
                     .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
