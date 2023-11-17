@@ -37,5 +37,4 @@ public class SecurityConfig {
                     .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                     .build();
     }
-
 }
