@@ -52,15 +52,11 @@ public class TodoServiceImpl implements TodoService{
         }
 
         else {
-            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDateTime estimateStartDate = LocalDateTime.parse(postTodoDTO.getEstimatedStartDate(),formatter);
-            LocalDateTime estimateEndDate = LocalDateTime.parse(postTodoDTO.getEstimatedEndDate(),formatter);
-
             Todo todo = Todo.builder()
                     .title(postTodoDTO.getTitle())
                     .description(postTodoDTO.getDescription())
-                    .estimatedStartDate(estimateStartDate)
-                    .estimatedEndDate(estimateEndDate)
+                    .estimatedStartDate(postTodoDTO.getEstimatedStartDate())
+                    .estimatedEndDate(postTodoDTO.getEstimatedEndDate())
                     .priority(postTodoDTO.getPriority())
                     .employeeAssignedBy(postTodoDTO.getEmployeeAssignedBy())
                     .employeeAssignedTo(postTodoDTO.getEmployeeAssignedTo())
