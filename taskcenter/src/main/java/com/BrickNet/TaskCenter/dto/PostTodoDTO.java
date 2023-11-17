@@ -42,11 +42,11 @@ public class PostTodoDTO {
 
     @Valid
     @NotNull(message = "Estimated Start Date can't be null or empty")
-    private String estimatedStartDate;
+    private LocalDateTime estimatedStartDate;
 
     @Valid
     @NotNull(message = "Estimate End Date can't be null or empty")
-    private String estimatedEndDate;
+    private LocalDateTime estimatedEndDate;
 
     @Valid
     @NotNull(message = "Priority can't be null or empty")
