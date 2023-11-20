@@ -8,10 +8,10 @@ import java.util.List;
 public class ApiList {
 
 
-    static String[] admin = new String[] {"/suggestionPost/api/verification/**","/communityPost/admin/**"};
+    static String[] admin = new String[] {"/user/profile/addProfile/**", "/user/profile/addListOfProfile/**", "", "/suggestionPost/api/verification/**", "/api/broadcasting/**", "/communityPost/admin/**"};
 
-    static String[] openApi = new String[] {"/eureka/**","super-admin/swagger-ui/index.html", "/auth/**",
-            "/user/**","/communityPost/post/**", "/send/**", "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**"
+    static String[] openApi = new String[] {"/eureka/**","super-admin/swagger-ui/index.html", "/auth/**, /auth/login/**",
+            "/communityPost/post/**", "/send/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**"
     };
 
 //    public static final ArrayList<String> adminApiList = (ArrayList<String>) Arrays.asList(admin);
