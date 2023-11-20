@@ -48,8 +48,8 @@ public class EducationController {
     }
 
     @GetMapping("/EducationByEmployeeCode")
-    public ResponseEntity<EducationDTO> findEducationByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
-        EducationDTO education = educationService.getEducationByEmployeeCode(employeeCode);
+    public ResponseEntity<List<EducationDTO>> findEducationByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        List<EducationDTO> education = (List<EducationDTO>) educationService.getEducationByEmployeeCode(employeeCode);
         if (education != null) {
             return new ResponseEntity<>(education, HttpStatus.OK);
         } else {
