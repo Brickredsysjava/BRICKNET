@@ -47,9 +47,9 @@ public class EducationController {
         return new ResponseEntity<>(allEducations, HttpStatus.OK);
     }
 
-    @GetMapping("/EducationById/{id}")
-    public ResponseEntity<EducationDTO> findEducationById(@PathVariable String id) {
-        EducationDTO education = educationService.getEducationById(id);
+    @GetMapping("/EducationByEmployeeCode")
+    public ResponseEntity<List<EducationDTO>> findEducationByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        List<EducationDTO> education = (List<EducationDTO>) educationService.getEducationByEmployeeCode(employeeCode);
         if (education != null) {
             return new ResponseEntity<>(education, HttpStatus.OK);
         } else {
