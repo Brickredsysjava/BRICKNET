@@ -90,9 +90,9 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/ProfileById/{id}")
-    public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String id) {
-        ProfileDTO profile = profileService.getProfileById(id);
+    @GetMapping("/ProfileByEmployeeCode")
+    public ResponseEntity<ProfileDTO> findProfileById(@RequestParam("employeeCode") String employeeCode) {
+        ProfileDTO profile = profileService.getProfileByEmployeeCode(employeeCode);
         if (profile != null) {
             return new ResponseEntity<>(profile, HttpStatus.OK);
         } else {
@@ -116,8 +116,8 @@ public class ProfileController {
     }
 }
 
-    @GetMapping("/timeLine/{employeeCode}")
-    public ResponseEntity<TimeLine> getProfileInfo(@PathVariable String employeeCode) {
+    @GetMapping("/timeLine")
+    public ResponseEntity<TimeLine> getProfileInfo(@RequestParam("employeeCode") String employeeCode) {
         TimeLine timeLine = profileService.getTimelineByEmployeeCode(employeeCode);
         if (timeLine != null) {
             return new ResponseEntity<>(timeLine, HttpStatus.OK);

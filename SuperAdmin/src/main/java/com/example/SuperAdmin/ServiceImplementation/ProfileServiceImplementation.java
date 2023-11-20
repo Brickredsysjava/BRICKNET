@@ -52,14 +52,9 @@ public class ProfileServiceImplementation implements ProfileService {
     }
 
     @Override
-    public ProfileDTO getProfileById(String id) {
-        Optional<Profile> profileOptional = profileRepository.findById(id);
-        if (profileOptional.isPresent()) {
-            Profile profile = profileOptional.get();
-            return modelMapper.map(profile, ProfileDTO.class);
-        } else {
-            return null;
-        }
+    public ProfileDTO getProfileByEmployeeCode(String employeeCode) {
+        Profile profile = profileRepository.findByEmployeeCode(employeeCode);
+        return modelMapper.map(profile,ProfileDTO.class);
     }
 
     @Override
