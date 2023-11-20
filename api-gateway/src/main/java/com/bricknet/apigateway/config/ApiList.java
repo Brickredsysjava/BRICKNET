@@ -14,7 +14,7 @@ public class ApiList {
             "/user/profile/allProfile",
             "/suggestionPost/api/verification/**",
             "/api/broadcasting/**",
-            "/communityPost/admin/getAllPostNeedToVerified",
+//            "/communityPost/admin/getAllPostNeedToVerified",
             "/communityPost/admin/postVerification/**",
             "/user/personal/updatePersonalDetails/**",
             "/user/personal/addPersonalDetails/**",
