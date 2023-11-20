@@ -10,7 +10,7 @@ public class ApiList {
 
     static String[] admin = new String[] {"/user/profile/addProfile/**", "/user/profile/addListOfProfile/**", "", "/suggestionPost/api/verification/**", "/api/broadcasting/**", "/communityPost/admin/**"};
 
-    static String[] openApi = new String[] {"/eureka/**","super-admin/swagger-ui/index.html", "/auth/**, /auth/login/**",
+    static String[] openApi = new String[] {"/eureka/**","super-admin/swagger-ui/index.html", "/auth/**", "/auth/login/**",
             "/communityPost/post/**", "/send/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**"
     };
 
