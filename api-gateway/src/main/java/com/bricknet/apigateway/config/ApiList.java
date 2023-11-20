@@ -11,7 +11,7 @@ public class ApiList {
     static String[] admin = new String[] {"/suggestionPost/api/verification/**","/communityPost/admin/**"};
 
     static String[] openApi = new String[] {"/eureka/**","super-admin/swagger-ui/index.html", "/auth/**",
-            "/user/**","/communityPost/post/**", "/send/**", "user/profile/profileFromUserName/**" , "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**"
+            "/user/**","/communityPost/post/**", "/send/**", "/api/broadcasting/**", "/api/to-do/**", "/media/**", "/suggestionPost/api/suggestions/**"
     };
 
 //    public static final ArrayList<String> adminApiList = (ArrayList<String>) Arrays.asList(admin);
