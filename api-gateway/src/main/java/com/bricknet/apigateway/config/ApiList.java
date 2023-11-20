@@ -8,7 +8,7 @@ import java.util.List;
 public class ApiList {
 
 
-    static String[] admin = new String[] {
+//    static String[] admin = new String[] {
 //            "/user/profile/addProfile/**",
 //            "/user/profile/addListOfProfile/**",
 //            "/user/profile/allProfile",
@@ -35,7 +35,7 @@ public class ApiList {
 //            "/user/address/allAddress",
 //            "/user/address/deleteAddress/**",
 //            "/user/creation/**"
-    };
+//    };
 
     static String[] openApi = new String[] {
             "/eureka/**",
