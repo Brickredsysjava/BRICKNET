@@ -14,7 +14,7 @@ public interface EducationService {
 
     List<EducationDTO> getEducation();
 
-    EducationDTO getEducationById(String id);
+    EducationDTO getEducationByEmployeeCode(String id);
 
     String deleteEducation(String id);
 

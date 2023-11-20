@@ -38,8 +38,8 @@ public class EducationServiceImplementation implements EducationService {
     }
 
     @Override
-    public EducationDTO getEducationById(String id) {
-        Optional<Education> educationOptional = educationRepository.findById(id);
+    public EducationDTO getEducationByEmployeeCode(String employeeCode) {
+        Optional<Education> educationOptional = educationRepository.findById(employeeCode);
         if (educationOptional.isPresent()) {
             Education education = educationOptional.get();
             return modelMapper.map(education, EducationDTO.class);
