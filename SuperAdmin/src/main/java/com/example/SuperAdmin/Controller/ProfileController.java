@@ -116,7 +116,7 @@ public class ProfileController {
     }
 }
 
-    @GetMapping("/{employeeCode}/timeLine")
+    @GetMapping("/timeLine/{employeeCode}")
     public ResponseEntity<TimeLine> getProfileInfo(@PathVariable String employeeCode) {
         TimeLine timeLine = profileService.getTimelineByEmployeeCode(employeeCode);
         if (timeLine != null) {
