@@ -69,7 +69,7 @@ public class AuthService {
         String token= jwtService.generateToken(userAuthInfo);
         try {
             TokenCacheService.storeToken(userAuthInfo.getEmployeeCode(), token);
-            redisService.set(userAuthInfo.getEmployeeCode(), token);
+            //redisService.set(userAuthInfo.getEmployeeCode(), token);
             jwtMap.put(userAuthInfo.getEmployeeCode(),token);
         } catch (Exception e) {
 
