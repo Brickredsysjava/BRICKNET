@@ -20,7 +20,7 @@ public interface ProfileService {
 
     List<ProfileDTO> getProfile();
 
-    ProfileDTO getProfileById(String id);
+    ProfileDTO getProfileByEmployeeCode(String employeeCode);
 
     String getFullNameByEmployeeCode(String employeeCode);
 

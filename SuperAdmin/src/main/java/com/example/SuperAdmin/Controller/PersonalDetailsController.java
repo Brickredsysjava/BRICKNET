@@ -51,9 +51,9 @@ public class PersonalDetailsController {
         }
     }
 
-    @GetMapping("/PersonalDetailsById/{id}")
-    public ResponseEntity<PersonalDetailsDTO> findPersonalDetailsById(@PathVariable String id) {
-        PersonalDetailsDTO personalDetails = personalDetailsService.getPersonalDetailsById(id);
+    @GetMapping("/PersonalDetailsByEmployeeCode")
+    public ResponseEntity<PersonalDetailsDTO> findPersonalDetailsById(@RequestParam("employeeCode") String employeeCode) {
+        PersonalDetailsDTO personalDetails = personalDetailsService.getPersonalDetailsByEmployeeCode(employeeCode);
         if (personalDetails != null) {
             return new ResponseEntity<>(personalDetails, HttpStatus.OK);
         } else {
