@@ -15,7 +15,7 @@ public interface AddressService {
 
     List<AddressDTO> getAddress();
 
-    AddressDTO getAddressById(String id);
+    List<AddressDTO> getAddressByEmployeeCode(String employeeCode);
 
 
     String deleteAddress(String id );

@@ -81,10 +81,10 @@ public class UserController {
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
-    @GetMapping("/UserById/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable String id) {
+    @GetMapping("/UserByEmployeeCode")
+    public ResponseEntity<User> findUserById(@RequestParam("employeeCode") String empployeeCode) {
 
-        User user = service.getUserById(id);
+        User user = service.getUserByEmployeeCode(empployeeCode);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {

@@ -12,6 +12,6 @@ public interface BankDetailsService {
     List<BankDetails> saveBankDetails(List<BankDetails> bankDetails);
 
     BankDetails updateBankDetailsById(String id,BankDetails bankDetails);
-    public BankDetailsDTO getBankDetailsById(String id);
+    public BankDetailsDTO getBankDetailsByEmployeeCode(String employeeCode);
     public List<BankDetailsDTO> getBankDetails() ;
 }

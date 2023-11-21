@@ -1,7 +1,10 @@
 package com.example.SuperAdmin.Repository;
 
+import com.example.SuperAdmin.DTO.AddressDTO;
+import com.example.SuperAdmin.DTO.BankDetailsDTO;
 import com.example.SuperAdmin.DTO.EducationDTO;
 import com.example.SuperAdmin.DTO.PersonalDetailsDTO;
+import com.example.SuperAdmin.Entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.PersistenceContext;
@@ -61,6 +64,57 @@ public class CustomQuery {
        personalDetailsDTO.setReligion((String) row[8]);
 
        return personalDetailsDTO;
+
+    }
+
+
+    @Transactional
+    public BankDetailsDTO getBankDetailsByEmployeeCode(String employee_code) {
+        String query = "select * from bank_details where id= " +
+                "(select bank_details_id from user where profile_id= " +
+                "(select id from profile where employee_code= :employee_code))";
+
+        BankDetailsDTO bankDetailsDTO = new BankDetailsDTO();
+
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("employee_code",employee_code);
+
+        Object result = q.getSingleResult();
+        Object[] row = (Object[]) result;
+
+        bankDetailsDTO.setAccountNumber((String) row[1]);
+        bankDetailsDTO.setBankName((String) row[2]);
+        bankDetailsDTO.setBranchName((String) row[3]);
+        bankDetailsDTO.setIfscCode((String) row[4]);
+        bankDetailsDTO.setPanNumber((String) row[5]);
+
+        return bankDetailsDTO;
+
+    }
+
+    @Transactional
+    public List<AddressDTO> getAddressByEmployeeCode(String employee_code) {
+        String query = "select * from address where user_id= " +
+                "(Select user_id from user where profile_id= " +
+                "(select id from profile where employee_code= :employee_code))";
+
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("employee_code",employee_code);
+
+        List<AddressDTO> addressDTO = (List<AddressDTO>) q.getResultList();
+
+        return addressDTO;
+    }
+
+    @Transactional
+    public String getUserByEmployeeCode (String employee_code) {
+        String query = "select user_id from user where profile_id = " +
+                "(select id from profile where employee_code = :employee_code)";
+
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("employee_code",employee_code);
+
+        return (String) q.getSingleResult();
 
     }
 

@@ -51,9 +51,9 @@ public class AddressController {
         }
     }
 
-    @GetMapping("/AddressById/{id}")
-    public ResponseEntity<AddressDTO> findAddressById(@PathVariable String id) {
-        AddressDTO address = service.getAddressById(id);
+    @GetMapping("/AddressByEmployeeCode")
+    public ResponseEntity<List<AddressDTO>> findAddressByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        List<AddressDTO> address = service.getAddressByEmployeeCode(employeeCode);
         if (address != null) {
             return new ResponseEntity<>(address, HttpStatus.OK);
         } else {
