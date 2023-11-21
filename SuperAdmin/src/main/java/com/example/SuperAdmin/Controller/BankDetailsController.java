@@ -61,9 +61,9 @@ public class BankDetailsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/bankDetailsById/{id}")
-    public ResponseEntity<BankDetailsDTO> findBankDetailsById(@PathVariable String id) {
-        BankDetailsDTO bankDetailsDTO = bankDetailsService.getBankDetailsById(id);
+    @GetMapping("/bankDetailsByEmployeeCode")
+    public ResponseEntity<BankDetailsDTO> findBankDetailsById(@RequestParam("employeeCode") String employeeCode) {
+        BankDetailsDTO bankDetailsDTO = bankDetailsService.getBankDetailsByEmployeeCode(employeeCode);
         if (bankDetailsDTO != null) {
             return new ResponseEntity<>(bankDetailsDTO, HttpStatus.OK);
         } else {

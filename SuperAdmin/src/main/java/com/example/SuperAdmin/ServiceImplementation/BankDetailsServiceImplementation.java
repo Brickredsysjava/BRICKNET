@@ -3,6 +3,7 @@ package com.example.SuperAdmin.ServiceImplementation;
 import com.example.SuperAdmin.DTO.BankDetailsDTO;
 import com.example.SuperAdmin.Entity.BankDetails;
 import com.example.SuperAdmin.Repository.BankDetailsRepository;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.BankDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class BankDetailsServiceImplementation implements BankDetailsService {
+
+    private CustomQuery customQuery;
+    public BankDetailsServiceImplementation(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @Autowired
     private ModelMapper modelMapper;
@@ -33,14 +39,8 @@ public class BankDetailsServiceImplementation implements BankDetailsService {
     }
 
     @Override
-    public BankDetailsDTO getBankDetailsById(String id) {
-        Optional<BankDetails> bankDetailsOptional = bankDetailsRepository.findById(id);
-        if (bankDetailsOptional.isPresent()) {
-            BankDetailsDTO bankDetailsDTO = modelMapper.map(bankDetailsOptional.get(), BankDetailsDTO.class);
-            return bankDetailsDTO;
-        } else {
-            return null;
-        }
+    public BankDetailsDTO getBankDetailsByEmployeeCode(String employeeCode) {
+        return customQuery.getBankDetailsByEmployeeCode(employeeCode);
     }
     @Override
     public List<BankDetailsDTO> getBankDetails() {

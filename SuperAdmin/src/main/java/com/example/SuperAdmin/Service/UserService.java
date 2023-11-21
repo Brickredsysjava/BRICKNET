@@ -13,7 +13,7 @@ public interface UserService {
 
     List<User> getUser();
 
-    User getUserById(String id);
+    User getUserByEmployeeCode(String employeeCode);
 
 
     String deleteUser(String id);
