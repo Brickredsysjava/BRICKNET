@@ -14,6 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PersonalDetailsDTO {
 
+    private String id;
+
     @Valid
     @NotBlank(message = "Date of birth is required")
     @NotNull(message = "Date of birth is required")

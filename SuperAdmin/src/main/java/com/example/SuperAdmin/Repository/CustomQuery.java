@@ -74,6 +74,7 @@ public class CustomQuery {
             Object[] row = (Object[]) result;
 
 
+            personalDetailsDTO.setId((String) row[0]);
             personalDetailsDTO.setDateOfBirth((String) row[1]);
             personalDetailsDTO.setFatherName((String) row[2]);
             personalDetailsDTO.setInternationalEmployee((String) row[3]);
@@ -107,6 +108,7 @@ public class CustomQuery {
             Object result = q.getSingleResult();
             Object[] row = (Object[]) result;
 
+            bankDetailsDTO.setId((String) row[0]);
             bankDetailsDTO.setAccountNumber((String) row[1]);
             bankDetailsDTO.setBankName((String) row[2]);
             bankDetailsDTO.setBranchName((String) row[3]);
