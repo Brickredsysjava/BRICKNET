@@ -51,7 +51,7 @@ public class TodoController {
 
     }
 
-    @PutMapping("/update-created-to-do")
+    @PostMapping("/update-created-to-do")
     public ResponseEntity<?> updateCreatedToDo(@RequestParam("id") String id,@RequestParam("employeeCode") String employeeCode,@Valid @RequestBody UpdateTodoDTO updateTodoDTO) throws TodoException {
         try{
             return new ResponseEntity<TodoDTO>(todoService.updateCreatedToDo(id, employeeCode, updateTodoDTO), HttpStatus.OK);
