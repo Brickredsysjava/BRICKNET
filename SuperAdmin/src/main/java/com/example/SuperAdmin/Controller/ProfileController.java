@@ -4,6 +4,7 @@ import com.example.SuperAdmin.DTO.*;
 import com.example.SuperAdmin.Service.EmployeeService;
 import com.example.SuperAdmin.auth.UserCredential;
 import com.example.SuperAdmin.Entity.Profile;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.NotificationService;
 import com.example.SuperAdmin.Service.ProfileService;
 import com.example.SuperAdmin.jwt.JwtUtil;
@@ -36,9 +37,14 @@ public class ProfileController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private CustomQuery customQuery;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public ProfileController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/addProfile")
     public ResponseEntity<Profile> addProfile(@RequestBody @Valid ProfileDTO profileDTO) throws ServiceNotFoundException {
@@ -101,19 +107,23 @@ public class ProfileController {
     }
 
 
-    @PutMapping("/updateProfile/{id}")
-    public ResponseEntity<Profile> updateProfileById(@PathVariable String id, @RequestBody @Valid ProfileDTO profileDTO) {
-    if (id != null && !id.isEmpty()) {
-        Profile profile = modelMapper.map(profileDTO, Profile.class);
-        Profile updatedProfile = profileService.updateProfileById(id, profile);
-        if (updatedProfile != null) {
-            return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/updateProfile")
+    public ResponseEntity<Profile> updateProfileById(@RequestParam("employeeCode") String employeeCode,  @RequestBody @Valid ProfileDTO profileDTO) {
+        String profile_id ="";
+        if (employeeCode != null && !employeeCode.isEmpty()) {
+            profile_id = customQuery.getProfileIDFromEmpCode(employeeCode);
+            System.out.println(profile_id);
+            Profile profile = modelMapper.map(profileDTO, Profile.class);
+            if (!profile_id.equals("")) {
+                Profile updatedProfile = profileService.updateProfileById(profile_id, profile);
+                return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
-    } else {
-        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
-    }
+        else {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
 }
 
     @GetMapping("/timeLine")

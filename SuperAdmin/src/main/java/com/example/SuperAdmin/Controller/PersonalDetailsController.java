@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.PersonalDetailsDTO;
 import com.example.SuperAdmin.Entity.PersonalDetails;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.PersonalDetailsService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,13 @@ public class PersonalDetailsController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+
+    private CustomQuery customQuery;
+
+    public PersonalDetailsController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/addPersonalDetails")
     public ResponseEntity<PersonalDetails> addPersonalDetails(@RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
@@ -61,10 +69,11 @@ public class PersonalDetailsController {
         }
     }
 
-    @PutMapping("/updatePersonalDetails/{id}")
-    public ResponseEntity<PersonalDetails> updatePersonalDetailsById(@PathVariable String id, @RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
+    @PutMapping("/updatePersonalDetails")
+    public ResponseEntity<PersonalDetails> updatePersonalDetailsById(@RequestParam("employeeCode") String employeeCode, @RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
         PersonalDetails personalDetails = modelMapper.map(personalDetailsDTO, PersonalDetails.class);
-        PersonalDetails updatedDetails = personalDetailsService.updatePersonalDetailsById(id, personalDetails);
+        String personal_details_id = customQuery.getPersonalDetailsIdByEmpCode(employeeCode);
+        PersonalDetails updatedDetails = personalDetailsService.updatePersonalDetailsById(personal_details_id, personalDetails);
         if (updatedDetails != null) {
             return new ResponseEntity<>(updatedDetails, HttpStatus.OK);
         } else {
