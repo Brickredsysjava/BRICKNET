@@ -4,7 +4,6 @@ import com.example.SuperAdmin.DTO.EducationDTO;
 import com.example.SuperAdmin.Entity.Education;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface EducationService {
 
@@ -16,7 +15,7 @@ public interface EducationService {
 
     List<EducationDTO> getEducationByEmployeeCode(String id);
 
-    String deleteEducation(String id);
+    String deleteEducation(String employeeCode, String typeOfEducation);
 
     Education updateEducationById(String id,Education education);
 }

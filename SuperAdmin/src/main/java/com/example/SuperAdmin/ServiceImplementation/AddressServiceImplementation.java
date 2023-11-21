@@ -51,9 +51,14 @@ public class AddressServiceImplementation implements AddressService {
     }
 
     @Override
-    public String deleteAddress(String id) {
+    public String deleteAddress(String employeeCode) {
+        String id = customQuery.deleteAddress(employeeCode);
+
+        if(id.equals("Data Not Found"))
+            return id;
+
         addressRepository.deleteById(id);
-        return "Deleted" + id;
+        return "Deleted";
     }
 
     @Override
