@@ -74,6 +74,7 @@ public class CustomQuery {
             Object[] row = (Object[]) result;
 
 
+            personalDetailsDTO.setId((String) row[0]);
             personalDetailsDTO.setDateOfBirth((String) row[1]);
             personalDetailsDTO.setFatherName((String) row[2]);
             personalDetailsDTO.setInternationalEmployee((String) row[3]);
@@ -107,6 +108,7 @@ public class CustomQuery {
             Object result = q.getSingleResult();
             Object[] row = (Object[]) result;
 
+            bankDetailsDTO.setId((String) row[0]);
             bankDetailsDTO.setAccountNumber((String) row[1]);
             bankDetailsDTO.setBankName((String) row[2]);
             bankDetailsDTO.setBranchName((String) row[3]);
@@ -169,6 +171,55 @@ public class CustomQuery {
 
         return (String) q.getSingleResult();
 
+    }
+
+    public String getBankDetailIdfromEmployeeCode(String empCode)
+    {
+        String query = "select bank_details_id from user where " +
+                "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))";
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("empCode", empCode);
+        String res = (String) q.getSingleResult();
+        return res;
+    }
+
+    public String getProfileIDFromEmpCode(String emp_code){
+        String query = "select profile_id from user where profile_id" +
+                "=(select id from profile where employee_code= :emp_code)";
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("emp_code", emp_code);
+        String res = (String) q.getSingleResult();
+        return res;
+    }
+
+    public String getAddressIdFromEmpCode(String empCode, String typeOfAddress){
+        String query = "select id from address where " +
+                "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))" +
+                "and type_of_address = :typeOfAddress";
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("empCode", empCode);
+        q.setParameter("typeOfAddress", typeOfAddress);
+        String res = (String) q.getSingleResult();
+        return res;
+    }
+    public String getEducationIdByEmployeeCode(String empCode, String type_of_education){
+        String query = "select id from education where user_id = (select user_id from " +
+                "user where profile_id = (select profile_id from profile where employee_code = :empCode)) and " +
+                "type_Of_Education = :typeOfEducation";
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("empCode", empCode);
+        q.setParameter("typeOfEducation", type_of_education);
+        String res = (String) q.getSingleResult();
+        return res;
+    }
+
+    public String getPersonalDetailsIdByEmpCode(String empCode){
+        String query = "select personal_details_id from user where user_id = (select user_id from " +
+                "user where profile_id = (select profile_id from profile where employee_code = :empCode))";
+        Query q = entityManager.createNativeQuery(query);
+        q.setParameter("empCode", empCode);
+        String res = (String) q.getSingleResult();
+        return res;
     }
 
     @Transactional
