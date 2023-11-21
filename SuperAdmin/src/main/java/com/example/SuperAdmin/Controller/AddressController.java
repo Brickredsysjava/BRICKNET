@@ -72,13 +72,13 @@ public class AddressController {
         }
     }
 
-    @DeleteMapping("/deleteAddress/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable String id) {
-        String result = service.deleteAddress(id);
+    @DeleteMapping("/deleteAddress")
+    public ResponseEntity<String> deleteAddress(@RequestParam("employeeCode") String employeeCode) {
+        String result = service.deleteAddress(employeeCode);
         if ("Deleted".equals(result)) {
-            return new ResponseEntity<>("Address with ID " + id + " has been deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Address with employeeCode " + employeeCode + " has been deleted.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Address with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Address with employeeCode " + employeeCode + " not found.", HttpStatus.NOT_FOUND);
         }
     }
 

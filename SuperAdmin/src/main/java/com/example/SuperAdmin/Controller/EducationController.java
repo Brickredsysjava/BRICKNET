@@ -68,13 +68,13 @@ public class EducationController {
         }
     }
 
-    @DeleteMapping("/deleteEducation/{id}")
-    public ResponseEntity<String> deleteEducation(@PathVariable String id) {
-        String result = educationService.deleteEducation(id);
+    @DeleteMapping("/deleteEducation")
+    public ResponseEntity<String> deleteEducation(@RequestParam("employeeCode") String employeeCode, @RequestParam("typeOfEducation") String typeOfEducation) {
+        String result = educationService.deleteEducation(employeeCode,typeOfEducation);
         if ("Deleted".equals(result)) {
-            return new ResponseEntity<>("Education with ID " + id + " has been deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Education with employeeCode " + employeeCode + " has been deleted.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Education with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Education with employeeCode " + employeeCode + " not found.", HttpStatus.NOT_FOUND);
         }
     }
 }

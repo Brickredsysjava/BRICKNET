@@ -16,6 +16,6 @@ public interface UserService {
     User getUserByEmployeeCode(String employeeCode);
 
 
-    String deleteUser(String id);
+    String deleteUser(String employeeCode);
 
 }

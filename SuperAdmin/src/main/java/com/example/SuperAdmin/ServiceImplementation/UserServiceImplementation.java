@@ -52,7 +52,12 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findById(customQuery.getUserByEmployeeCode(employeeCode)).orElse(null);
     }
     @Override
-    public String deleteUser(String id) {
+    public String deleteUser(String employeeCode) {
+        String id = customQuery.deleteUser(employeeCode);
+
+        if(id.equals("Data Not Found"))
+            return id;
+
         userRepository.deleteById(id);
         return "Deleted";
     }

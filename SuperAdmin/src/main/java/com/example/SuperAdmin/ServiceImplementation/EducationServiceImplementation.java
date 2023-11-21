@@ -50,7 +50,10 @@ public class EducationServiceImplementation implements EducationService {
     }
 
     @Override
-    public String deleteEducation(String id) {
+    public String deleteEducation(String employeeCode, String typeOfEducation) {
+        String id = customQuery.deleteEducation(employeeCode,typeOfEducation);
+        if(id.equals("Data Not Found"))
+            return id;
         educationRepository.deleteById(id);
         return "Deleted";
     }
