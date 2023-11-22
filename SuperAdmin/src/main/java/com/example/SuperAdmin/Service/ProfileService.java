@@ -30,6 +30,5 @@ public interface ProfileService {
 
     String getEmailByEmployeeCode(String empcode);
 
-    List<String> getAllEmails();
 
 }

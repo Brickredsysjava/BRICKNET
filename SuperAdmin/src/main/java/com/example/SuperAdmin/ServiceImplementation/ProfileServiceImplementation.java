@@ -4,6 +4,7 @@ import com.example.SuperAdmin.DTO.ProfileDTO;
 import com.example.SuperAdmin.DTO.ResetPassword;
 import com.example.SuperAdmin.Entity.Profile;
 import com.example.SuperAdmin.DTO.TimeLine;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Repository.PersonalDetailsRepository;
 import com.example.SuperAdmin.Repository.ProfileRepository;
 import com.example.SuperAdmin.Service.ProfileService;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +26,10 @@ public class ProfileServiceImplementation implements ProfileService {
     private ModelMapper modelMapper;
     @Autowired
     private ProfileRepository profileRepository;
+
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private PersonalDetailsRepository personalDetailsRepository;
-
 
 
     @Override
@@ -149,10 +149,6 @@ public Profile updateProfileById(String id, Profile profile) {
             return null;
         }
 
-    }
-    @Override
-    public List<String> getAllEmails() {
-        return profileRepository.findByCompanyEmail();
     }
 
 

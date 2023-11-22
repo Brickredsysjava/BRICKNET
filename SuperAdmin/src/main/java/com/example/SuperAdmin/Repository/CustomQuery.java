@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Configuration
@@ -281,5 +282,14 @@ public class CustomQuery {
             e.getMessage();
         }
         return "Data Not Found";
+    }
+
+    @Transactional
+    public List<String> getAllEmails() {
+        String query = "select company_email from profile";
+
+        Query q = entityManager.createNativeQuery(query);
+
+        return (List<String>) q.getResultList().stream().map(i-> (String) i).collect(Collectors.toList());
     }
 }

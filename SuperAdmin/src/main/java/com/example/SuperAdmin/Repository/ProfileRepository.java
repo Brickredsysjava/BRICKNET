@@ -14,7 +14,7 @@ import java.util.List;
 public interface ProfileRepository extends JpaRepository<Profile,String> {
     Profile findByEmployeeCode(String employeeCode);
 
-    @Query("SELECT p.company_email FROM profile p")
-    List<String> findByCompanyEmail();
+//    @Query("SELECT p.companyEmail FROM profile p")
+//    List<String> findByCompanyEmail();
 
 }
