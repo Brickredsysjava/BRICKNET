@@ -35,34 +35,27 @@ public class broadCastController {
     private String uploadPath;
 
     @PostMapping("/insert")
-    public ResponseEntity<String> insertDataIntoDb(@RequestParam("title") String title ,
-                                                         @RequestParam("email") List<String> email,
-                                                         @RequestParam("message") String message,
-                                                         @RequestParam("selectedDate") String selectedDate,
-                                                         @RequestParam("time") String time,
-                                                         @RequestParam("typeOfEvent") String typeOfEvents,
-                                                         @RequestParam("selectedOption") String selectedOption,
-                                                         @RequestParam("uploadedFile") String uploadedFile){
+    public ResponseEntity<String> insertDataIntoDb(@RequestBody broadCasting broadCasting1){
     try {
         broadCasting broadCastingSaved = new broadCasting();
-        NotificationDTO notificationDTO = new NotificationDTO();
+        //NotificationDTO notificationDTO = new NotificationDTO();
         BroadCastingDTO broadCastingDTO = new BroadCastingDTO();
 
-        broadCastingSaved.setTitle(title);
-        broadCastingSaved.setEmail(email);
-        broadCastingSaved.setMessage(message);
-        broadCastingSaved.setSelectedDate(selectedDate);
-        broadCastingSaved.setTime(time);
-        broadCastingSaved.setTypeOfEvent(typeOfEvents);
-        broadCastingSaved.setSelectedOption(selectedOption);
-        broadCastingSaved.setFileName(uploadedFile);
+        broadCastingSaved.setTitle(broadCasting1.getTitle());
+        broadCastingSaved.setEmail(broadCasting1.getEmail());
+        broadCastingSaved.setMessage(broadCasting1.getMessage());
+        broadCastingSaved.setSelectedDate(broadCasting1.getSelectedDate());
+        broadCastingSaved.setTime(broadCasting1.getTime());
+        broadCastingSaved.setTypeOfEvent(broadCasting1.getTypeOfEvent());
+        broadCastingSaved.setSelectedOption(broadCasting1.getSelectedOption());
+        broadCastingSaved.setFileName(broadCasting1.getFileName());
         broadCastingService1.insertDataIntoDb(broadCastingSaved);
         //String fileName = uploadedFile.getOriginalFilename();
         //broadCastingService1.sendMail(broadCastingSaved);
 
-        broadCastingDTO.setBcc(email);
-        broadCastingDTO.setText(message);
-        broadCastingDTO.setSetSubject(title);
+        broadCastingDTO.setBcc(broadCasting1.getEmail());
+        broadCastingDTO.setText(broadCasting1.getMessage());
+        broadCastingDTO.setSetSubject(broadCasting1.getTitle());
         broadCastingService1.broadCastingToEveryone(broadCastingDTO);
 
         //notificationDTO.setRecipient(email);
