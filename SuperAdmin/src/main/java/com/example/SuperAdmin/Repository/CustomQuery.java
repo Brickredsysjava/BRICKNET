@@ -342,4 +342,33 @@ public class CustomQuery {
         }
         return null;
     }
+
+//    @Transactional
+//    public ExperienceDTO getExperienceByEmployeeCode(String employee_code) {
+//        try{
+//            String query = "select department,designation,location,reporting_to,grade from profile where employee_code= :employee_code";
+//
+//            Query q = entityManager.createNativeQuery(query);
+//            q.setParameter("employee_code", employee_code);
+//
+//            Object[] row = (Object[]) q.getSingleResult();;
+//
+//
+//            ExperienceDTO experienceDTO = new ExperienceDTO();
+//
+//            experienceDTO.setDepartment((String) row[0]);
+//            experienceDTO.setDesignation((String) row[1]);
+//            experienceDTO.setLocation((String) row[2]);
+//            experienceDTO.setReportingTo((String) row[3]);
+//            experienceDTO.setGrade((String) row[4]);
+//
+//            return experienceDTO;
+//
+//        }
+//        catch (Exception e) {
+//            e.getMessage();
+//        }
+//        return null;
+//    }
+
 }
