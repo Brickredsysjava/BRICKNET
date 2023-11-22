@@ -13,4 +13,6 @@ public interface NotificationService {
     public void  sendEmail(String to, String subject, String text);
 
     public List<NotificationDTO> getMessage(String recipient);
+
+    public void broadCastMessage(List<String> bcc, String subject, String text);
 }
