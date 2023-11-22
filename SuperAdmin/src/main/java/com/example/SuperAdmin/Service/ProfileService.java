@@ -29,4 +29,7 @@ public interface ProfileService {
     UserCredential updatePassword(ResetPassword resetPassword);
 
     String getEmailByEmployeeCode(String empcode);
+
+    List<String> getAllEmails();
+
 }

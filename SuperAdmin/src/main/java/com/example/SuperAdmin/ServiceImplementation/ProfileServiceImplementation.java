@@ -150,6 +150,10 @@ public Profile updateProfileById(String id, Profile profile) {
         }
 
     }
+    @Override
+    public List<String> getAllEmails() {
+        return profileRepository.findByCompanyEmail();
+    }
 
 
 }

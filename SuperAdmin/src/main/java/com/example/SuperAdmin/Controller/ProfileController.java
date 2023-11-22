@@ -167,5 +167,10 @@ public class ProfileController {
         }
     }
 
+    @GetMapping("/getAllEmail")
+    public ResponseEntity<List<String>> getAllEmail() {
+        return ResponseEntity.ok(profileService.getAllEmails());
     }
+
+}
 
