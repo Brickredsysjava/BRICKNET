@@ -31,7 +31,6 @@ public class ProfileServiceImplementation implements ProfileService {
     @Autowired
     private PersonalDetailsRepository personalDetailsRepository;
 
-
     @Override
     public Profile saveProfile(Profile profile) {
         profile.setPassword(passwordEncoder.encode(profile.getPassword()));
