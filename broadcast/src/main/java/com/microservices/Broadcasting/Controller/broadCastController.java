@@ -45,7 +45,8 @@ public class broadCastController {
         broadCastingSaved.setEmail(broadCasting1.getEmail());
         broadCastingSaved.setMessage(broadCasting1.getMessage());
         broadCastingSaved.setSelectedDate(broadCasting1.getSelectedDate());
-        broadCastingSaved.setTime(broadCasting1.getTime());
+        broadCastingSaved.setStartTime(broadCasting1.getStartTime());
+        broadCastingSaved.setEndTime(broadCasting1.getEndTime());
         broadCastingSaved.setTypeOfEvent(broadCasting1.getTypeOfEvent());
         broadCastingSaved.setSelectedOption(broadCasting1.getSelectedOption());
         broadCastingSaved.setFileName(broadCasting1.getFileName());

@@ -32,7 +32,10 @@ public class broadCasting {
     private String selectedDate;
 
     @Column
-    private String time;
+    private String startTime;
+
+    @Column
+    private String endTime;
 
     @Column
     private String selectedOption;
