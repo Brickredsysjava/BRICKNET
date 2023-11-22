@@ -1,9 +1,6 @@
 package com.example.SuperAdmin.Repository;
 
-import com.example.SuperAdmin.DTO.AddressDTO;
-import com.example.SuperAdmin.DTO.BankDetailsDTO;
-import com.example.SuperAdmin.DTO.EducationDTO;
-import com.example.SuperAdmin.DTO.PersonalDetailsDTO;
+import com.example.SuperAdmin.DTO.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.PersistenceContext;
@@ -305,7 +302,7 @@ public class CustomQuery {
             q.setParameter("employee_code", employee_code);
 
             List<EducationDTO> educationDTO = (List<EducationDTO>) q.getResultList();
-            for (Object e: educationDTO) {
+            for (Object e : educationDTO) {
                 Object[] row = (Object[]) e;
 
                 if(typeOfEducation.equals((String)row[6]))
@@ -320,11 +317,29 @@ public class CustomQuery {
     }
 
     @Transactional
-    public List<String> getAllEmails() {
-        String query = "select company_email from profile";
+    public List<EmailDTO> getAllEmails() {
+        try{
+            String query = "select first_name,company_email from profile";
 
-        Query q = entityManager.createNativeQuery(query);
+            Query q = entityManager.createNativeQuery(query);
 
-        return (List<String>) q.getResultList().stream().map(i-> (String) i).collect(Collectors.toList());
+            List<EmailDTO> emailDTOList = new ArrayList<>();
+            List<Object> objects = q.getResultList();
+
+            for (Object o : objects) {
+                Object[] row = (Object[]) o;
+
+                EmailDTO emailDTO = new EmailDTO();
+                emailDTO.setTitle((String) row[0]);
+                emailDTO.setEmail((String) row[1]);
+
+                emailDTOList.add(emailDTO);
+            }
+            return emailDTOList;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
     }
 }
