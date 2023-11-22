@@ -65,6 +65,7 @@ public class ProfileServiceImplementation implements ProfileService {
             timeLine.setReportingTo(profile.getReportingTo());
             timeLine.setDepartment(profile.getDepartment());
             timeLine.setLocation(profile.getLocation());
+            timeLine.setGrade(profile.getGrade());
             return timeLine;
         } else {
             return null; // Or throw an exception based on your requirements
@@ -91,6 +92,7 @@ public Profile updateProfileById(String id, Profile profile) {
         existingProfile.setPersonalEmail(profile.getPersonalEmail());
         existingProfile.setPhoneNumber(profile.getPhoneNumber());
         existingProfile.setReportingTo(profile.getReportingTo());
+        existingProfile.setGrade(profile.getGrade());
         existingProfile.setRole(profile.getRole());
         return profileRepository.save(existingProfile);
     } else {

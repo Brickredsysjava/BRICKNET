@@ -37,6 +37,7 @@ public class Profile {
     private String bloodGroup;
     private String department;
     private String reportingTo;
+    private String grade;
     @Enumerated(EnumType.STRING)
     private Role role;
 

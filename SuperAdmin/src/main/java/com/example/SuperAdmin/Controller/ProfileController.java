@@ -134,7 +134,7 @@ public class ProfileController {
         if (timeLine != null) {
             return new ResponseEntity<>(timeLine, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
     @GetMapping("/fullName")
@@ -150,8 +150,8 @@ public class ProfileController {
     }
     @GetMapping("/profileFromUserName")
     public ResponseEntity<UserCredential>getByUserName(@RequestParam String username){
-   UserCredential userCredential=   profileService.getByUserName(username);
-   return new ResponseEntity<>(userCredential,HttpStatus.OK);
+        UserCredential userCredential=   profileService.getByUserName(username);
+        return new ResponseEntity<>(userCredential,HttpStatus.OK);
     }
     @PostMapping("/passwordUpdate")
     public ResponseEntity<UserCredential> passwordUpdate(@RequestBody ResetPassword resetPassword){
@@ -165,13 +165,17 @@ public class ProfileController {
         if (email != null) {
             return ResponseEntity.ok(email);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @GetMapping("/getAllEmail")
-    public ResponseEntity<List<String>> getAllEmail() {
-        return ResponseEntity.ok(customQuery.getAllEmails());
+    public ResponseEntity<List<EmailDTO>> getAllEmail() {
+        List<EmailDTO> emailDTOS = customQuery.getAllEmails();
+        if(emailDTOS!=null) {
+            return ResponseEntity.ok(emailDTOS);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 }
