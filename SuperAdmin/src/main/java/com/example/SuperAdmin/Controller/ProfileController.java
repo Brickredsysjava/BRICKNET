@@ -112,7 +112,9 @@ public class ProfileController {
         String profile_id ="";
         if (employeeCode != null && !employeeCode.isEmpty()) {
             profile_id = customQuery.getProfileIDFromEmpCode(employeeCode);
-            System.out.println(profile_id);
+            if(profile_id.equals("Data not Found")){
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             Profile profile = modelMapper.map(profileDTO, Profile.class);
             if (!profile_id.equals("")) {
                 Profile updatedProfile = profileService.updateProfileById(profile_id, profile);

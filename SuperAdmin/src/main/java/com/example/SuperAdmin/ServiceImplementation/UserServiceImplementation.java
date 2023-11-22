@@ -48,8 +48,11 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User getUserByEmployeeCode(String employeeCode) {
-
-        return userRepository.findById(customQuery.getUserByEmployeeCode(employeeCode)).orElse(null);
+        String id = customQuery.getUserByEmployeeCode(employeeCode);
+        if(id.equals("Data Not Found")) {
+            return null;
+        }
+        return userRepository.findById(id).orElse(null);
     }
     @Override
     public String deleteUser(String employeeCode) {
