@@ -38,9 +38,6 @@ public class broadCasting {
     private String endTime;
 
     @Column
-    private String selectedOption;
-
-    @Column
     private String typeOfEvent;
 
     @Column

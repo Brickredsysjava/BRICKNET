@@ -48,7 +48,6 @@ public class broadCastController {
         broadCastingSaved.setStartTime(broadCasting1.getStartTime());
         broadCastingSaved.setEndTime(broadCasting1.getEndTime());
         broadCastingSaved.setTypeOfEvent(broadCasting1.getTypeOfEvent());
-        broadCastingSaved.setSelectedOption(broadCasting1.getSelectedOption());
         broadCastingSaved.setFileName(broadCasting1.getFileName());
         broadCastingService1.insertDataIntoDb(broadCastingSaved);
         //String fileName = uploadedFile.getOriginalFilename();
