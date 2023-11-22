@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Configuration
@@ -163,63 +164,98 @@ public class CustomQuery {
 
     @Transactional
     public String getUserByEmployeeCode (String employee_code) {
-        String query = "select user_id from user where profile_id = " +
-                "(select id from profile where employee_code = :employee_code)";
+        try{
+            String query = "select user_id from user where profile_id = " +
+                    "(select id from profile where employee_code = :employee_code)";
 
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("employee_code",employee_code);
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("employee_code", employee_code);
 
-        return (String) q.getSingleResult();
-
+            return (String) q.getSingleResult();
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data Not Found";
     }
 
     public String getBankDetailIdfromEmployeeCode(String empCode)
     {
-        String query = "select bank_details_id from user where " +
-                "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))";
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("empCode", empCode);
-        String res = (String) q.getSingleResult();
-        return res;
+        try{
+            String query = "select bank_details_id from user where " +
+                    "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))";
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("empCode", empCode);
+            String res = (String) q.getSingleResult();
+            return res;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data not Found";
     }
 
     public String getProfileIDFromEmpCode(String emp_code){
-        String query = "select profile_id from user where profile_id" +
-                "=(select id from profile where employee_code= :emp_code)";
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("emp_code", emp_code);
-        String res = (String) q.getSingleResult();
-        return res;
+        try{
+            String query = "select profile_id from user where profile_id" +
+                    "=(select id from profile where employee_code= :emp_code)";
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("emp_code", emp_code);
+            String res = (String) q.getSingleResult();
+            return res;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data not Found";
     }
 
     public String getAddressIdFromEmpCode(String empCode, String typeOfAddress){
-        String query = "select id from address where " +
-                "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))" +
-                "and type_of_address = :typeOfAddress";
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("empCode", empCode);
-        q.setParameter("typeOfAddress", typeOfAddress);
-        String res = (String) q.getSingleResult();
-        return res;
+        try{
+            String query = "select id from address where " +
+                    "user_id=(select user_id from user where profile_id=(select id from profile where employee_code= :empCode))" +
+                    "and type_of_address = :typeOfAddress";
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("empCode", empCode);
+            q.setParameter("typeOfAddress", typeOfAddress);
+            String res = (String) q.getSingleResult();
+            return res;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data Not Found";
     }
     public String getEducationIdByEmployeeCode(String empCode, String type_of_education){
-        String query = "select id from education where user_id = (select user_id from " +
-                "user where profile_id = (select profile_id from profile where employee_code = :empCode)) and " +
-                "type_Of_Education = :typeOfEducation";
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("empCode", empCode);
-        q.setParameter("typeOfEducation", type_of_education);
-        String res = (String) q.getSingleResult();
-        return res;
+        try{
+            String query = "select id from education where user_id = (select user_id from " +
+                    "user where profile_id = (select profile_id from profile where employee_code = :empCode)) and " +
+                    "type_Of_Education = :typeOfEducation";
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("empCode", empCode);
+            q.setParameter("typeOfEducation", type_of_education);
+            String res = (String) q.getSingleResult();
+            return res;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data Not Found";
     }
 
     public String getPersonalDetailsIdByEmpCode(String empCode){
-        String query = "select personal_details_id from user where user_id = (select user_id from " +
-                "user where profile_id = (select profile_id from profile where employee_code = :empCode))";
-        Query q = entityManager.createNativeQuery(query);
-        q.setParameter("empCode", empCode);
-        String res = (String) q.getSingleResult();
-        return res;
+        try{
+            String query = "select personal_details_id from user where user_id = (select user_id from " +
+                    "user where profile_id = (select profile_id from profile where employee_code = :empCode))";
+            Query q = entityManager.createNativeQuery(query);
+            q.setParameter("empCode", empCode);
+            String res = (String) q.getSingleResult();
+            return res;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Data Not Found";
     }
 
     @Transactional
@@ -281,5 +317,14 @@ public class CustomQuery {
             e.getMessage();
         }
         return "Data Not Found";
+    }
+
+    @Transactional
+    public List<String> getAllEmails() {
+        String query = "select company_email from profile";
+
+        Query q = entityManager.createNativeQuery(query);
+
+        return (List<String>) q.getResultList().stream().map(i-> (String) i).collect(Collectors.toList());
     }
 }

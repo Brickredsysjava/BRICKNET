@@ -73,6 +73,11 @@ public class PersonalDetailsController {
     public ResponseEntity<PersonalDetails> updatePersonalDetailsById(@RequestParam("employeeCode") String employeeCode, @RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
         PersonalDetails personalDetails = modelMapper.map(personalDetailsDTO, PersonalDetails.class);
         String personal_details_id = customQuery.getPersonalDetailsIdByEmpCode(employeeCode);
+
+        if(personal_details_id.equals("Data Not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         PersonalDetails updatedDetails = personalDetailsService.updatePersonalDetailsById(personal_details_id, personalDetails);
         if (updatedDetails != null) {
             return new ResponseEntity<>(updatedDetails, HttpStatus.OK);

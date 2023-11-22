@@ -71,6 +71,9 @@ public class AddressController {
     public ResponseEntity<Address> updateAddressById(@RequestParam("employeeCode") String employeeCode, @RequestParam("typeOfAddress") String typeOfAddress, @RequestBody @Valid AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
         String addressId = customQuery.getAddressIdFromEmpCode(employeeCode , typeOfAddress);
+        if(addressId.equals("Data Not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Address updatedAddress = service.updateAddressById(addressId,    address);
         if (updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);

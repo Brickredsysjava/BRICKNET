@@ -62,6 +62,9 @@ public class BankDetailsController {
     public ResponseEntity<BankDetails> updateBankDetailsById(@RequestParam("employeeCode") String employeeCode, @RequestBody @Valid BankDetailsDTO bankDetailsDTO) {
         BankDetails bankDetails = modelMapper.map(bankDetailsDTO, BankDetails.class);
         String bank_details_id = customQuery.getBankDetailIdfromEmployeeCode(employeeCode);
+        if(bank_details_id.equals("Data not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         BankDetails updatedBankDetails = bankDetailsService.updateBankDetailsById(bank_details_id, bankDetails);
         if (updatedBankDetails != null) {
             return new ResponseEntity<>(updatedBankDetails, HttpStatus.OK);

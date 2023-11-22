@@ -67,6 +67,9 @@ public class EducationController {
     public ResponseEntity<Education> updateEducationById(@RequestParam("employeeCode") String employeeCode, @RequestParam("type_Of_Education") String type_of_education, @RequestBody @Valid EducationDTO educationDTO) {
         Education education = modelMapper.map(educationDTO, Education.class);
         String education_id = customQuery.getEducationIdByEmployeeCode(employeeCode, type_of_education);
+        if(education_id.equals("Data Not Found")){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Education updatedEducation = educationService.updateEducationById(education_id, education);
         if (updatedEducation != null) {
             return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
