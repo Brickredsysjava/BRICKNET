@@ -42,7 +42,7 @@ public class broadCastController {
                                                          @RequestParam("time") String time,
                                                          @RequestParam("typeOfEvent") String typeOfEvents,
                                                          @RequestParam("selectedOption") String selectedOption,
-                                                         @RequestParam("uploadedFile") MultipartFile uploadedFile){
+                                                         @RequestParam("uploadedFile") String uploadedFile){
     try {
         broadCasting broadCastingSaved = new broadCasting();
         NotificationDTO notificationDTO = new NotificationDTO();
@@ -55,8 +55,9 @@ public class broadCastController {
         broadCastingSaved.setTime(time);
         broadCastingSaved.setTypeOfEvent(typeOfEvents);
         broadCastingSaved.setSelectedOption(selectedOption);
+        broadCastingSaved.setFileName(uploadedFile);
         broadCastingService1.insertDataIntoDb(broadCastingSaved);
-        String fileName = uploadedFile.getOriginalFilename();
+        //String fileName = uploadedFile.getOriginalFilename();
         //broadCastingService1.sendMail(broadCastingSaved);
 
         broadCastingDTO.setBcc(email);
@@ -69,8 +70,8 @@ public class broadCastController {
         //notificationDTO.setTimestamp(LocalDateTime.now());
         //broadCastingService1.pushNotification(notificationDTO);
         //This is for uploading the file at particular location
-        String filePath = uploadPath + File.separator + fileName;
-        uploadedFile.transferTo(new File(filePath));
+       // String filePath = uploadPath + File.separator + fileName;
+        //uploadedFile.transferTo(new File(filePath));
         return ResponseEntity.ok("User created successfully");
     }
     catch (Exception e) {

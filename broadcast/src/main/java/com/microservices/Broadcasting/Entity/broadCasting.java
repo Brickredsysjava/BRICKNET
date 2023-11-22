@@ -39,4 +39,7 @@ public class broadCasting {
 
     @Column
     private String typeOfEvent;
+
+    @Column
+    private String fileName;
 }
