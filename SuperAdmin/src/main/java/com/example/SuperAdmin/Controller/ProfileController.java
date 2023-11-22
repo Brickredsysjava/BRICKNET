@@ -165,7 +165,7 @@ public class ProfileController {
         if (email != null) {
             return ResponseEntity.ok(email);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
