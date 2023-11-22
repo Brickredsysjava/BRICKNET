@@ -1,5 +1,6 @@
 package com.microservices.Broadcasting.Controller;
 
+import com.microservices.Broadcasting.Dto.BroadCastingDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 
@@ -35,7 +36,7 @@ public class broadCastController {
 
     @PostMapping("/insert")
     public ResponseEntity<String> insertDataIntoDb(@RequestParam("title") String title ,
-                                                         @RequestParam("email") String email,
+                                                         @RequestParam("email") List<String> email,
                                                          @RequestParam("message") String message,
                                                          @RequestParam("selectedDate") String selectedDate,
                                                          @RequestParam("time") String time,
@@ -45,6 +46,7 @@ public class broadCastController {
     try {
         broadCasting broadCastingSaved = new broadCasting();
         NotificationDTO notificationDTO = new NotificationDTO();
+        BroadCastingDTO broadCastingDTO = new BroadCastingDTO();
 
         broadCastingSaved.setTitle(title);
         broadCastingSaved.setEmail(email);
@@ -55,12 +57,17 @@ public class broadCastController {
         broadCastingSaved.setSelectedOption(selectedOption);
         broadCastingService1.insertDataIntoDb(broadCastingSaved);
         String fileName = uploadedFile.getOriginalFilename();
-        broadCastingService1.sendMail(broadCastingSaved);
+        //broadCastingService1.sendMail(broadCastingSaved);
 
-        notificationDTO.setRecipient(email);
-        notificationDTO.setMessage(message);
+        broadCastingDTO.setBcc(email);
+        broadCastingDTO.setText(message);
+        broadCastingDTO.setSetSubject(title);
+        broadCastingService1.broadCastingToEveryone(broadCastingDTO);
+
+        //notificationDTO.setRecipient(email);
+        //notificationDTO.setMessage(message);
         //notificationDTO.setTimestamp(LocalDateTime.now());
-        broadCastingService1.pushNotification(notificationDTO);
+        //broadCastingService1.pushNotification(notificationDTO);
         //This is for uploading the file at particular location
         String filePath = uploadPath + File.separator + fileName;
         uploadedFile.transferTo(new File(filePath));

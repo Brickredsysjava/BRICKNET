@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "BroadCasting")
@@ -22,7 +23,7 @@ public class broadCasting {
     private String title;
 
     @Column
-    private String email;
+    private List<String> email;
 
     @Column
     private String message;
