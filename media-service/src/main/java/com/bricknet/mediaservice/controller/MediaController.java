@@ -63,7 +63,7 @@ public class MediaController {
 
     @PostMapping("/images/profilePicUpload")
     @ResponseBody
-    public ResponseEntity<Object> profilePicUpload( String employeeCode , @RequestParam("files") MultipartFile file) throws Exception {
+    public ResponseEntity<Object> profilePicUpload( String employeeCode , @RequestParam("file") MultipartFile file) throws Exception {
         FileTypeIndentifier fileType = new FileTypeIndentifier();
         try {
 
