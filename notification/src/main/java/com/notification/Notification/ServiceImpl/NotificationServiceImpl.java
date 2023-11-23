@@ -70,9 +70,9 @@ public class NotificationServiceImpl implements NotificationService {
                 "you've new notification " + text + " \n"
                 + "Thanks & Regards \n" +
                 String.valueOf(mailSender);
-        notification.setMessage(mailMessage);
+        notification.setMessage(text);
         notification.setTimestamp(LocalDateTime.now());
-        message.setText(text);
+        message.setText(mailMessage);
         message.setSubject(subject);
         for(String i : bcc ){
             message.setTo(i);
