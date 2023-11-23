@@ -43,6 +43,7 @@ public class ApiList {
             "/auth/**",
             "/communityPost/post/**",
             "/suggestionPost/api/suggestions/**",
+            "/send/broadcast/**",
             "/send/**",
             "/api/to-do/**",
             "/media/**",
