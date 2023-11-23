@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "BroadCasting")
@@ -22,7 +23,7 @@ public class broadCasting {
     private String title;
 
     @Column
-    private String email;
+    private List<String> email;
 
     @Column
     private String message;
@@ -31,11 +32,14 @@ public class broadCasting {
     private String selectedDate;
 
     @Column
-    private String time;
+    private String startTime;
 
     @Column
-    private String selectedOption;
+    private String endTime;
 
     @Column
     private String typeOfEvent;
+
+    @Column
+    private String fileName;
 }
