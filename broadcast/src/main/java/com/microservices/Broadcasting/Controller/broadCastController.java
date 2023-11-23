@@ -56,7 +56,7 @@ public class broadCastController {
         broadCastingDTO.setBcc(broadCasting1.getEmail());
         broadCastingDTO.setText(broadCasting1.getMessage());
         broadCastingDTO.setSetSubject(broadCasting1.getTitle());
-        //broadCastingService1.broadCastingToEveryone(broadCastingDTO);
+        broadCastingService1.broadCastingToEveryone(broadCastingDTO);
 
         //notificationDTO.setRecipient(email);
         //notificationDTO.setMessage(message);
