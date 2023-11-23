@@ -61,6 +61,34 @@ public class MediaController {
     }
 
 
+    @PostMapping("/images/profilePicUpload")
+    @ResponseBody
+    public ResponseEntity<Object> profilePicUpload( String employeeCode , @RequestParam("files") MultipartFile file) throws Exception {
+        FileTypeIndentifier fileType = new FileTypeIndentifier();
+        try {
+
+                String originalFilename = file.getOriginalFilename();
+                assert originalFilename != null;
+                if (!FileTypeIndentifier.identifyFileType(originalFilename).equals("Unknown")) {
+                    // Generate new file name
+                    String newFilename = employeeCode;
+
+                    // Save with new file name
+                    Path path = Paths.get(uploadDirectory + newFilename);
+                    Files.write(path, file.getBytes());
+
+
+                } else {
+                    return new ResponseEntity<>("File type is not supported.", HttpStatus.NOT_ACCEPTABLE);
+                }
+
+            return new ResponseEntity<>(employeeCode, HttpStatus.OK);
+        }catch (SizeLimitExceededException sizeLimitExceededException){
+            return new ResponseEntity<>("Request size exceeds the allowed limit (10MB). ",HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+
     public static String formatFileName(String inputFileName) {
         // Generate a timestamp
 
