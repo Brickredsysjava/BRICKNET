@@ -80,9 +80,9 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
     @Override
     public List<GetSuggestionsDTO> getAllSuggestions() {
-
-       try {
         List<GetSuggestionsDTO> newList = new ArrayList<>();
+       try {
+        
         List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().map(p ->
         {
             GetSuggestionsDTO getSuggestionsDTO = new GetSuggestionsDTO();
@@ -112,6 +112,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
        }catch (Exception e) {
         e.printStackTrace();
        }
+       return newList;
         
     }
 
