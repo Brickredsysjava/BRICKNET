@@ -78,7 +78,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
 
 
-    @Override
+  @Override
     public List<GetSuggestionsDTO> getAllSuggestions() {
         List<GetSuggestionsDTO> newList = new ArrayList<>();
        try {
@@ -94,13 +94,19 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .description(p.getDescription())
                         .department(p.getDepartment())
                         .status(p.getStatus())
-                        .likeCount((long) p.getLikedEmployee().size())
-                        .dislikeCount((long) p.getDisLikedEmployee().size())
-                        .likePercentage((double) ((((long) p.getLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
-                        .dislikePercentage((double) ((((long) p.getDisLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
                         .adminVerified(p.getAdminVerified())
                         .verificationStatusMessage(p.getVerificationStatusMessage())
                         .build();
+                        long likedCount = p.getLikedEmployee().size();
+                        long dislikedCount = p.getDisLikedEmployee().size();
+                        
+                        long totalVotes = likedCount + dislikedCount;
+                        double likePercentage = (totalVotes > 0) ? ((double) likedCount / totalVotes) * 100 : 0;
+                        double dislikePercentage = (totalVotes > 0) ? ((double) dislikedCount / totalVotes) * 100 : 0;  
+                        getSuggestionsDTO.setLikeCount(likedCount); 
+                        getSuggestionsDTO.setDislikeCount(dislikedCount);
+                        getSuggestionsDTO.setLikePercentage(likePercentage);
+                        getSuggestionsDTO.setDislikePercentage(dislikePercentage); 
                 newList.add(getSuggestionsDTO);
             }
             return getSuggestionsDTO;
@@ -115,7 +121,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
        return newList;
         
     }
-
 
 
     @Override
