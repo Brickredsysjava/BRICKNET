@@ -42,5 +42,5 @@ public class GetSuggestionsDTO {
 
     private Boolean adminVerified;
 
-    private Boolean verificationStatusMessage;
+    private String verificationStatusMessage;
 }

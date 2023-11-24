@@ -47,7 +47,7 @@ public class Suggestion implements Comparable<Suggestion>{
 
     private Boolean adminVerified;
 
-    private Boolean verificationStatusMessage;
+    private String verificationStatusMessage;
 
     private List<String> likedEmployee=new ArrayList<>();
 

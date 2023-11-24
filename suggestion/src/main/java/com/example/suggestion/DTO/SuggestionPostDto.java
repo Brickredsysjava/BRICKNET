@@ -50,5 +50,4 @@ public class SuggestionPostDto {
     @NotEmpty(message = "employeeCode can't be empty")
     private String employeeCode;
 
-    private LocalDateTime suggestionDateTime;
 }

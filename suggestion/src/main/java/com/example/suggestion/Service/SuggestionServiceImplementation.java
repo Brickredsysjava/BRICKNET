@@ -41,6 +41,9 @@ public class SuggestionServiceImplementation implements SuggestionService{
     {
         if (suggestionDto!=null) {
             Suggestion suggestion = modelMapper.map(suggestionDto,Suggestion.class);
+            suggestion.setDateTime(LocalDateTime.now());
+            suggestion.setAdminVerified(false);
+            suggestion.setStatus(Status.ACTIVE);
 
             try {
                 Date date = new Date();
@@ -238,7 +241,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
 
         if (adminVerified) {
             suggestionVerification.setAdminVerified(true);
-            suggestionVerification.setVerificationStatusMessage(true);
+            suggestionVerification.setVerificationStatusMessage("true");
 
 try {
     Date date = new Date();
@@ -263,7 +266,7 @@ suggestionRepository.save(suggestionVerification);
 
         } else {
             suggestionVerification.setAdminVerified(false);
-            suggestionVerification.setVerificationStatusMessage(false);
+            suggestionVerification.setVerificationStatusMessage("false");
 
             try {
                 Date date = new Date();
