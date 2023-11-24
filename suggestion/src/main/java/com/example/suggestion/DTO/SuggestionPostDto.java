@@ -11,8 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
-import java.sql.Clob;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -23,7 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SuggestionDto {
+public class SuggestionPostDto {
 
     @Valid
     @NotNull(message = "username can't be null")
@@ -35,7 +33,7 @@ public class SuggestionDto {
     @NotNull(message = "subjectTitle can't be null")
     @NotBlank(message = "subjectTitle can't be blank")
     @NotEmpty(message = "subjectTitle can't be empty")
-    private String subjectTitle;
+    private String title;
 
     @Valid
     @NotNull(message = "description can't be null")
@@ -46,29 +44,10 @@ public class SuggestionDto {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @Enumerated
-    private Status status;
-
     @Valid
-    @NotNull(message = "likeCount can't be null")
-    private int likeCount;
+    @NotNull(message = "employeeCode can't be null")
+    @NotBlank(message = "employeeCode can't be blank")
+    @NotEmpty(message = "employeeCode can't be empty")
+    private String employeeCode;
 
-    @Valid
-    @NotNull(message = "dislikeCount can't be null")
-    private int dislikeCount;
-
-
-    @Valid
-    @NotNull(message = "likePercentage can't be null")
-    private double likePercentage;
-
-    @Valid
-    @NotNull(message = "dislikePercentage can't be null")
-    private double dislikePercentage;
-
-    private LocalDateTime suggestionDateTime;
-
-    private Boolean adminVerified;
-
-    private String verificationStatusMessage;
 }
