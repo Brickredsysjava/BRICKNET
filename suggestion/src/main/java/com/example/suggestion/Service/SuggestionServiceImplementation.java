@@ -81,34 +81,37 @@ public class SuggestionServiceImplementation implements SuggestionService{
     @Override
     public List<GetSuggestionsDTO> getAllSuggestions() {
 
-       
-            List<GetSuggestionsDTO> newList = new ArrayList<>();
-            List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().map(p ->
-            {
-                GetSuggestionsDTO getSuggestionsDTO = new GetSuggestionsDTO();
-                if (p.getAdminVerified()) {
-                    getSuggestionsDTO = GetSuggestionsDTO.builder()
-                            .ticket_id(p.getTicket_Id())
-                            .username(p.getUsername())
-                            .title(p.getTitle())
-                            .description(p.getDescription())
-                            .department(p.getDepartment())
-                            .status(p.getStatus())
-                            .likeCount((long) p.getLikedEmployee().size())
-                            .dislikeCount((long) p.getDisLikedEmployee().size())
-                            .likePercentage((double) ((((long) p.getLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
-                            .dislikePercentage((double) ((((long) p.getDisLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
-                            .adminVerified(p.getAdminVerified())
-                            .verificationStatusMessage(p.getVerificationStatusMessage())
-                            .build();
-                    newList.add(getSuggestionsDTO);
-                }
-                return getSuggestionsDTO;
-            }).toList();
+       try {
+        List<GetSuggestionsDTO> newList = new ArrayList<>();
+        List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().map(p ->
+        {
+            GetSuggestionsDTO getSuggestionsDTO = new GetSuggestionsDTO();
+            if (p.getAdminVerified()) {
+                getSuggestionsDTO = GetSuggestionsDTO.builder()
+                        .ticket_id(p.getTicket_Id())
+                        .username(p.getUsername())
+                        .title(p.getTitle())
+                        .description(p.getDescription())
+                        .department(p.getDepartment())
+                        .status(p.getStatus())
+                        .likeCount((long) p.getLikedEmployee().size())
+                        .dislikeCount((long) p.getDisLikedEmployee().size())
+                        .likePercentage((double) ((((long) p.getLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
+                        .dislikePercentage((double) ((((long) p.getDisLikedEmployee().size()) / ((long) p.getLikedEmployee().size() + (long) p.getDisLikedEmployee().size())) * 100))
+                        .adminVerified(p.getAdminVerified())
+                        .verificationStatusMessage(p.getVerificationStatusMessage())
+                        .build();
+                newList.add(getSuggestionsDTO);
+            }
+            return getSuggestionsDTO;
+        }).toList();
 
-            newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
-            System.out.println(newList);
-            return newList;
+        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
+        System.out.println(newList);
+        return newList;
+       }catch (Exception e) {
+        e.printStackTrace();
+       }
         
     }
 
