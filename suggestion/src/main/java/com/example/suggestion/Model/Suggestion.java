@@ -9,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 import java.sql.Clob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -24,50 +26,40 @@ public class Suggestion implements Comparable<Suggestion>{
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2" , strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "ticket_id", columnDefinition = "VARCHAR(255)")
-    private String ticket_id;
+    @Column(name = "post_id", columnDefinition = "VARCHAR(255)")
+    private String  ticket_Id;
 
+    private String employeeCode;
 
-    @NotNull
     private String username;
 
-    @NotNull
-    private String subjectTitle;
+    private String title;
 
-    @NotNull
     private String description;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @NotNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
-    private int likeCount;
-
-    @NotNull
-    private int dislikeCount;
-
-    private double likePercentage;
-
-    private double dislikePercentage;
-
-    @Column(name = "suggestion_date")
-    private LocalDateTime suggestionDateTime;
-
+    private LocalDateTime dateTime;
 
     private Boolean adminVerified;
 
-    private String verificationStatusMessage;
+    private Boolean verificationStatusMessage;
 
+    private List<String> likedEmployee=new ArrayList<>();
+
+    private List<String> disLikedEmployee = new ArrayList<>();
+
+    public List<String> getLikedEmployee() {
+        return likedEmployee != null ? likedEmployee : new ArrayList<>(); }
 
     @Override
     public int compareTo(Suggestion suggestion) {
         // Compare the dates using the compareTo method of the Date class
-        return suggestion.suggestionDateTime.compareTo(this.suggestionDateTime);
+        return suggestion.dateTime.compareTo(this.dateTime);
     }
 
 
