@@ -81,7 +81,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
     @Override
     public List<GetSuggestionsDTO> getAllSuggestions() {
 
-        try{
+       
             List<GetSuggestionsDTO> newList = new ArrayList<>();
             List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().map(p ->
             {
@@ -109,11 +109,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
             newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
 
             return newList;
-        }
-        catch (Exception e) {
-            e.getMessage();
-        }
-        return null;
+        
     }
 
 
