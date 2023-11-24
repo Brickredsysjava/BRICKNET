@@ -226,7 +226,7 @@ public class CustomQuery {
     public String getEducationIdByEmployeeCode(String empCode, String type_of_education){
         try{
             String query = "select id from education where user_id = (select user_id from " +
-                    "user where profile_id = (select profile_id from profile where employee_code = :empCode)) and " +
+                    "user where profile_id = (select id from profile where employee_code = :empCode)) and " +
                     "type_Of_Education = :typeOfEducation";
             Query q = entityManager.createNativeQuery(query);
             q.setParameter("empCode", empCode);
