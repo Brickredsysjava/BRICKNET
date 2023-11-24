@@ -44,7 +44,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
             suggestion.setDateTime(LocalDateTime.now());
             suggestion.setAdminVerified(false);
             suggestion.setStatus(Status.ACTIVE);
-            suggestion.setVerificationStatusMessage("False");
+            suggestion.setVerificationStatusMessage("Pending");
 
             try {
                 Date date = new Date();
