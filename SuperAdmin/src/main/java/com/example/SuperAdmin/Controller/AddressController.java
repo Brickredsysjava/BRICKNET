@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.AddressDTO;
 import com.example.SuperAdmin.Entity.Address;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.AddressService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,11 @@ public class AddressController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private CustomQuery customQuery;
+
+    public AddressController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
     @PostMapping("/addAddress")
     public ResponseEntity<Address> addAddress(@RequestBody @Valid AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
@@ -51,9 +57,9 @@ public class AddressController {
         }
     }
 
-    @GetMapping("/AddressById/{id}")
-    public ResponseEntity<AddressDTO> findAddressById(@PathVariable String id) {
-        AddressDTO address = service.getAddressById(id);
+    @GetMapping("/AddressByEmployeeCode")
+    public ResponseEntity<List<AddressDTO>> findAddressByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        List<AddressDTO> address = service.getAddressByEmployeeCode(employeeCode);
         if (address != null) {
             return new ResponseEntity<>(address, HttpStatus.OK);
         } else {
@@ -61,10 +67,14 @@ public class AddressController {
         }
     }
 
-    @PutMapping("/updateAddress/{id}")
-    public ResponseEntity<Address> updateAddressById(@PathVariable String id, @RequestBody @Valid AddressDTO addressDTO) {
+    @PutMapping("/updateAddress")
+    public ResponseEntity<Address> updateAddressById(@RequestParam("employeeCode") String employeeCode, @RequestParam("typeOfAddress") String typeOfAddress, @RequestBody @Valid AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
-        Address updatedAddress = service.updateAddressById(id, address);
+        String addressId = customQuery.getAddressIdFromEmpCode(employeeCode , typeOfAddress);
+        if(addressId.equals("Data Not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Address updatedAddress = service.updateAddressById(addressId,    address);
         if (updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
         } else {
@@ -72,13 +82,14 @@ public class AddressController {
         }
     }
 
-    @DeleteMapping("/deleteAddress/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable String id) {
-        String result = service.deleteAddress(id);
+
+    @DeleteMapping("/deleteAddress")
+    public ResponseEntity<String> deleteAddress(@RequestParam("employeeCode") String employeeCode) {
+        String result = service.deleteAddress(employeeCode);
         if ("Deleted".equals(result)) {
-            return new ResponseEntity<>("Address with ID " + id + " has been deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Address with employeeCode " + employeeCode + " has been deleted.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Address with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Address with employeeCode " + employeeCode + " not found.", HttpStatus.NOT_FOUND);
         }
     }
 

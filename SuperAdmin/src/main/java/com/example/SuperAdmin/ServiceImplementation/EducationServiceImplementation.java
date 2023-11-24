@@ -2,6 +2,7 @@ package com.example.SuperAdmin.ServiceImplementation;
 
 import com.example.SuperAdmin.DTO.EducationDTO;
 import com.example.SuperAdmin.Entity.Education;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Repository.EducationRepository;
 import com.example.SuperAdmin.Service.EducationService;
 import org.modelmapper.ModelMapper;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,8 +17,15 @@ public class EducationServiceImplementation implements EducationService {
 
     @Autowired
     private EducationRepository educationRepository;
+
+    private CustomQuery customQuery;
     @Autowired
     private ModelMapper modelMapper;
+
+    public EducationServiceImplementation(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
+
     @Override
     public Education saveEducation(Education education) {
 
@@ -38,18 +44,16 @@ public class EducationServiceImplementation implements EducationService {
     }
 
     @Override
-    public EducationDTO getEducationById(String id) {
-        Optional<Education> educationOptional = educationRepository.findById(id);
-        if (educationOptional.isPresent()) {
-            Education education = educationOptional.get();
-            return modelMapper.map(education, EducationDTO.class);
-        } else {
-            return null;
-        }
+    public List<EducationDTO> getEducationByEmployeeCode(String employeeCode) {
+        List<EducationDTO> educationDTO = (List<EducationDTO>) customQuery.getEducationDetailByEmployeeCode(employeeCode);
+        return educationDTO;
     }
 
     @Override
-    public String deleteEducation(String id) {
+    public String deleteEducation(String employeeCode, String typeOfEducation) {
+        String id = customQuery.deleteEducation(employeeCode,typeOfEducation);
+        if(id.equals("Data Not Found"))
+            return id;
         educationRepository.deleteById(id);
         return "Deleted";
     }

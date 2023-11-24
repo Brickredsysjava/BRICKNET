@@ -17,6 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EducationDTO {
 
+    private String id;
+
 //    @Valid
 //    @NotBlank(message = "Type of education is required")
 //    @NotNull(message = "Type of education is required")

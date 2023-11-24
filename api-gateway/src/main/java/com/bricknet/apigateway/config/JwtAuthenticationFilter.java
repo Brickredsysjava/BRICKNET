@@ -72,9 +72,9 @@ public class JwtAuthenticationFilter implements WebFilter{
             return monres.flatMap( thisis -> {
 
                 if(thisis != null && thisis.equals(jwt)) {
-                    if(!role.equals("ADMIN")) {
-                        return null;
-                    }
+//                    if(!role.equals("ADMIN")) {
+//                        return null;
+//                    }
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
                 return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));

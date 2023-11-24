@@ -61,4 +61,20 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationDTO> getMessage(String recipient) {
         return this.notificationRepository.findMessageByRecipient(recipient);
     }
+
+    @Override
+    public void broadCastMessage(List<String> bcc, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        Notification notification = new Notification();
+        notification.setMessage(text);
+        notification.setTimestamp(LocalDateTime.now());
+        message.setText(text);
+        message.setSubject(subject);
+        for(String i : bcc ){
+            message.setTo(i);
+            javaMailSender.send(message);
+            notification.setRecipient(i);
+            notificationRepository.save(notification);
+        }
+    }
 }

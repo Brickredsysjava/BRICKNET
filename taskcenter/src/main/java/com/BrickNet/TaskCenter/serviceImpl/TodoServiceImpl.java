@@ -3,6 +3,7 @@ package com.BrickNet.TaskCenter.serviceImpl;
 import com.BrickNet.TaskCenter.dto.PostTodoDTO;
 import com.BrickNet.TaskCenter.dto.TodoDTO;
 import com.BrickNet.TaskCenter.dto.NotificationDTO;
+import com.BrickNet.TaskCenter.dto.UpdateTodoDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
 import com.BrickNet.TaskCenter.model.Priority;
 import com.BrickNet.TaskCenter.model.Status;
@@ -18,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.management.ServiceNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,8 +53,17 @@ public class TodoServiceImpl implements TodoService{
         }
 
         else {
-            Todo todo = modelMapper.map(postTodoDTO, Todo.class);
-            todo.setStatus(Status.Initial);
+            Todo todo = Todo.builder()
+                    .title(postTodoDTO.getTitle())
+                    .description(postTodoDTO.getDescription())
+                    .estimatedStartDate(postTodoDTO.getEstimatedStartDate())
+                    .estimatedEndDate(postTodoDTO.getEstimatedEndDate())
+                    .priority(postTodoDTO.getPriority())
+                    .employeeAssignedBy(postTodoDTO.getEmployeeAssignedBy())
+                    .employeeAssignedTo(postTodoDTO.getEmployeeAssignedTo())
+                    .status(Status.Initial)
+                    .build();
+
             todoRepository.save(todo);
             postTodoDTO.setId(todo.getId());
             sendNotification(postTodoDTO);
@@ -158,21 +169,18 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public TodoDTO updateCreatedToDo(String id,String employeeCode ,TodoDTO todoDTO) throws TodoException {
+    public TodoDTO updateCreatedToDo(String id, String employeeCode , UpdateTodoDTO updateTodoDTO) throws TodoException {
         try {
             Todo t = todoRepository.findByStringId(id);
 
-            if (todoDTO != null && t.getEmployeeAssignedBy().equals(employeeCode)) {
-                t.setTitle(todoDTO.getTitle());
-                t.setDescription(todoDTO.getDescription());
-                t.setActualEndDate(todoDTO.getActualEndDate());
-                t.setActualStartDate(todoDTO.getActualStartDate());
-                t.setEstimatedEndDate(todoDTO.getEstimatedEndDate());
-                t.setEstimatedStartDate(todoDTO.getEstimatedStartDate());
-                t.setStatus(todoDTO.getStatus());
-                t.setPriority(todoDTO.getPriority());
-                t.setEmployeeAssignedBy(todoDTO.getEmployeeAssignedBy());
-                t.setEmployeeAssignedTo(todoDTO.getEmployeeAssignedTo());
+            if (updateTodoDTO != null && t.getEmployeeAssignedBy().equals(employeeCode)) {
+                t.setTitle(updateTodoDTO.getTitle());
+                t.setDescription(updateTodoDTO.getDescription());
+                t.setEstimatedEndDate(updateTodoDTO.getEstimatedEndDate());
+                t.setEstimatedStartDate(updateTodoDTO.getEstimatedStartDate());
+                t.setStatus(updateTodoDTO.getStatus());
+                t.setPriority(updateTodoDTO.getPriority());
+                t.setEmployeeAssignedTo(updateTodoDTO.getEmployeeAssignedTo());
 
                 todoRepository.save(t);
 

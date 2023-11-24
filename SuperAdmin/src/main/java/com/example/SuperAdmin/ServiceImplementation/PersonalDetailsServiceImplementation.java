@@ -3,6 +3,7 @@ package com.example.SuperAdmin.ServiceImplementation;
 import com.example.SuperAdmin.DTO.PersonalDetailsDTO;
 import com.example.SuperAdmin.Entity.PersonalDetails;
 import com.example.SuperAdmin.Entity.Profile;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Repository.PersonalDetailsRepository;
 import com.example.SuperAdmin.Repository.ProfileRepository;
 import com.example.SuperAdmin.Service.PersonalDetailsService;
@@ -18,6 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class PersonalDetailsServiceImplementation implements PersonalDetailsService {
+
+    private CustomQuery customQuery;
+    public PersonalDetailsServiceImplementation(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
+
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
@@ -43,14 +50,8 @@ public class PersonalDetailsServiceImplementation implements PersonalDetailsServ
     }
 
     @Override
-    public PersonalDetailsDTO getPersonalDetailsById(String id) {
-        Optional<PersonalDetails> personalDetailsOptional = personalDetailsRepository.findById(id);
-        if (personalDetailsOptional.isPresent()) {
-            PersonalDetails personalDetails = personalDetailsOptional.get();
-            return modelMapper.map(personalDetails, PersonalDetailsDTO.class);
-        } else {
-            return null;
-        }
+    public PersonalDetailsDTO getPersonalDetailsByEmployeeCode(String employeeCode) {
+        return customQuery.getPersonalDetailsByEmployeeCode(employeeCode);
     }
 
 @Override

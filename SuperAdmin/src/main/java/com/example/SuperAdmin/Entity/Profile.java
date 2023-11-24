@@ -23,7 +23,6 @@ public class Profile {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
-    private List<String> profileImage;
     private String gender;
     private String employeeCode;
     private String firstName;
@@ -37,6 +36,7 @@ public class Profile {
     private String bloodGroup;
     private String department;
     private String reportingTo;
+    private String grade;
     @Enumerated(EnumType.STRING)
     private Role role;
 
