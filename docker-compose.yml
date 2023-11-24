@@ -83,7 +83,7 @@ services:
           
   attendance:
           image: kabiraneja/ubuntu-java-maven
-          port:
+          ports:
             - "8098:8098"
           volumes:
             - ~/attendance/attendance.jar:/attendance.jar
