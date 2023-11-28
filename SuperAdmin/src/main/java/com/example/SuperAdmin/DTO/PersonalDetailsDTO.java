@@ -55,4 +55,9 @@ public class PersonalDetailsDTO {
     @NotBlank(message = "Physically challenged status is required")
     @NotNull(message = "Physically challenged status is required")
     private String physicallyChallenged;
+
+    @Valid
+    @NotBlank(message = "Mother's Name is required")
+    @NotNull(message = "Mother's Name is required")
+    private String motherName;
 }

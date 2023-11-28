@@ -37,6 +37,7 @@ public class Profile {
     private String department;
     private String reportingTo;
     private String grade;
+    private String aContact;
     @Enumerated(EnumType.STRING)
     private Role role;
 
