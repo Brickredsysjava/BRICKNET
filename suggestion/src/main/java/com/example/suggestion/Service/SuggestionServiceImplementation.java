@@ -196,7 +196,45 @@ public class SuggestionServiceImplementation implements SuggestionService{
     @Override
     public List<GetSuggestionsDTO> getSuggestionsByDepartment(Department department)
     {
-        return suggestionRepository.findByDepartment(department);
+        List<GetSuggestionsDTO> newList = new ArrayList<>();
+        try {
+
+            List<GetSuggestionsDTO> dtoList = suggestionRepository.findAll().stream().filter(i->i.getDepartment().equals(department)).map(p ->
+            {
+                GetSuggestionsDTO getSuggestionsDTO = new GetSuggestionsDTO();
+                if (p.getAdminVerified()) {
+                    getSuggestionsDTO = GetSuggestionsDTO.builder()
+                            .ticket_id(p.getTicket_Id())
+                            .username(p.getUsername())
+                            .title(p.getTitle())
+                            .description(p.getDescription())
+                            .department(p.getDepartment())
+                            .status(p.getStatus())
+                            .adminVerified(p.getAdminVerified())
+                            .verificationStatusMessage(p.getVerificationStatusMessage())
+                            .build();
+                    long likedCount = p.getLikedEmployee().size();
+                    long dislikedCount = p.getDisLikedEmployee().size();
+
+                    long totalVotes = likedCount + dislikedCount;
+                    double likePercentage = (totalVotes > 0) ? ((double) likedCount / totalVotes) * 100 : 0;
+                    double dislikePercentage = (totalVotes > 0) ? ((double) dislikedCount / totalVotes) * 100 : 0;
+                    getSuggestionsDTO.setLikeCount(likedCount);
+                    getSuggestionsDTO.setDislikeCount(dislikedCount);
+                    getSuggestionsDTO.setLikePercentage(likePercentage);
+                    getSuggestionsDTO.setDislikePercentage(dislikePercentage);
+                    newList.add(getSuggestionsDTO);
+                }
+                return getSuggestionsDTO;
+            }).toList();
+
+            newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
+            return newList;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newList;
+
 
     }
 
@@ -307,7 +345,7 @@ suggestionRepository.save(suggestionVerification);
     public void pushNotification(NotificationDto notificationDto) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.0.9:8084/send")
+        webClientBuilder.baseUrl("http://localhost:8084/send")
                 .build().post().uri("/email").bodyValue(notificationDto).retrieve().toBodilessEntity().block();
     }
 
