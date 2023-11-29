@@ -76,7 +76,7 @@ public class CustomQuery {
             personalDetailsDTO.setDateOfBirth((String) row[1]);
             personalDetailsDTO.setFatherName((String) row[2]);
             personalDetailsDTO.setInternationalEmployee((String) row[3]);
-            personalDetailsDTO.setMaritalStatus((String) row[4]);
+            personalDetailsDTO.setMarital((String) row[4]);
             personalDetailsDTO.setNationality((String) row[5]);
             personalDetailsDTO.setPhysicallyChallenged((String) row[6]);
             personalDetailsDTO.setPlaceOfBirth((String) row[7]);
