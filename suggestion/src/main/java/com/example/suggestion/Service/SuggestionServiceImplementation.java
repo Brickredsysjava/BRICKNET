@@ -112,7 +112,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
             return getSuggestionsDTO;
         }).toList();
 
-        newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
+        newList.sort(Comparator.comparing(GetSuggestionsDTO::getDatetime).reversed());
         System.out.println(newList);
         return newList;
        }catch (Exception e) {
@@ -228,7 +228,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                 return getSuggestionsDTO;
             }).toList();
 
-            newList.sort(Comparator.comparing(GetSuggestionsDTO::getSuggestionDateTime).reversed());
+            newList.sort(Comparator.comparing(GetSuggestionsDTO::getDatetime).reversed());
             return newList;
         }catch (Exception e) {
             e.printStackTrace();
@@ -256,7 +256,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .username(s.getUsername())
                         .adminVerified(s.getAdminVerified())
                         .verificationStatusMessage(s.getVerificationStatusMessage())
-                        .suggestionDateTime(LocalDateTime.now())
+                        .datetime(LocalDateTime.now())
                         .build();
                 newDtoList.add(getSuggestionsDTO);
             }
