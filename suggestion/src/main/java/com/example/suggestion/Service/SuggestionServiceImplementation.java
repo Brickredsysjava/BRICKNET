@@ -146,12 +146,12 @@ public class SuggestionServiceImplementation implements SuggestionService{
             if (suggestion != null) {
                 suggestion.setStatus(status);
             }
-            return null;
+            return suggestionRepository.save(suggestion);
         }
         catch (Exception e) {
             e.getMessage();
         }
-        return suggestionRepository.save(suggestion);
+        return suggestion;
     }
 
 
