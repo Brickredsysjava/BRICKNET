@@ -49,7 +49,7 @@ public class PersonalDetailsDTO {
     @Valid
     @NotBlank(message = "Marital status is required")
     @NotNull(message = "Marital status is required")
-    private String maritalStatus;
+    private String marital;
 
     @Valid
     @NotBlank(message = "Physically challenged status is required")
