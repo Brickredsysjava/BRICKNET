@@ -24,6 +24,7 @@ public class Profile {
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private String id;
     private String gender;
+    @Column(unique = true)
     private String employeeCode;
     private String firstName;
     private String lastName;
