@@ -60,12 +60,12 @@ public class PersonalDetailsController {
     }
 
     @GetMapping("/PersonalDetailsByEmployeeCode")
-    public ResponseEntity<PersonalDetailsDTO> findPersonalDetailsById(@RequestParam("employeeCode") String employeeCode) {
+    public ResponseEntity<?> findPersonalDetailsById(@RequestParam("employeeCode") String employeeCode) {
         PersonalDetailsDTO personalDetails = personalDetailsService.getPersonalDetailsByEmployeeCode(employeeCode);
         if (personalDetails != null) {
             return new ResponseEntity<>(personalDetails, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Personal Details Not Found",HttpStatus.UNAUTHORIZED);
         }
     }
 
