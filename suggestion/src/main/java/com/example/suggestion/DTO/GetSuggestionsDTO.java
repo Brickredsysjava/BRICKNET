@@ -38,7 +38,7 @@ public class GetSuggestionsDTO {
 
     private Double dislikePercentage;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime datetime;
 
     private Boolean adminVerified;
 
