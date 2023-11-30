@@ -164,9 +164,15 @@ public class SuggestionServiceImplementation implements SuggestionService{
             Suggestion suggestion = optionalSuggestion.get();
 
             if (action == true) {
-                suggestion.getLikedEmployee().add(employeeCode);
+                if(!suggestion.getLikedEmployee().contains(employeeCode)){
+                    suggestion.getLikedEmployee().add(employeeCode);
+                    suggestion.getDisLikedEmployee().remove(employeeCode);
+                }
             } else {
-                suggestion.getDisLikedEmployee().add(employeeCode);
+                if(!suggestion.getDisLikedEmployee().contains(employeeCode)){
+                    suggestion.getDisLikedEmployee().add(employeeCode);
+                    suggestion.getLikedEmployee().remove(employeeCode);
+                }
             }
 
             return suggestionRepository.save(suggestion) ;
