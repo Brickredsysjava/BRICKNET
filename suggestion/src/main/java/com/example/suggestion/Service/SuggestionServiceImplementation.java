@@ -174,8 +174,8 @@ public class SuggestionServiceImplementation implements SuggestionService{
                     suggestion.getLikedEmployee().remove(employeeCode);
                 }
             }
-
-            return suggestionRepository.save(suggestion) ;
+            suggestionRepository.save(suggestion) ;
+            return suggestion;
         }
         return null;
 
