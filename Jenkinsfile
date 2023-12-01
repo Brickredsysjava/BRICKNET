@@ -186,6 +186,23 @@ pipeline {
                                      }
                                  }
 
+         stage('Build attendance') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd attendance && mvn clean package -DskipTests'
+
+                                         sh "ssh root@192.168.0.9 'cd /root'"
+                                         sh "ssh root@192.168.0.9 'rm -rf attendance || true'"
+                                         sh "ssh root@192.168.0.9 'mkdir attendance'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/attendance/target/attendance.jar root@192.168.0.9:~/attendance/'
+
+                                         sh "ssh root@192.168.0.9 'docker stop root_attendance_1 || true'"
+                                         sh "ssh root@192.168.0.9 'docker rm root_attendance_1 || true'"
+                                         sh "ssh root@192.168.0.9 'docker rmi root_attendance_1 || true'"
+                                     }
+                                 }
+
 
         stage('Deploy All Microservices') { 
             steps {

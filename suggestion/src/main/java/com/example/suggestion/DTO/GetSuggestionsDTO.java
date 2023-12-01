@@ -22,7 +22,7 @@ public class GetSuggestionsDTO {
 
     private String username;
 
-    private String subjectTitle;
+    private String title;
 
     private String description;
 
@@ -30,15 +30,15 @@ public class GetSuggestionsDTO {
 
     private Status status;
 
-    private int likeCount;
+    private Long likeCount;
 
-    private int dislikeCount;
+    private Long dislikeCount;
 
-    private double likePercentage;
+    private Double likePercentage;
 
-    private double dislikePercentage;
+    private Double dislikePercentage;
 
-    private LocalDateTime suggestionDateTime;
+    private LocalDateTime datetime;
 
     private Boolean adminVerified;
 

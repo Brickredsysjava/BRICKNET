@@ -80,5 +80,16 @@ services:
             - ~/mediaservice/mediaservice.jar:/mediaservice.jar
             - media_files:/upload:rw
           command: [ "java", "-jar", "mediaservice.jar" ]
+          
+  attendance:
+          image: kabiraneja/ubuntu-java-maven
+          ports:
+            - "8098:8098"
+          volumes:
+            - ~/attendance/attendance.jar:/attendance.jar
+            - attendance_files:/upload:rw
+          command: [ "java", "-jar", "attendance.jar" ]
+
 volumes:
   media_files:
+  attendance_files:
