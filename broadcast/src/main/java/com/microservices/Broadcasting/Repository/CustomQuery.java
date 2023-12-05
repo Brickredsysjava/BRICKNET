@@ -1,5 +1,6 @@
 package com.microservices.Broadcasting.Repository;
 
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -13,10 +14,10 @@ public class CustomQuery {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<String> getAllBroadCast(){
-        String query = "select message from broad_casting order by selected_date asc;";
+    public List<GetBroadcastInfoDTO> getAllBroadCast(){
+        String query = "select message, start_time, end_time, type_of_event from broad_casting order by selected_date asc;";
         Query q = entityManager.createNativeQuery(query);
-        List<String> res = q.getResultList();
+        List<GetBroadcastInfoDTO> res = q.getResultList();
         return res;
     }
 }

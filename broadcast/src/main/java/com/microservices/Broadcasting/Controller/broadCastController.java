@@ -1,6 +1,7 @@
 package com.microservices.Broadcasting.Controller;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 
 import com.microservices.Broadcasting.Repository.CustomQuery;
@@ -116,7 +117,7 @@ public class broadCastController {
     }
 
     @GetMapping("/getAllBroadcast")
-    public List<String> getAllBroadCast(){
+    public List<GetBroadcastInfoDTO> getAllBroadCast(){
         return customQuery.getAllBroadCast();
     }
 
