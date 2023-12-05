@@ -6,7 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+//import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class CustomQuery {
                 GetBroadcastInfoDTO getBroadcastInfoDTO = new GetBroadcastInfoDTO();
 
                 getBroadcastInfoDTO.setMessage((String) row[0]);
-                getBroadcastInfoDTO.setStart_time((LocalDateTime) row[1]);
-                getBroadcastInfoDTO.setEnd_time((LocalDateTime) row[2]);
+                getBroadcastInfoDTO.setStart_time(((Timestamp) row[1]).toLocalDateTime());
+                getBroadcastInfoDTO.setEnd_time(((Timestamp) row[2]).toLocalDateTime());
                 getBroadcastInfoDTO.setType_of_event((String) row[3]);
 
                 getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
