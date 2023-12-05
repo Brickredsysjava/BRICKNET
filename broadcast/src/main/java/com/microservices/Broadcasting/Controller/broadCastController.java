@@ -7,7 +7,6 @@ import com.microservices.Broadcasting.Entity.broadCasting;
 import com.microservices.Broadcasting.Repository.CustomQuery;
 import com.microservices.Broadcasting.Service.GetBroadcastinginfo;
 import com.microservices.Broadcasting.Service.broadCastingService;
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

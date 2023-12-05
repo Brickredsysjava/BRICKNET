@@ -4,15 +4,17 @@ package com.microservices.Broadcasting.Dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 public class GetBroadcastInfoDTO {
 
     private String message;
 
-    private String start_time;
+    private LocalDateTime start_time;
 
-    private String end_time;
+    private LocalDateTime end_time;
 
     private String type_of_event;
 }
