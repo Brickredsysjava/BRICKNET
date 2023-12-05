@@ -1,5 +1,11 @@
 package com.microservices.Broadcasting.Dto;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class GetBroadcastInfoDTO {
 
     private String message;

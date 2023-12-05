@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -15,9 +16,31 @@ public class CustomQuery {
     private EntityManager entityManager;
 
     public List<GetBroadcastInfoDTO> getAllBroadCast(){
-        String query = "select message, start_time, end_time, type_of_event from broad_casting order by selected_date asc;";
-        Query q = entityManager.createNativeQuery(query);
-        List<GetBroadcastInfoDTO> res = q.getResultList();
-        return res;
+        try{
+            String query = "select message, start_time, end_time, type_of_event from broad_casting order by selected_date asc;";
+            Query q = entityManager.createNativeQuery(query);
+//        List<GetBroadcastInfoDTO> res = q.getResultList();
+
+            List<GetBroadcastInfoDTO> getBroadcastInfoDTOList = new ArrayList<>();
+
+            List<Object> objects = q.getResultList();
+
+            for (Object o : objects) {
+                Object[] row = (Object[]) o;
+                GetBroadcastInfoDTO getBroadcastInfoDTO = new GetBroadcastInfoDTO();
+
+                getBroadcastInfoDTO.setMessage((String) row[0]);
+                getBroadcastInfoDTO.setStart_time((String) row[1]);
+                getBroadcastInfoDTO.setEnd_time((String) row[2]);
+                getBroadcastInfoDTO.setType_of_event((String) row[3]);
+
+                getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
+            }
+            return getBroadcastInfoDTOList;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
     }
 }

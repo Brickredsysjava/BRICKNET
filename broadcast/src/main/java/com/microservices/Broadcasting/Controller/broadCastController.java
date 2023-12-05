@@ -7,6 +7,7 @@ import com.microservices.Broadcasting.Entity.broadCasting;
 import com.microservices.Broadcasting.Repository.CustomQuery;
 import com.microservices.Broadcasting.Service.GetBroadcastinginfo;
 import com.microservices.Broadcasting.Service.broadCastingService;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -117,8 +118,12 @@ public class broadCastController {
     }
 
     @GetMapping("/getAllBroadcast")
-    public List<GetBroadcastInfoDTO> getAllBroadCast(){
-        return customQuery.getAllBroadCast();
+    public ResponseEntity<?> getAllBroadCast(){
+        List<GetBroadcastInfoDTO> list = customQuery.getAllBroadCast();
+        if(list!=null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Data Not Found",HttpStatus.UNAUTHORIZED);
     }
 
 }
