@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,10 @@ public class broadCasting {
     private String selectedDate;
 
     @Column
-    private String startTime;
+    private LocalDateTime startTime;
 
     @Column
-    private String endTime;
+    private LocalDateTime endTime;
 
     @Column
     private String typeOfEvent;
