@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 
 public class GroupDTO {
+    private String groupId;
+
     private String groupName;
 
     private String admin;
