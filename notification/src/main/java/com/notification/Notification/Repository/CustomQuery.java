@@ -15,7 +15,7 @@ public class CustomQuery {
 
     public List<String> getAllNotificationByEmployeeCode(String empCode){
         String query = "select message from notification " +
-                "where recipient = (select company_email from profile where employee_code= :empCode)" +
+                "where recipient = (select personal_email from profile where employee_code= :empCode)" +
                 "order by timestamp asc ";
         Query q = entityManager.createNativeQuery(query);
         q.setParameter("empCode", empCode);

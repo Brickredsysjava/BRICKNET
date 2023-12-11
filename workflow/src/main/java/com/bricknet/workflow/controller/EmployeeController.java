@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/stories/employee")
 @CrossOrigin("*")
 public class EmployeeController {
     @GetMapping("/employees")

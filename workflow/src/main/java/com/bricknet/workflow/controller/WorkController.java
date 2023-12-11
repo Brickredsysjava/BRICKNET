@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/work")
+@RequestMapping("/stories/work")
 @CrossOrigin("*")
 public class WorkController {
 
