@@ -94,6 +94,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .description(p.getDescription())
                         .department(p.getDepartment())
                         .status(p.getStatus())
+                        .employeeCode(p.getEmployeeCode())
                         .adminVerified(p.getAdminVerified())
                         .verificationStatusMessage(p.getVerificationStatusMessage())
                         .build();
@@ -216,6 +217,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                             .description(p.getDescription())
                             .department(p.getDepartment())
                             .status(p.getStatus())
+                            .employeeCode(p.getEmployeeCode())
                             .adminVerified(p.getAdminVerified())
                             .verificationStatusMessage(p.getVerificationStatusMessage())
                             .build();
