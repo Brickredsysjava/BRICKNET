@@ -3,10 +3,7 @@ package com.microservices.Broadcasting.Service;
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
-import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 public interface broadCastingService {

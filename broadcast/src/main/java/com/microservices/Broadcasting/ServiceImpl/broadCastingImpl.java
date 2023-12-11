@@ -5,15 +5,11 @@ import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 import com.microservices.Broadcasting.Repository.broadCastingRepo;
 import com.microservices.Broadcasting.Service.broadCastingService;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.io.IOException;
 
 @Service
 public class broadCastingImpl implements broadCastingService{

@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
+ 
+ 
+         stage('Build workflow') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'cd workflow && mvn clean package -DskipTests'
+            }
+        }
+	 stage('Deploy workflow') {
+             steps {
+ 
+                 sh "ssh root@192.168.0.9 'cd /root'"
+                 sh "ssh root@192.168.0.9 'rm -rf workflow || true'"
+                 sh "ssh root@192.168.0.9 'mkdir workflow'"
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/workflow/workflow/target/workflow.jar root@192.168.0.9:~/workflow/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/workflow/workflow/Dockerfile root@192.168.0.9:~/workflow/'
+ 
+                 sh "ssh root@192.168.0.9 'docker stop root_workflow_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rm root_workflow_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker rmi root_workflow_1 || true'"
+                 sh "ssh root@192.168.0.9 'docker build -t root_workflow_1 /root/workflow'"
+                 sh "ssh root@192.168.0.9 'docker run -it -d -p 8099:8099 --network=root_default --name root_workflow_1 root_workflow_1'"
+             }
+         }        
+     }
+  }   

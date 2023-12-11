@@ -1,6 +1,7 @@
 package com.microservices.Broadcasting.Controller;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 
 import com.microservices.Broadcasting.Repository.CustomQuery;
@@ -116,8 +117,12 @@ public class broadCastController {
     }
 
     @GetMapping("/getAllBroadcast")
-    public List<String> getAllBroadCast(){
-        return customQuery.getAllBroadCast();
+    public ResponseEntity<?> getAllBroadCast(){
+        List<GetBroadcastInfoDTO> list = customQuery.getAllBroadCast();
+        if(list!=null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Data Not Found",HttpStatus.UNAUTHORIZED);
     }
 
 }
