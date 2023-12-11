@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
-@RequestMapping("/graph")
+@RequestMapping("/stories/graph")
 @CrossOrigin("*")
 public class GraphQlController {
     @Autowired
