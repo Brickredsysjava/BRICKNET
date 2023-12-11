@@ -28,7 +28,7 @@ public class PersonalDetails {
     private String fatherName;
     private String motherName;
     private String internationalEmployee;
-    private String maritalStatus;
+    private String marital;
     private String physicallyChallenged;
 
 }
