@@ -48,7 +48,7 @@ public class groupServiceImplementation implements GroupService {
 
             String adminEmployeeCode = group.getAdmin();
             if (!adminActionDTO.getAdminEmployeeCode().equals(adminEmployeeCode)) {
-                return "No Action Allowed";
+                return "No action is allowed as " + adminActionDTO.getAdminEmployeeCode() + " is not admin";
             }
 
             if ((adminActionDTO.getAction().equals(true))) {
