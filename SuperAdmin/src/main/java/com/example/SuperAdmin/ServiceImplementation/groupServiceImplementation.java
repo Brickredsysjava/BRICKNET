@@ -36,7 +36,8 @@ public class groupServiceImplementation implements GroupService {
 
     @Override
     public GroupDTO createGroup(GroupDTO groupDTO) throws Exception{
-        groupRepository.save(modelMapper.map(groupDTO, Group.class));
+        Group group = modelMapper.map(groupDTO, Group.class);
+        groupRepository.save(group);
         return groupDTO;
     }
 
