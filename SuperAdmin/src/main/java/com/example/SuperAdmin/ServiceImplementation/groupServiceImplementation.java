@@ -43,31 +43,35 @@ public class groupServiceImplementation implements GroupService {
 
     @Override
     public String adminAction(AdminActionDTO adminActionDTO) throws Exception{
-        Group group = groupRepository.findById(adminActionDTO.getGroupId()).get();
+        try{
+            Group group = groupRepository.findById(adminActionDTO.getGroupId()).get();
 
-        String adminEmployeeCode = group.getAdmin();
-        if(! adminActionDTO.getAdminEmployeeCode().equals(adminEmployeeCode)) {
-            return "No Action Allowed";
-        }
-
-        if((adminActionDTO.getAction().equals(true)) ) {
-            if (!group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))){
-
-                group.getMembers().add(adminActionDTO.getMemberEmployeeCode());
-                groupRepository.save(group);
-
-                return "Member Successfully added";
+            String adminEmployeeCode = group.getAdmin();
+            if (!adminActionDTO.getAdminEmployeeCode().equals(adminEmployeeCode)) {
+                return "No Action Allowed";
             }
-        }
 
-        else {
-            if (group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
-                group.getMembers().remove(adminActionDTO.getMemberEmployeeCode());
-                groupRepository.save(group);
+            if ((adminActionDTO.getAction().equals(true))) {
+                if (!group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
 
-                return "Member Successfully removed";
+                    group.getMembers().add(adminActionDTO.getMemberEmployeeCode());
+                    groupRepository.save(group);
+
+                    return "Member Successfully added";
+                }
+            } else {
+                if (group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
+                    group.getMembers().remove(adminActionDTO.getMemberEmployeeCode());
+                    groupRepository.save(group);
+
+                    return "Member Successfully removed";
+                }
             }
+            return "No Action Required";
         }
-        return "No Action Required";
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return "Group Id not found";
     }
 }
