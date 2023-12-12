@@ -50,20 +50,23 @@ public class groupServiceImplementation implements GroupService {
             return "No Action Allowed";
         }
 
-        if((adminActionDTO.getAction().equals(true)) &&
-                (! group.getMembers().stream().anyMatch(i->i.equals(adminActionDTO.getMemberEmployeeCode())))) {
+        if((adminActionDTO.getAction().equals(true)) ) {
+            if (!group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))){
 
                 group.getMembers().add(adminActionDTO.getMemberEmployeeCode());
                 groupRepository.save(group);
 
                 return "Member Successfully added";
+            }
         }
 
-        else if(group.getMembers().stream().anyMatch(i->i.equals(adminActionDTO.getMemberEmployeeCode()))) {
+        else {
+            if (group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
                 group.getMembers().remove(adminActionDTO.getMemberEmployeeCode());
                 groupRepository.save(group);
 
-            return "Member Successfully removed";
+                return "Member Successfully removed";
+            }
         }
         return "No Action Allowed";
     }
