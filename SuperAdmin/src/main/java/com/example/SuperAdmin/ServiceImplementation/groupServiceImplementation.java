@@ -36,35 +36,42 @@ public class groupServiceImplementation implements GroupService {
 
     @Override
     public GroupDTO createGroup(GroupDTO groupDTO) throws Exception{
-        Group group = modelMapper.map(groupDTO, Group.class);
-        groupRepository.save(group);
+        Group group = groupRepository.save(modelMapper.map(groupDTO, Group.class));
+        groupDTO.setGroupId(group.getGroupId());
         return groupDTO;
     }
 
     @Override
     public String adminAction(AdminActionDTO adminActionDTO) throws Exception{
-        Group group = groupRepository.findById(adminActionDTO.getGroupId()).get();
+        try{
+            Group group = groupRepository.findById(adminActionDTO.getGroupId()).get();
 
-        String adminEmployeeCode = group.getAdmin();
-        if(! adminActionDTO.getAdminEmployeeCode().equals(adminEmployeeCode)) {
-            return "No Action Allowed";
+            String adminEmployeeCode = group.getAdmin();
+            if (!adminActionDTO.getAdminEmployeeCode().equals(adminEmployeeCode)) {
+                return "No action is allowed as " + adminActionDTO.getAdminEmployeeCode() + " is not admin";
+            }
+
+            if ((adminActionDTO.getAction().equals(true))) {
+                if (!group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
+
+                    group.getMembers().add(adminActionDTO.getMemberEmployeeCode());
+                    groupRepository.save(group);
+
+                    return "Member Successfully added";
+                }
+            } else {
+                if (group.getMembers().stream().anyMatch(i -> i.equals(adminActionDTO.getMemberEmployeeCode()))) {
+                    group.getMembers().remove(adminActionDTO.getMemberEmployeeCode());
+                    groupRepository.save(group);
+
+                    return "Member Successfully removed";
+                }
+            }
+            return "No Action Required";
         }
-
-        if((adminActionDTO.getAction().equals(true)) &&
-                (! group.getMembers().stream().anyMatch(i->i.equals(adminActionDTO.getMemberEmployeeCode())))) {
-
-                group.getMembers().add(adminActionDTO.getMemberEmployeeCode());
-                groupRepository.save(group);
-
-                return "Member Successfully added";
+        catch (Exception e) {
+            e.getMessage();
         }
-
-        else if(group.getMembers().stream().anyMatch(i->i.equals(adminActionDTO.getMemberEmployeeCode()))) {
-                group.getMembers().remove(adminActionDTO.getMemberEmployeeCode());
-                groupRepository.save(group);
-
-            return "Member Successfully removed";
-        }
-        return "No Action Allowed";
+        return "Group Id not found";
     }
 }

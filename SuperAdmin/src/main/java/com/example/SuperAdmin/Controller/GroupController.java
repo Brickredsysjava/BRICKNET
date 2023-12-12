@@ -39,7 +39,11 @@ public class GroupController {
 
     @PostMapping("/adminAction")
     public ResponseEntity<String> adminAction(@RequestBody AdminActionDTO adminActionDTO) throws Exception {
-        return new ResponseEntity<String>(groupService.adminAction(adminActionDTO), HttpStatusCode.valueOf(200));
+        String res = groupService.adminAction(adminActionDTO);
+        if(res=="Group Id not found") {
+            return new ResponseEntity<String>(res, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<String>(res, HttpStatusCode.valueOf(200));
     }
 
 
