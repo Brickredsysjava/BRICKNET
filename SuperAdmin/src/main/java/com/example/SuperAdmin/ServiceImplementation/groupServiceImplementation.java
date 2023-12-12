@@ -68,6 +68,6 @@ public class groupServiceImplementation implements GroupService {
                 return "Member Successfully removed";
             }
         }
-        return "No Action Allowed";
+        return "No Action Required";
     }
 }
