@@ -33,7 +33,6 @@ public class groupServiceImplementation implements GroupService {
         return null;
     }
 
-
     @Override
     public GroupDTO createGroup(GroupDTO groupDTO) throws Exception{
         Group group = groupRepository.save(modelMapper.map(groupDTO, Group.class));
@@ -73,5 +72,17 @@ public class groupServiceImplementation implements GroupService {
             e.getMessage();
         }
         return "Group Id not found";
+    }
+
+    @Override
+    public List<Group> findGroupByAdminEmployeeCode(String employeeCode) throws Exception {
+        try{
+            List<Group> groupList = groupRepository.findByAdmin(employeeCode);
+            return groupList;
+        }
+        catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
     }
 }
