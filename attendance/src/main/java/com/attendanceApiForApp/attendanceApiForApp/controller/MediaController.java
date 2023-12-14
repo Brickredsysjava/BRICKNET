@@ -34,7 +34,7 @@ public class MediaController {
         this.photoUploadService = photoUploadService;
     }
 
-    @PostMapping("/images/upload-api")
+    @PostMapping("/images/upload-AttendanceImage")
     @ResponseBody
     public ResponseEntity<Object> handleImageUpload(@RequestParam("files")
                                                     List<MultipartFile> files) throws Exception {
