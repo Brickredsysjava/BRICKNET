@@ -5,6 +5,8 @@ import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface broadCastingService {
 
@@ -17,5 +19,7 @@ public interface broadCastingService {
     public void broadCastingToEveryone(BroadCastingDTO broadCastingDTO);
 
 //    public User createUser(User user);
+
+    public List<BroadCastingDTO> getNewsLetter();
 
 }

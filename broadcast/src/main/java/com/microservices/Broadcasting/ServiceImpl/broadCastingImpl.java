@@ -3,6 +3,7 @@ package com.microservices.Broadcasting.ServiceImpl;
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
+import com.microservices.Broadcasting.Repository.CustomQuery;
 import com.microservices.Broadcasting.Repository.broadCastingRepo;
 import com.microservices.Broadcasting.Service.broadCastingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 @Service
 public class broadCastingImpl implements broadCastingService{
@@ -27,6 +30,9 @@ public class broadCastingImpl implements broadCastingService{
 
     @Autowired
     private broadCastingRepo  broadCastingRepo1;
+
+    @Autowired
+    private CustomQuery customQuery;
 
     public broadCastingImpl(JavaMailSender mailSender, WebClient.Builder webClientBuilder) {
         this.mailSender = mailSender;
@@ -72,6 +78,11 @@ public class broadCastingImpl implements broadCastingService{
         webClientBuilder.baseUrl("http://192.168.0.9:8084/send/")
                 .build().post().uri("/broadcast").bodyValue(broadCastingDTO)
                 .retrieve().toBodilessEntity().block();
+    }
+
+    @Override
+    public List<BroadCastingDTO> getNewsLetter() {
+        return customQuery.getNewsletter();
     }
 
 //    @Override
