@@ -59,6 +59,8 @@ public class ApiList {
             "/user/bank/bankDetailsByEmployeeCode/**",
             "/user/address/AddressByEmployeeCode/**",
 
+            "/stories/**",
+
             "/user/profile/addProfile/**",
             "/user/profile/addListOfProfile/**",
             "/user/profile/allProfile",

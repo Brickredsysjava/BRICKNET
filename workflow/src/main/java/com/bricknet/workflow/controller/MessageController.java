@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/discussion")
+@RequestMapping("/stories/discussion")
 @CrossOrigin("*")
 public class MessageController {
     @Autowired

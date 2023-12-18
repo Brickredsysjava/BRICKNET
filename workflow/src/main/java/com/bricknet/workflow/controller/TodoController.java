@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("/stories/todo")
 @CrossOrigin("*")
 public class TodoController {
     @Autowired
