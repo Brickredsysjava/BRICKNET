@@ -81,7 +81,7 @@ public class broadCastingImpl implements broadCastingService{
     }
 
     @Override
-    public List<BroadCastingDTO> getNewsLetter() {
+    public List<broadCasting> getNewsLetter() {
         return customQuery.getNewsletter();
     }
 

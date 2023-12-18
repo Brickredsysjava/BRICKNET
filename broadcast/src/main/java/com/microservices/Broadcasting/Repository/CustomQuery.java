@@ -2,6 +2,7 @@ package com.microservices.Broadcasting.Repository;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
 import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
+import com.microservices.Broadcasting.Entity.broadCasting;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -47,11 +48,11 @@ public class CustomQuery {
         return null;
     }
 
-    public List<BroadCastingDTO> getNewsletter(){
+    public List<broadCasting> getNewsletter(){
         String query = "select * from broad_casting where type_of_event = :newsletter";
         Query q5 = entityManager.createNativeQuery(query);
         q5.setParameter("newsletter","Newsletter");
-        List<BroadCastingDTO> result = q5.getResultList();
+        List<broadCasting> result = q5.getResultList();
         return result;
     }
 }

@@ -20,6 +20,6 @@ public interface broadCastingService {
 
 //    public User createUser(User user);
 
-    public List<BroadCastingDTO> getNewsLetter();
+    public List<broadCasting> getNewsLetter();
 
 }
