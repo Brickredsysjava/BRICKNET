@@ -100,7 +100,6 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .build();
                         long likedCount = p.getLikedEmployee().size();
                         long dislikedCount = p.getDisLikedEmployee().size();
-                        
                         long totalVotes = likedCount + dislikedCount;
                         double likePercentage = (totalVotes > 0) ? ((double) likedCount / totalVotes) * 100 : 0;
                         double dislikePercentage = (totalVotes > 0) ? ((double) dislikedCount / totalVotes) * 100 : 0;  
