@@ -17,4 +17,6 @@ public class GetBroadcastInfoDTO {
     private LocalDateTime end_time;
 
     private String type_of_event;
+
+    private String filename;
 }
