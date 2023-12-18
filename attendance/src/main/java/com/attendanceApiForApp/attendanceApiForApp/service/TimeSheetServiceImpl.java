@@ -54,6 +54,7 @@ private  final TimeSheetRepository timeSheetRepository;
         if(t1 != null){
             t1.setDurations(timeSheet.getDurations());
             t1.setTask(timeSheet.getTask());
+            t1.setTypeofDay(timeSheet.getTypeofDay());
             System.out.println(t1);
             return timeSheetRepository.save(t1);
         }
@@ -117,6 +118,14 @@ private  final TimeSheetRepository timeSheetRepository;
          System.out.println(weeklyData);
 
         return weeklyData;
+    }
+
+    @Override
+    public TimeSheet getTimeSheetBydate(LocalDate dates) throws TimesheetException{
+        TimeSheet t = timeSheetRepository.findByDates(dates);
+        t.getTask();
+        t.getDurations();
+        return t;
     }
 
 
