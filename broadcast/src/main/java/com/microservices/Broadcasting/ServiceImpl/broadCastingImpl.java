@@ -1,6 +1,7 @@
 package com.microservices.Broadcasting.ServiceImpl;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 import com.microservices.Broadcasting.Repository.CustomQuery;
@@ -81,7 +82,7 @@ public class broadCastingImpl implements broadCastingService{
     }
 
     @Override
-    public List<broadCasting> getNewsLetter() {
+    public List<GetBroadcastInfoDTO> getNewsLetter() {
         return customQuery.getNewsletter();
     }
 

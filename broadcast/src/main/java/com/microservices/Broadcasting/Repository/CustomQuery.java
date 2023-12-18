@@ -21,7 +21,7 @@ public class CustomQuery {
 
     public List<GetBroadcastInfoDTO> getAllBroadCast(){
         try{
-            String query = "select message, start_time, end_time, type_of_event from broad_casting order by selected_date asc;";
+            String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting order by selected_date asc;";
             Query q = entityManager.createNativeQuery(query);
 //        List<GetBroadcastInfoDTO> res = q.getResultList();
 
@@ -37,6 +37,7 @@ public class CustomQuery {
                 getBroadcastInfoDTO.setStart_time(((Timestamp) row[1]).toLocalDateTime());
                 getBroadcastInfoDTO.setEnd_time(((Timestamp) row[2]).toLocalDateTime());
                 getBroadcastInfoDTO.setType_of_event((String) row[3]);
+                getBroadcastInfoDTO.setFilename((String) row[4]);
 
                 getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
             }
@@ -48,11 +49,32 @@ public class CustomQuery {
         return null;
     }
 
-    public List<broadCasting> getNewsletter(){
-        String query = "select * from broad_casting where type_of_event = :newsletter";
+    public List<GetBroadcastInfoDTO> getNewsletter(){
+        try{
+        String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting where type_of_even =:newsletter order by selected_date asc";
         Query q5 = entityManager.createNativeQuery(query);
         q5.setParameter("newsletter","Newsletter");
-        List<broadCasting> result = q5.getResultList();
-        return result;
+        List<GetBroadcastInfoDTO> getBroadcastInfoDTOList = new ArrayList<>();
+
+        List<Object> objects = q5.getResultList();
+
+        for (Object o : objects) {
+            Object[] row = (Object[]) o;
+            GetBroadcastInfoDTO getBroadcastInfoDTO = new GetBroadcastInfoDTO();
+
+            getBroadcastInfoDTO.setMessage((String) row[0]);
+            getBroadcastInfoDTO.setStart_time(((Timestamp) row[1]).toLocalDateTime());
+            getBroadcastInfoDTO.setEnd_time(((Timestamp) row[2]).toLocalDateTime());
+            getBroadcastInfoDTO.setType_of_event((String) row[3]);
+            getBroadcastInfoDTO.setFilename((String) row[4]);
+
+            getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
+        }
+        return getBroadcastInfoDTOList;
+    }
+    catch (Exception e) {
+        e.getMessage();
+    }
+    return null;
     }
 }

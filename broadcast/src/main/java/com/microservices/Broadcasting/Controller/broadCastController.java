@@ -127,8 +127,8 @@ public class broadCastController {
 
     @GetMapping("/getNewsLetter")
     public ResponseEntity<?> getNewsLetter(){
-        List<broadCasting> broadcastingList = broadCastingService1.getNewsLetter();
-        if(broadcastingList.get(0).getEmail() != null){
+        List<GetBroadcastInfoDTO> broadcastingList = broadCastingService1.getNewsLetter();
+        if(broadcastingList != null){
             return new ResponseEntity<>(broadcastingList, HttpStatus.OK);
         }
         return new ResponseEntity<>("No news letter found", HttpStatus.NOT_FOUND);

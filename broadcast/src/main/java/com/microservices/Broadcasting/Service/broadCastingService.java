@@ -1,6 +1,7 @@
 package com.microservices.Broadcasting.Service;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,6 @@ public interface broadCastingService {
 
 //    public User createUser(User user);
 
-    public List<broadCasting> getNewsLetter();
+    public List<GetBroadcastInfoDTO> getNewsLetter();
 
 }
