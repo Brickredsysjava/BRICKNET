@@ -229,7 +229,7 @@ pipeline {
             steps {
                 script {
                     // Build and deploy each service
-                    def services = ['eureka', 'api-gateway', 'auth-server', 'superadmin', 'notification', 'community', 'suggestion', 'taskcenter', 'broadcast', 'media-service', 'attendance']
+                    def services = ['Eureka-Server', 'api-gateway', 'auth-server', 'SuperAdmin', 'notification', 'community', 'suggestion', 'taskcenter', 'broadcast', 'media-service', 'attendance']
                     
                     services.each { service ->
                         dir(service) {
