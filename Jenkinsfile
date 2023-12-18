@@ -235,7 +235,13 @@ pipeline {
                         dir(service) {
                             // Build the Spring Boot application using Maven
                             sh "mvn clean package -DskipTests"
-                            
+
+                            if(service=='Eureka-Server') {
+                                    service = 'eureka'
+                            }
+                            else if(service=='SuperAdmin') {
+                                    service = 'superadmin';
+                            }
                             // Prepare service directory on the remote server
                             sh "ssh root@192.168.0.9 'cd /root && rm -rf $service || true && mkdir $service'"
                             
