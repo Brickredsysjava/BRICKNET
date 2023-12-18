@@ -51,7 +51,7 @@ public class CustomQuery {
 
     public List<GetBroadcastInfoDTO> getNewsletter(){
         try{
-        String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting where type_of_even =:newsletter order by selected_date asc";
+        String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting where type_of_event =:newsletter order by selected_date asc";
         Query q5 = entityManager.createNativeQuery(query);
         q5.setParameter("newsletter","NewsLetter");
         List<GetBroadcastInfoDTO> getBroadcastInfoDTOList = new ArrayList<>();
