@@ -48,9 +48,9 @@ public class CustomQuery {
     }
 
     public List<BroadCastingDTO> getNewsletter(){
-        String query = "select * from broad_casting where type_of_event = :Newsletter;";
+        String query = "select * from broad_casting where type_of_event = :newsletter";
         Query q5 = entityManager.createNativeQuery(query);
-        q5.setParameter("Newsletter","Newsletter");
+        q5.setParameter("newsletter","Newsletter");
         List<BroadCastingDTO> result = q5.getResultList();
         return result;
     }
