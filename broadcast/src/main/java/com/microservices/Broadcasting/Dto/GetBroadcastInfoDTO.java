@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class GetBroadcastInfoDTO {
 
+    private String title;
     private String message;
 
     private LocalDateTime start_time;

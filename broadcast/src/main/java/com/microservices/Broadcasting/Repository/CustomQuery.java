@@ -21,7 +21,7 @@ public class CustomQuery {
 
     public List<GetBroadcastInfoDTO> getAllBroadCast(){
         try{
-            String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting order by selected_date asc;";
+            String query = "select message, start_time, end_time, type_of_event, file_name , title from broad_casting order by selected_date asc;";
             Query q = entityManager.createNativeQuery(query);
 //        List<GetBroadcastInfoDTO> res = q.getResultList();
 
@@ -38,6 +38,7 @@ public class CustomQuery {
                 getBroadcastInfoDTO.setEnd_time(((Timestamp) row[2]).toLocalDateTime());
                 getBroadcastInfoDTO.setType_of_event((String) row[3]);
                 getBroadcastInfoDTO.setFilename((String) row[4]);
+                getBroadcastInfoDTO.setTitle((String) row[5]);
 
                 getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
             }
@@ -51,7 +52,7 @@ public class CustomQuery {
 
     public List<GetBroadcastInfoDTO> getNewsletter(){
         try{
-        String query = "select message, start_time, end_time, type_of_event, file_name from broad_casting where type_of_event =:newsletter order by selected_date asc";
+        String query = "select message, start_time, end_time, type_of_event, file_name , title from broad_casting where type_of_event =:newsletter order by selected_date asc";
         Query q5 = entityManager.createNativeQuery(query);
         q5.setParameter("newsletter","NewsLetter");
         List<GetBroadcastInfoDTO> getBroadcastInfoDTOList = new ArrayList<>();
@@ -67,6 +68,7 @@ public class CustomQuery {
             getBroadcastInfoDTO.setEnd_time(((Timestamp) row[2]).toLocalDateTime());
             getBroadcastInfoDTO.setType_of_event((String) row[3]);
             getBroadcastInfoDTO.setFilename((String) row[4]);
+            getBroadcastInfoDTO.setTitle((String) row[5]);
 
             getBroadcastInfoDTOList.add(getBroadcastInfoDTO);
         }
