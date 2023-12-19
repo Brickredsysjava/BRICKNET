@@ -9,8 +9,8 @@ services:
       - ~/eureka/eureka.jar:/eureka.jar
     deploy:
       mode: replicated
-      replicas: 2
-      command: ["java", "-jar", "eureka.jar"]
+      replicas: 1
+    command: ["java", "-jar", "eureka.jar"]
 
   api-gateway:
     image: kabiraneja/ubuntu-java-maven
@@ -21,7 +21,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "api-gateway.jar"]
+    command: ["java", "-jar", "api-gateway.jar"]
 
   auth-server:
     image: kabiraneja/ubuntu-java-maven
@@ -32,7 +32,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "auth-server.jar"]
+    command: ["java", "-jar", "auth-server.jar"]
 
   superadmin:
     image: kabiraneja/ubuntu-java-maven
@@ -43,7 +43,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "superadmin.jar"]
+    command: ["java", "-jar", "superadmin.jar"]
 
   notification:
     image: kabiraneja/ubuntu-java-maven
@@ -54,7 +54,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "notification.jar"]
+    command: ["java", "-jar", "notification.jar"]
 
   community:
     image: kabiraneja/ubuntu-java-maven
@@ -65,7 +65,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "community.jar"]
+    command: ["java", "-jar", "community.jar"]
 
   suggestion:
     image: kabiraneja/ubuntu-java-maven
@@ -76,7 +76,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "suggestion.jar"]
+    command: ["java", "-jar", "suggestion.jar"]
 
   task-center:
     image: kabiraneja/ubuntu-java-maven
@@ -87,7 +87,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "taskcenter.jar"]
+    command: ["java", "-jar", "taskcenter.jar"]
 
   broadcast:
     image: kabiraneja/ubuntu-java-maven
@@ -98,7 +98,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "broadcast.jar"]
+    command: ["java", "-jar", "broadcast.jar"]
 
   mediaservice:
     image: kabiraneja/ubuntu-java-maven
@@ -110,7 +110,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "mediaservice.jar"]
+    command: ["java", "-jar", "mediaservice.jar"]
 
   attendance:
     image: kabiraneja/ubuntu-java-maven
@@ -122,7 +122,7 @@ services:
     deploy:      
       mode: replicated
       replicas: 2
-      command: ["java", "-jar", "attendance.jar"]
+    command: ["java", "-jar", "attendance.jar"]
 
 volumes:
   media_files:
