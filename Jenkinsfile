@@ -6,6 +6,8 @@ pipeline {
                 // Checkout the source code from the repository
                 checkout scm
                 sh " ssh root@192.168.0.9 'docker stack rm bricknetstack || true'"
+                sh " ssh root@192.168.0.9 ' ./remove_service.sh '"
+                sh " ssh root@192.168.0.9 ' docker network rm bricknetstack_default || true'"
             }
         }
 
