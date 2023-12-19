@@ -94,12 +94,12 @@ public class SuggestionServiceImplementation implements SuggestionService{
                         .description(p.getDescription())
                         .department(p.getDepartment())
                         .status(p.getStatus())
+                        .employeeCode(p.getEmployeeCode())
                         .adminVerified(p.getAdminVerified())
                         .verificationStatusMessage(p.getVerificationStatusMessage())
                         .build();
                         long likedCount = p.getLikedEmployee().size();
                         long dislikedCount = p.getDisLikedEmployee().size();
-                        
                         long totalVotes = likedCount + dislikedCount;
                         double likePercentage = (totalVotes > 0) ? ((double) likedCount / totalVotes) * 100 : 0;
                         double dislikePercentage = (totalVotes > 0) ? ((double) dislikedCount / totalVotes) * 100 : 0;  
@@ -216,6 +216,7 @@ public class SuggestionServiceImplementation implements SuggestionService{
                             .description(p.getDescription())
                             .department(p.getDepartment())
                             .status(p.getStatus())
+                            .employeeCode(p.getEmployeeCode())
                             .adminVerified(p.getAdminVerified())
                             .verificationStatusMessage(p.getVerificationStatusMessage())
                             .build();
