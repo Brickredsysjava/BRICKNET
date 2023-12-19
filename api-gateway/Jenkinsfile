@@ -26,11 +26,13 @@ pipeline {
                  sh 'scp -i id_rsa /var/jenkins_home/workspace/api-gateway/api-gateway/target/api-gateway.jar root@192.168.0.9:~/api-gateway/'
                  sh 'scp -i id_rsa /var/jenkins_home/workspace/api-gateway/api-gateway/Dockerfile root@192.168.0.9:~/api-gateway/'
 
+		 sh "ssh root@192.168.0.9 'docker service rm bricknetstack_api-gateway || true'"
                  sh "ssh root@192.168.0.9 'docker stop root_api-gateway_1 || true'"
                  sh "ssh root@192.168.0.9 'docker rm root_api-gateway_1 || true'"
                  sh "ssh root@192.168.0.9 'docker rmi root_api-gateway_1 || true'"
                  sh "ssh root@192.168.0.9 'docker build -t root_api-gateway_1 /root/api-gateway'"
-                 sh "ssh root@192.168.0.9 'docker run -it -d -p 9090:9090 --network=root_default --name root_api-gateway_1 root_api-gateway_1'"
+                 // sh "ssh root@192.168.0.9 'docker run -it -d -p 9090:9090 --network=root_default --name root_api-gateway_1 root_api-gateway_1'"
+		 sh "ssh root@192.168.0.9 'docker service create -d --name bricknetstack_api-gateway -p 9090:9090 --network=bricknetstack_default root_api-gateway_1'"
              }
          }        
 	
