@@ -32,7 +32,7 @@ pipeline {
                  sh "ssh root@192.168.0.9 'docker rmi root_auth-server_1 || true'"
                  sh "ssh root@192.168.0.9 'docker build -t root_auth-server_1 /root/auth-server'"
                  // sh "ssh root@192.168.0.9 'docker run -it -d -p 8083:8083 --network=root_default --name root_auth-server_1 root_auth-server_1'"
-                 sh "ssh root@192.168.0.9 'docker service create -d -p 8083:8083 --network=bricknetstack_default --name bricknetstack_auth-server root_auth-server_1'"
+                 sh "ssh root@192.168.0.9 'docker service create -d -p 8083:8083 --replicas 2 --network=bricknetstack_default --name bricknetstack_auth-server root_auth-server_1'"
 
 		     
              }
