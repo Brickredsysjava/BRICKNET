@@ -5,6 +5,7 @@ pipeline {
             steps {
                 // Checkout the source code from the repository
                 checkout scm
+                sh " ssh root@192.168.0.9 'docker stack rm bricknetstack || true'"
             }
         }
 
@@ -207,7 +208,6 @@ pipeline {
         stage('Deploy All Microservices') { 
             steps {
                 sh "ssh root@192.168.0.9 'cd /root'"
-                sh " ssh root@192.168.0.9 'docker stack rm bricknetstack || true'"
                 sh "ssh root@192.168.0.9 'rm -rf docker-compose.yml || true'"
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.0.9:~/'
                 // sh " ssh root@192.168.0.9 'docker-compose up -d'"
