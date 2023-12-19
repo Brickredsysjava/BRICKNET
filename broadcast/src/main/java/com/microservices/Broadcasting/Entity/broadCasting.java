@@ -1,5 +1,6 @@
 package com.microservices.Broadcasting.Entity;
 
+import com.mysql.cj.protocol.ColumnDefinition;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class broadCasting {
     @Column
     private List<String> email;
 
-    @Column
+    @Column(columnDefinition = "VARCHAR(255)")
     private String message;
 
     @Column
@@ -43,4 +44,6 @@ public class broadCasting {
 
     @Column
     private String fileName;
+
+
 }
