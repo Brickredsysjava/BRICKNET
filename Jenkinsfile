@@ -210,7 +210,7 @@ pipeline {
                 sh "ssh root@192.168.0.9 'rm -rf docker-compose.yml || true'"
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.0.9:~/'
                 // sh " ssh root@192.168.0.9 'docker-compose up -d'"
-                sh " ssh root@192.168.0.9 'docker stack rm bricknetstack'"
+                // sh " ssh root@192.168.0.9 'docker stack rm bricknetstack'"
                 sh " ssh root@192.168.0.9 'docker stack deploy -c docker-compose.yml bricknetstack'"
             }
         }
