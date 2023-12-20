@@ -4,6 +4,8 @@ server :
 spring :
   application :
     name : API-GATEWAY
+  cache :
+    type : redis
   redis :
     host : 192.168.0.9
     port : 6379
