@@ -61,6 +61,7 @@ public class ApiList {
 
             "/stories/**",
             "/redis/**",
+            "http://192.168.0.9:9090/swagger-ui/index.html#/",
 
             "/user/profile/addProfile/**",
             "/user/profile/addListOfProfile/**",
