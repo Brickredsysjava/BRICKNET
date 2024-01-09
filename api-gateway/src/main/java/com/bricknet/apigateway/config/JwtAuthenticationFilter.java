@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter implements WebFilter{
 
         return chain.filter(exchange);
     }
-
     private String extractTokenFromRequest(ServerWebExchange exchange) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
