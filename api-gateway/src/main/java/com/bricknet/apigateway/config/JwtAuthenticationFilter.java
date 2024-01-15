@@ -37,7 +37,6 @@ public class JwtAuthenticationFilter implements WebFilter{
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = extractTokenFromRequest(exchange);
 
-        //log.info("JWT: " + jwt);
         String path = exchange.getRequest().getPath().toString();
 //        log.info("Path: " + path);
 //        log.info("This is jwt -- ------");

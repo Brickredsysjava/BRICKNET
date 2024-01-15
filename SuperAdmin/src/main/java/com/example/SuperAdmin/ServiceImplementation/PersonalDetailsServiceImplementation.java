@@ -63,7 +63,7 @@ public PersonalDetails updatePersonalDetailsById(String id, PersonalDetails pers
         existingPersonalDetails.setNationality(personalDetails.getNationality());
         existingPersonalDetails.setFatherName(personalDetails.getFatherName());
         existingPersonalDetails.setReligion(personalDetails.getReligion());
-        existingPersonalDetails.setMaritalStatus(personalDetails.getMaritalStatus());
+        existingPersonalDetails.setMarital(personalDetails.getMarital());
         existingPersonalDetails.setInternationalEmployee(personalDetails.getInternationalEmployee());
         existingPersonalDetails.setPhysicallyChallenged(personalDetails.getPhysicallyChallenged());
         existingPersonalDetails.setPlaceOfBirth(personalDetails.getPlaceOfBirth());

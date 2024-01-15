@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class GetBroadcastInfoDTO {
 
+    private String title;
     private String message;
 
     private LocalDateTime start_time;
@@ -17,4 +18,6 @@ public class GetBroadcastInfoDTO {
     private LocalDateTime end_time;
 
     private String type_of_event;
+
+    private String filename;
 }

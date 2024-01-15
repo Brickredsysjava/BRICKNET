@@ -125,4 +125,13 @@ public class broadCastController {
         return new ResponseEntity<>("Data Not Found",HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping("/getNewsLetter")
+    public ResponseEntity<?> getNewsLetter(){
+        List<GetBroadcastInfoDTO> broadcastingList = broadCastingService1.getNewsLetter();
+        if(broadcastingList != null){
+            return new ResponseEntity<>(broadcastingList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No news letter found", HttpStatus.NOT_FOUND);
+    }
+
 }
