@@ -1,9 +1,5 @@
 package com.example.suggestion.Model;
 
-public enum
-
-Status {
+public enum Status {
     ACTIVE , CLOSED
-
-
 }

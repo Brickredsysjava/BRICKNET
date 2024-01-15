@@ -101,4 +101,9 @@ public class ProfileDTO {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Valid
+    @NotNull(message = "Alternate contact is required")
+    @NotBlank(message = "Alternate contact is required")
+    private String acontact;
+
 }

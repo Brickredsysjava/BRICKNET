@@ -76,7 +76,7 @@ public class CustomQuery {
             personalDetailsDTO.setDateOfBirth((String) row[1]);
             personalDetailsDTO.setFatherName((String) row[2]);
             personalDetailsDTO.setInternationalEmployee((String) row[3]);
-            personalDetailsDTO.setMaritalStatus((String) row[4]);
+            personalDetailsDTO.setMarital((String) row[4]);
             personalDetailsDTO.setNationality((String) row[5]);
             personalDetailsDTO.setPhysicallyChallenged((String) row[6]);
             personalDetailsDTO.setPlaceOfBirth((String) row[7]);
@@ -226,7 +226,7 @@ public class CustomQuery {
     public String getEducationIdByEmployeeCode(String empCode, String type_of_education){
         try{
             String query = "select id from education where user_id = (select user_id from " +
-                    "user where profile_id = (select profile_id from profile where employee_code = :empCode)) and " +
+                    "user where profile_id = (select id from profile where employee_code = :empCode)) and " +
                     "type_Of_Education = :typeOfEducation";
             Query q = entityManager.createNativeQuery(query);
             q.setParameter("empCode", empCode);

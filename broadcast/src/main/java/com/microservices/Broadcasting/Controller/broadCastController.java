@@ -1,12 +1,12 @@
 package com.microservices.Broadcasting.Controller;
 
 import com.microservices.Broadcasting.Dto.BroadCastingDTO;
-import com.microservices.Broadcasting.Dto.NotificationDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
 
+import com.microservices.Broadcasting.Repository.CustomQuery;
 import com.microservices.Broadcasting.Service.GetBroadcastinginfo;
 import com.microservices.Broadcasting.Service.broadCastingService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +27,16 @@ public class broadCastController {
     @Autowired
     private broadCastingService broadCastingService1;
 
+    private CustomQuery customQuery;
+
     @Autowired
     private GetBroadcastinginfo getBroadcastinginfo;
     @Value("${upload.path}")
     private String uploadPath;
+
+    public broadCastController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/insert")
     public ResponseEntity<String> insertDataIntoDb(@RequestBody broadCasting broadCasting1){
@@ -65,7 +69,7 @@ public class broadCastController {
         //This is for uploading the file at particular location
        // String filePath = uploadPath + File.separator + fileName;
         //uploadedFile.transferTo(new File(filePath));
-        return ResponseEntity.ok("User created successfully");
+        return new ResponseEntity<>("BroadCast created successfully", HttpStatus.CREATED);
     }
     catch (Exception e) {
         e.printStackTrace();
@@ -110,6 +114,24 @@ public class broadCastController {
     @GetMapping("/test")
     public String getTest(){
         return "This is broadcast test";
+    }
+
+    @GetMapping("/getAllBroadcast")
+    public ResponseEntity<?> getAllBroadCast(){
+        List<GetBroadcastInfoDTO> list = customQuery.getAllBroadCast();
+        if(list!=null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Data Not Found",HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/getNewsLetter")
+    public ResponseEntity<?> getNewsLetter(){
+        List<GetBroadcastInfoDTO> broadcastingList = broadCastingService1.getNewsLetter();
+        if(broadcastingList != null){
+            return new ResponseEntity<>(broadcastingList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No news letter found", HttpStatus.NOT_FOUND);
     }
 
 }
