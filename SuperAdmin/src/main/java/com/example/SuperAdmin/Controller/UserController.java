@@ -81,10 +81,10 @@ public class UserController {
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
-    @GetMapping("/UserById/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable String id) {
+    @GetMapping("/UserByEmployeeCode")
+    public ResponseEntity<User> findUserById(@RequestParam("employeeCode") String empployeeCode) {
 
-        User user = service.getUserById(id);
+        User user = service.getUserByEmployeeCode(empployeeCode);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
@@ -97,13 +97,13 @@ public class UserController {
         return new ResponseEntity<>("Program run successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
-        String result = service.deleteUser(id);
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestParam("employeeCode") String employeeCode) {
+        String result = service.deleteUser(employeeCode);
         if ("Deleted".equals(result)) {
-            return new ResponseEntity<>("User with ID " + id + " has been deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("User with employeeCode " + employeeCode + " has been deleted.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("User with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User with employeeCode " + employeeCode + " not found.", HttpStatus.NOT_FOUND);
         }
     }
 }

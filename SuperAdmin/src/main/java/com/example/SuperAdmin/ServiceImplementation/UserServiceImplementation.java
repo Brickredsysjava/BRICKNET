@@ -1,6 +1,7 @@
 package com.example.SuperAdmin.ServiceImplementation;
 import com.example.SuperAdmin.Entity.Profile;
 import com.example.SuperAdmin.Entity.User;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Repository.UserRepository;
 import com.example.SuperAdmin.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,16 @@ import java.util.List;
 
 @Service
 public class UserServiceImplementation implements UserService {
+
+    private CustomQuery customQuery;
+
     @Autowired
     private UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImplementation(CustomQuery customQuery, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.customQuery = customQuery;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -42,12 +47,20 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User getUserById(String id) {
-
+    public User getUserByEmployeeCode(String employeeCode) {
+        String id = customQuery.getUserByEmployeeCode(employeeCode);
+        if(id.equals("Data Not Found")) {
+            return null;
+        }
         return userRepository.findById(id).orElse(null);
     }
     @Override
-    public String deleteUser(String id) {
+    public String deleteUser(String employeeCode) {
+        String id = customQuery.deleteUser(employeeCode);
+
+        if(id.equals("Data Not Found"))
+            return id;
+
         userRepository.deleteById(id);
         return "Deleted";
     }

@@ -1,18 +1,19 @@
 package com.microservices.Broadcasting.ServiceImpl;
 
+import com.microservices.Broadcasting.Dto.BroadCastingDTO;
+import com.microservices.Broadcasting.Dto.GetBroadcastInfoDTO;
 import com.microservices.Broadcasting.Dto.NotificationDTO;
 import com.microservices.Broadcasting.Entity.broadCasting;
+import com.microservices.Broadcasting.Repository.CustomQuery;
 import com.microservices.Broadcasting.Repository.broadCastingRepo;
 import com.microservices.Broadcasting.Service.broadCastingService;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
+import java.util.List;
 
 @Service
 public class broadCastingImpl implements broadCastingService{
@@ -31,6 +32,9 @@ public class broadCastingImpl implements broadCastingService{
     @Autowired
     private broadCastingRepo  broadCastingRepo1;
 
+    @Autowired
+    private CustomQuery customQuery;
+
     public broadCastingImpl(JavaMailSender mailSender, WebClient.Builder webClientBuilder) {
         this.mailSender = mailSender;
         this.webClientBuilder = webClientBuilder;
@@ -44,42 +48,42 @@ public class broadCastingImpl implements broadCastingService{
         return this.broadCastingRepo1.save(broadCasting1);
     }
 
-    @Override
-    public void sendMail(broadCasting broadCasting1) throws MessagingException, IOException {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-       // Multipart multipart = new MimeMultipart();
-
-        //MimeBodyPart attachmentPart = new MimeBodyPart();
-
-        //String attachmentFilePath = "C:/Users/piyush/Desktop/uploadedfile/" + name;
-
-        //attachmentPart.attachFile(attachmentFilePath);
-
-
-        message.setTo(broadCasting1.getEmail());
-        message.setSubject(broadCasting1.getTitle());
-        message.setCc(broadCasting1.getSelectedOption());
-
-        //message.setText(broadCasting1.getMessage());
-        //message.setSentDate(broadCasting1.getSelectedDate());
-        message.setText( "Hello there " + ",\n"
-                + "\n"
-        + broadCasting1.getMessage()+ "\n" + " This event would be held on " + broadCasting1.getSelectedDate()
-        + " Date \n"+
-                "And " + broadCasting1.getTime() + " is the time of event. \n"
-                + "\n"
-                + "Thanks & Regards\n,"
-                + "Hr@BrickredsysIndia.com");
-        mailSender.send(message);
-    }
+//    public void sendMail(broadCasting broadCasting1) throws MessagingException, IOException {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//
+//        message.setTo(broadCasting1.getEmail());
+//        message.setSubject(broadCasting1.getTitle());
+//        message.setCc(broadCasting1.getSelectedOption());
+//
+//        message.setText( "Hello there " + ",\n"
+//                + "\n"
+//        + broadCasting1.getMessage()+ "\n" + " This event would be held on " + broadCasting1.getSelectedDate()
+//        + " Date \n"+
+//                "And " + broadCasting1.getTime() + " is the time of event. \n"
+//                + "\n"
+//                + "Thanks & Regards\n,"
+//                + "Hr@BrickredsysIndia.com");
+//        mailSender.send(message);
+//    }
 
     @Override
     public void pushNotification(NotificationDTO notificationDTO) {
         String jsonBody = "{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.0.9:8084/send/")
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send/")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().
                 toBodilessEntity().block();
+    }
+
+    @Override
+    public void broadCastingToEveryone(BroadCastingDTO broadCastingDTO) {
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send/")
+                .build().post().uri("/broadcast").bodyValue(broadCastingDTO)
+                .retrieve().toBodilessEntity().block();
+    }
+
+    @Override
+    public List<GetBroadcastInfoDTO> getNewsLetter() {
+        return customQuery.getNewsletter();
     }
 
 //    @Override

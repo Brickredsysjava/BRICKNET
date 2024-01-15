@@ -3,6 +3,7 @@ package com.example.SuperAdmin.ServiceImplementation;
 import com.example.SuperAdmin.DTO.AddressDTO;
 import com.example.SuperAdmin.Entity.Address;
 import com.example.SuperAdmin.Repository.AddressRepository;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.AddressService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImplementation implements AddressService {
+
+    private CustomQuery customQuery;
+    public AddressServiceImplementation (CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
+
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
@@ -39,20 +46,19 @@ public class AddressServiceImplementation implements AddressService {
     }
 
     @Override
-    public AddressDTO getAddressById(String id) {
-        Optional<Address> addressOptional = addressRepository.findById(id);
-        if (addressOptional.isPresent()) {
-            Address address = addressOptional.get();
-            return modelMapper.map(address, AddressDTO.class);
-        } else {
-            return null;
-        }
+    public List<AddressDTO> getAddressByEmployeeCode(String employeeCode) {
+        return customQuery.getAddressByEmployeeCode(employeeCode);
     }
 
     @Override
-    public String deleteAddress(String id) {
+    public String deleteAddress(String employeeCode) {
+        String id = customQuery.deleteAddress(employeeCode);
+
+        if(id.equals("Data Not Found"))
+            return id;
+
         addressRepository.deleteById(id);
-        return "Deleted" + id;
+        return "Deleted";
     }
 
     @Override

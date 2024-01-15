@@ -13,7 +13,7 @@ public interface PersonalDetailsService {
 
     List<PersonalDetailsDTO> getPersonalDetails();
 
-    PersonalDetailsDTO getPersonalDetailsById(String id);
+    PersonalDetailsDTO getPersonalDetailsByEmployeeCode(String id);
 
     PersonalDetails updatePersonalDetailsById(String id,PersonalDetails personalDetails);
 }

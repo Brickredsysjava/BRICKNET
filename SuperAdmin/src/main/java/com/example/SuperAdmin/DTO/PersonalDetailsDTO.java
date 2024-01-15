@@ -14,6 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PersonalDetailsDTO {
 
+    private String id;
+
     @Valid
     @NotBlank(message = "Date of birth is required")
     @NotNull(message = "Date of birth is required")
@@ -47,10 +49,15 @@ public class PersonalDetailsDTO {
     @Valid
     @NotBlank(message = "Marital status is required")
     @NotNull(message = "Marital status is required")
-    private String maritalStatus;
+    private String marital;
 
     @Valid
     @NotBlank(message = "Physically challenged status is required")
     @NotNull(message = "Physically challenged status is required")
     private String physicallyChallenged;
+
+    @Valid
+    @NotBlank(message = "Mother's Name is required")
+    @NotNull(message = "Mother's Name is required")
+    private String motherName;
 }
