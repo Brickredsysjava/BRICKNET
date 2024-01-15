@@ -43,6 +43,7 @@ public class ApiList {
             "/auth/**",
             "/communityPost/post/**",
             "/suggestionPost/api/suggestions/**",
+            "/send/broadcast/**",
             "/send/**",
             "/api/to-do/**",
             "/media/**",
@@ -57,6 +58,8 @@ public class ApiList {
             "/user/education/EducationByEmployeeCode/**",
             "/user/bank/bankDetailsByEmployeeCode/**",
             "/user/address/AddressByEmployeeCode/**",
+
+            "/stories/**",
 
             "/user/profile/addProfile/**",
             "/user/profile/addListOfProfile/**",

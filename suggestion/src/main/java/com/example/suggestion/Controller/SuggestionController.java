@@ -2,7 +2,7 @@ package com.example.suggestion.Controller;
 
 
 
-import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.DTO.SuggestionPostDto;
 import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
@@ -33,7 +33,7 @@ public class SuggestionController
 
     //API TO ADD A SUGGESTION
     @PostMapping("/addSuggestion")
-    public ResponseEntity<String> addSuggestion(@Valid @RequestBody SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException {
+    public ResponseEntity<String> addSuggestion(@Valid @RequestBody SuggestionPostDto suggestionDto) throws SuggestionException, ServiceNotFoundException {
 
         suggestionService.addSuggestion(suggestionDto);
         return ResponseEntity.ok("SUGGESTION SEND SUCCESSFULLY");
@@ -45,7 +45,12 @@ public class SuggestionController
      public ResponseEntity<List<GetSuggestionsDTO>> getAllSuggestions() throws SuggestionException
     {
         List<GetSuggestionsDTO> s1=suggestionService.getAllSuggestions();
-        return new ResponseEntity<>(s1, HttpStatus.OK);
+        if(s1!=null) {
+            return new ResponseEntity<>(s1, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(s1, HttpStatus.UNAUTHORIZED);
+        }
 
     }
 
@@ -56,28 +61,30 @@ public class SuggestionController
     public ResponseEntity<List<Department>> getAllDepartmentsExceptAllSuggestions()
     {
         List<Department> departments = suggestionService.getAllDepartments();
-        return ResponseEntity.ok(departments);
+        if(departments!=null) {
+            return ResponseEntity.ok(departments);
+        }
+        else {
+            return new ResponseEntity<>(departments, HttpStatus.UNAUTHORIZED);
+
+        }
     }
 
 
 
     //API FOR ADMIN TO UPDATE THE STATUS OF ALL SUGGESTION
-    @PutMapping("/{ticket_id}/status")
-    public Suggestion updateSuggestionStatus(@PathVariable String  ticket_id, @RequestParam Status status) throws SuggestionException
+    @PostMapping("/status")
+    public Suggestion updateSuggestionStatus(@RequestParam("ticketId") String ticket_id, @RequestParam Status status) throws SuggestionException
     {
         return suggestionService.updateSuggestionStatus( ticket_id, status);
     }
 
-
-
     //API FOR DOING POLLING FOR A SUGGESTION
-    @PostMapping("/{ticket_id}/poll")
-    public Suggestion pollSuggestion(@PathVariable String ticket_id, @RequestParam Action action)
+    @PostMapping("/poll")
+    public Suggestion pollSuggestion(@RequestParam("ticketId") String ticket_id,@RequestParam("employeeCode") String employeeCode ,@RequestParam("action") Boolean action ) throws SuggestionException
     {
-        return suggestionService.pollSuggestion(ticket_id, Action.valueOf(String.valueOf(action)));
+        return suggestionService.pollSuggestion(ticket_id,employeeCode,action);
     }
-
-
 
     //API TO GET ALL THE SUGGESTION BASED ON THE STATUS
     @GetMapping("/suggestionByStatus")
@@ -89,8 +96,8 @@ public class SuggestionController
 
 
     //API TO DELETE ANY SUGGESTION
-    @DeleteMapping("/Delete/{ticket_Id}")
-    public ResponseEntity<String> deleteEmployeeID(@PathVariable String ticket_Id) throws SuggestionException
+    @DeleteMapping("/Delete")
+    public ResponseEntity<String> deleteEmployeeID(@RequestParam("ticketId") String ticket_Id) throws SuggestionException
     {
         suggestionService.deleteSuggestionByID(ticket_Id);
         return  ResponseEntity.ok("SUGGESTION DELETED SUCCESSFULLY");

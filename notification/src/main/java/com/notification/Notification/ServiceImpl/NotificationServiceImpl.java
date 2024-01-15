@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
         //sending mail
         sendEmail(recipient, "New Notification", mailMessage);
 
-        notificationRepository.save(notification);
+        this.notificationRepository.save(notification);
     }
 
     @Override
@@ -65,11 +65,20 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void broadCastMessage(List<String> bcc, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(text);
+        Notification notification = new Notification();
+        String mailMessage = "Hi there, \n" +
+                "you've new notification " + text + " \n"
+                + "Thanks & Regards \n" +
+                String.valueOf(mailSender);
+        notification.setMessage(text);
+        notification.setTimestamp(LocalDateTime.now());
+        message.setText(mailMessage);
         message.setSubject(subject);
         for(String i : bcc ){
             message.setTo(i);
             javaMailSender.send(message);
+            notification.setRecipient(i);
+            this.notificationRepository.save(notification);
         }
     }
 }
