@@ -1,23 +1,31 @@
 package com.BrickNet.TaskCenter.service;
 
 import com.BrickNet.TaskCenter.dto.NotificationDTO;
+import com.BrickNet.TaskCenter.dto.PostTodoDTO;
 import com.BrickNet.TaskCenter.dto.TodoDTO;
+import com.BrickNet.TaskCenter.dto.UpdateTodoDTO;
 import com.BrickNet.TaskCenter.exception.TodoException;
+import com.BrickNet.TaskCenter.model.Priority;
+import com.BrickNet.TaskCenter.model.Status;
 
 import javax.management.ServiceNotFoundException;
 import java.util.List;
 
 public interface TodoService {
 
-    TodoDTO addToDo(TodoDTO todoDTO) throws TodoException , ServiceNotFoundException;
+    PostTodoDTO addToDo(PostTodoDTO postTodoDTO) throws TodoException , ServiceNotFoundException;
 
     List<TodoDTO> showCreatedToDo(String employeeCode) throws TodoException;
 
-    TodoDTO updateCreatedToDo(String id, TodoDTO todoDTO) throws TodoException;
+    TodoDTO updateCreatedToDo(String id, String employeeCode , UpdateTodoDTO updateTodoDTO) throws TodoException;
 
-    void deleteToDo(String id1) throws TodoException;
+    void deleteToDo(String id1,String employeeCode) throws TodoException;
 
-    public void pushNotification(NotificationDTO notificationDto) throws ServiceNotFoundException;
+    void pushNotification(NotificationDTO notificationDto) throws ServiceNotFoundException;
 
+    String getEmployeeEmailByEmployeeCode(String employeeCode);
 
+    String setStatus (String id, Status status) throws TodoException;
+
+    String setPriority (String id, String employeeCode, Priority priority) throws TodoException;
 }

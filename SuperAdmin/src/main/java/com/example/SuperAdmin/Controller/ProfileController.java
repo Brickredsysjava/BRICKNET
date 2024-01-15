@@ -4,6 +4,7 @@ import com.example.SuperAdmin.DTO.*;
 import com.example.SuperAdmin.Service.EmployeeService;
 import com.example.SuperAdmin.auth.UserCredential;
 import com.example.SuperAdmin.Entity.Profile;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.NotificationService;
 import com.example.SuperAdmin.Service.ProfileService;
 import com.example.SuperAdmin.jwt.JwtUtil;
@@ -36,9 +37,14 @@ public class ProfileController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private CustomQuery customQuery;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public ProfileController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/addProfile")
     public ResponseEntity<Profile> addProfile(@RequestBody @Valid ProfileDTO profileDTO) throws ServiceNotFoundException {
@@ -90,9 +96,9 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/ProfileById/{id}")
-    public ResponseEntity<ProfileDTO> findProfileById(@PathVariable String id) {
-        ProfileDTO profile = profileService.getProfileById(id);
+    @GetMapping("/ProfileByEmployeeCode")
+    public ResponseEntity<ProfileDTO> findProfileById(@RequestParam("employeeCode") String employeeCode) {
+        ProfileDTO profile = profileService.getProfileByEmployeeCode(employeeCode);
         if (profile != null) {
             return new ResponseEntity<>(profile, HttpStatus.OK);
         } else {
@@ -101,28 +107,34 @@ public class ProfileController {
     }
 
 
-    @PutMapping("/updateProfile/{id}")
-    public ResponseEntity<Profile> updateProfileById(@PathVariable String id, @RequestBody @Valid ProfileDTO profileDTO) {
-    if (id != null && !id.isEmpty()) {
-        Profile profile = modelMapper.map(profileDTO, Profile.class);
-        Profile updatedProfile = profileService.updateProfileById(id, profile);
-        if (updatedProfile != null) {
-            return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/updateProfile")
+    public ResponseEntity<Profile> updateProfileById(@RequestParam("employeeCode") String employeeCode,  @RequestBody @Valid ProfileDTO profileDTO) {
+        String profile_id ="";
+        if (employeeCode != null && !employeeCode.isEmpty()) {
+            profile_id = customQuery.getProfileIDFromEmpCode(employeeCode);
+            if(profile_id.equals("Data not Found")){
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            Profile profile = modelMapper.map(profileDTO, Profile.class);
+            if (!profile_id.equals("")) {
+                Profile updatedProfile = profileService.updateProfileById(profile_id, profile);
+                return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
-    } else {
-        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
-    }
+        else {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
 }
 
-    @GetMapping("/{employeeCode}/timeLine")
-    public ResponseEntity<TimeLine> getProfileInfo(@PathVariable String employeeCode) {
+    @GetMapping("/timeLine")
+    public ResponseEntity<TimeLine> getProfileInfo(@RequestParam("employeeCode") String employeeCode) {
         TimeLine timeLine = profileService.getTimelineByEmployeeCode(employeeCode);
         if (timeLine != null) {
             return new ResponseEntity<>(timeLine, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
     @GetMapping("/fullName")
@@ -138,8 +150,8 @@ public class ProfileController {
     }
     @GetMapping("/profileFromUserName")
     public ResponseEntity<UserCredential>getByUserName(@RequestParam String username){
-   UserCredential userCredential=   profileService.getByUserName(username);
-   return new ResponseEntity<>(userCredential,HttpStatus.OK);
+        UserCredential userCredential=   profileService.getByUserName(username);
+        return new ResponseEntity<>(userCredential,HttpStatus.OK);
     }
     @PostMapping("/passwordUpdate")
     public ResponseEntity<UserCredential> passwordUpdate(@RequestBody ResetPassword resetPassword){
@@ -147,5 +159,24 @@ public class ProfileController {
         return new ResponseEntity<>(userCredential,HttpStatus.OK);
     }
 
+    @GetMapping("/getEmailByEmployeeCode")
+    public ResponseEntity<String> getEmailByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
+        String email = profileService.getEmailByEmployeeCode(employeeCode);
+        if (email != null) {
+            return ResponseEntity.ok(email);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
+
+    @GetMapping("/getAllEmail")
+    public ResponseEntity<List<EmailDTO>> getAllEmail() {
+        List<EmailDTO> emailDTOS = customQuery.getAllEmails();
+        if(emailDTOS!=null) {
+            return ResponseEntity.ok(emailDTOS);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+}
 

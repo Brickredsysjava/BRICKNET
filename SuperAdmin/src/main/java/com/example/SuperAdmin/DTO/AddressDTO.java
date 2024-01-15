@@ -13,6 +13,8 @@ import lombok.*;
 @AllArgsConstructor
 public class AddressDTO {
 
+    private String id;
+
     @Valid
     @NotNull(message = "Type of Address is required")
     @NotBlank(message = "Type of Address is required")

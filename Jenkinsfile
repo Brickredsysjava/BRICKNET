@@ -5,6 +5,9 @@ pipeline {
             steps {
                 // Checkout the source code from the repository
                 checkout scm
+                sh " ssh root@192.168.1.9 'docker stack rm bricknetstack || true'"
+                sh " ssh root@192.168.1.9 ' ./remove_service.sh '"
+                sh " ssh root@192.168.1.9 ' docker network rm bricknetstack_default || true'"
             }
         }
 
@@ -186,13 +189,31 @@ pipeline {
                                      }
                                  }
 
+         stage('Build attendance') {
+                                     steps {
+                                         // Build the Spring Boot application using Maven
+                                         sh 'cd attendance && mvn clean package -DskipTests'
+
+                                         sh "ssh root@192.168.1.9 'cd /root'"
+                                         sh "ssh root@192.168.1.9 'rm -rf attendance || true'"
+                                         sh "ssh root@192.168.1.9 'mkdir attendance'"
+
+                                         sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/attendance/target/attendance.jar root@192.168.1.9:~/attendance/'
+
+                                         sh "ssh root@192.168.1.9 'docker stop root_attendance_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rm root_attendance_1 || true'"
+                                         sh "ssh root@192.168.1.9 'docker rmi root_attendance_1 || true'"
+                                     }
+                                 }
+
 
         stage('Deploy All Microservices') { 
             steps {
                 sh "ssh root@192.168.1.9 'cd /root'"
                 sh "ssh root@192.168.1.9 'rm -rf docker-compose.yml || true'"
                 sh ' scp -i id_rsa /var/jenkins_home/workspace/bricknet/docker-compose.yml root@192.168.1.9:~/'
-                sh " ssh root@192.168.1.9 'docker-compose up -d'"
+                // sh " ssh root@192.168.1.9 'docker-compose up -d'"
+                sh " ssh root@192.168.1.9 'docker stack deploy -c docker-compose.yml bricknetstack'"
             }
         }
         

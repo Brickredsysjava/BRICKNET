@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.Map;
 import java.util.Random;
@@ -29,18 +31,23 @@ public class AuthService {
     @Autowired
     private TokenCacheService tokenCacheService;
 
-    private Map<String, String> jwtMap;
-    private Map<String, String> otpMap;
+    private static Jedis jedis = new JedisPool("192.168.1.9", 6379).getResource();
+
+//    private Map<String, String> jwtMap;
+//    private Map<String, String> otpMap;
+//
 
     @Autowired
-    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService, Map<String, String> jwtMap, Map<String, String> otpMap) {
+    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService,
+//                       Map<String, String> jwtMap, Map<String, String> otpMap
+    ) {
         this.userProfile = userProfile;
         this.passwordEncoder = passwordEncoder;
         this.redisService = redisService;
         this.jwtService = jwtService;
         this.notificationService = notificationService;
-        this.jwtMap = jwtMap;
-        this.otpMap = otpMap;
+//        this.jwtMap = jwtMap;
+//        this.otpMap = otpMap;
     }
 
     public AuthService() {
@@ -70,7 +77,7 @@ public class AuthService {
         try {
             TokenCacheService.storeToken(userAuthInfo.getEmployeeCode(), token);
             //redisService.set(userAuthInfo.getEmployeeCode(), token);
-            jwtMap.put(userAuthInfo.getEmployeeCode(),token);
+            jedis.set(userAuthInfo.getEmployeeCode(),token);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -89,7 +96,7 @@ public class AuthService {
         String token= jwtService.generateToken(userAuthInfo);
         Random random = new Random();
         String OTP= String.valueOf(100000 + random.nextInt(900000));
-        otpMap.put(username,OTP);
+        jedis.set(username,OTP);
         OtpService.sendOTPEmail(userAuthInfo.getCompanyEmail(), OTP);
     }
 
@@ -97,16 +104,16 @@ public class AuthService {
         AuthService authService=new AuthService();
 
         UserAuthInfo userAuthInfo = authService.getUserByUsername(username).block();
-        String OTP= otpMap.get(username);
+        String OTP= jedis.get(username);
 
 //     String OTP= redisService.get(username);
         String token= jwtService.generateToken(userAuthInfo);
 
         if(OTP.equals(Otp)){
-            jwtMap.put(userAuthInfo.getEmployeeCode(), token);
+            jedis.set(userAuthInfo.getEmployeeCode(), token);
             return token;
         }
-        otpMap.remove(username);
+        jedis.del(username);
         return  "try again";
     }
 

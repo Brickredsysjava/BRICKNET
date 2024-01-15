@@ -17,8 +17,10 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
@@ -29,48 +31,25 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
 
-    @Autowired
-    private final RedisService redisService;
-    @Autowired
-    private final JwtMap jwtMap;
+    private static Jedis jedis = new JedisPool("192.168.1.9", 6379).getResource();
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String jwt = extractTokenFromRequest(exchange);
 
-        log.info("JWT: " + jwt);
         String path = exchange.getRequest().getPath().toString();
-        log.info("Path: " + path);
-        log.info("This is jwt -- ------");
-        log.info(jwt);
+
         if (jwt != null) {
 
-            String empcode = jwtService.extractEmployeeCode(jwt);
-            log.warn("This is empcode ---------------------");
-            log.warn(empcode);
-            Mono<String> monres = jwtMap.getByjwt(empcode);
-            jwtMap.setToken(monres);
-            String thisii = jwtMap.getByjwt(empcode).block();
-
-            String comparedJwtInJWTMap = String.valueOf(jwtMap.getByjwt(empcode));
-            //String comparedJwtInJWTMap = redisService.get(empcode);
-            log.warn("This is comparedJwtInJwtMap   ---------------------");
-            log.warn(comparedJwtInJWTMap);
-            log.warn("This is something ------" + thisii);
-            if (thisii != null) {
-                if (thisii.equals(jwt)) {
-                    log.warn("I am in after if jwt");
+            String comparedJwtInRedis = jedis.get(jwtService.extractEmployeeCode(jwt));
+            if(comparedJwtInRedis != null) {
+                if (jwtService.validateToken(jwt, comparedJwtInRedis)) {
                     String email = jwtService.extractEmail(jwt);
-                    log.warn("This is email " + email);
                     String role = jwtService.extractRole(jwt);
-                    log.warn("This is role " + role);
                     List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtService.extractRole(jwt)));
-
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                             email, null, authorities
                     );
-
-                    
-
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(usernamePasswordAuthenticationToken));
                 }
@@ -79,10 +58,8 @@ public class JwtAuthenticationFilter implements WebFilter{
 
         return chain.filter(exchange);
     }
-
     private String extractTokenFromRequest(ServerWebExchange exchange) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst(AUTHORIZATION);
-        log.info("Authorization header: " + authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.substring(7);
         }

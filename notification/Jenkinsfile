@@ -26,12 +26,16 @@ pipeline {
                  sh 'scp -i id_rsa /var/jenkins_home/workspace/notification/notification/target/notification.jar root@192.168.1.9:~/notification/'
                  sh 'scp -i id_rsa /var/jenkins_home/workspace/notification/notification/Dockerfile root@192.168.1.9:~/notification/'
 
+		 sh "ssh root@192.168.1.9 'docker service rm bricknetstack_notification || true'"
                  sh "ssh root@192.168.1.9 'docker stop root_notification_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rm root_notification_1 || true'"
                  sh "ssh root@192.168.1.9 'docker rmi root_notification_1 || true'"
                  sh "ssh root@192.168.1.9 'docker build -t root_notification_1 /root/notification'"
-                 sh "ssh root@192.168.1.9 'docker run -it -d -p 8084:8084 --network=root_default --name root_notification_1 root_notification_1'"
-             }
+                 // sh "ssh root@192.168.1.9 'docker run -it -d -p 8084:8084 --network=root_default --name root_notification_1 root_notification_1'"
+                 sh "ssh root@192.168.1.9 'docker service create -d -p 8084:8084 --replicas 2 --network=bricknetstack_default --name bricknetstack_notification root_notification_1'"
+
+	     }
+		 
          }        
 	
      }

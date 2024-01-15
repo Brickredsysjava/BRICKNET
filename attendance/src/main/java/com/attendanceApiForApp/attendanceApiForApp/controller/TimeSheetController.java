@@ -82,6 +82,19 @@ public class TimeSheetController {
         }
     }
 
+    @GetMapping("/getTimeSheetBydate/{date}")
+    public ResponseEntity<?> getdataFordate(@PathVariable LocalDate date) throws TimesheetException {
+        try {
+            TimeSheet t = timeSheetService.getTimeSheetBydate(date);
+            return new ResponseEntity<>(t, HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>("This is not found", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
     @PutMapping("/updateTimeSheetByDate")
     public  ResponseEntity<?> getTimeSheetByDate(@RequestParam  LocalDate date,@RequestBody TimeSheet timeSheet) throws TimesheetException {
 

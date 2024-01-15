@@ -31,6 +31,11 @@ public class TimeLine {
     private String department;
 
     @Valid
+    @NotBlank(message = "grade is required")
+    @NotNull(message = "grade is required")
+    private String grade;
+
+    @Valid
     @NotBlank(message = "location is required")
     @NotNull(message = "location is required")
     private String location;
