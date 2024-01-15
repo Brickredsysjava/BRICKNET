@@ -7,9 +7,9 @@ spring :
   cache :
     type : redis
   redis :
-    host : 192.168.0.9
+    host : 192.168.1.9
     port : 6379
-    url : redis://192.168.0.9:6379
+    url : redis://192.168.1.9:6379
     database : 0
   cloud:
     gateway:
