@@ -11,6 +11,7 @@ public interface TimeSheetService {
      TimeSheet createTimeSheet(TimeSheet timeSheet);
     TimeSheet getTimeSheetById(String id);
     List<TimeSheet> getAllTimeSheet();
+    TimeSheet getTimeSheetBydate(LocalDate dates) throws TimesheetException;
     TimeSheet updateTimeSheet(String id ,TimeSheet timeSheet);
      TimeSheet updateTimeSheetByDate(LocalDate dates, TimeSheet timeSheet) throws TimesheetException;
     boolean deleteTimeSheet(String id);

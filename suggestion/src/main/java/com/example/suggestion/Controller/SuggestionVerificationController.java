@@ -1,10 +1,8 @@
 package com.example.suggestion.Controller;
 
 import com.example.suggestion.DTO.GetSuggestionsDTO;
-import com.example.suggestion.DTO.SuggestionDto;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Service.SuggestionService;
-import com.example.suggestion.Service.SuggestionServiceImplementation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.ServiceNotFoundException;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 

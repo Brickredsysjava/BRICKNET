@@ -1,7 +1,7 @@
 package com.example.suggestion.Service;
 
 import com.example.suggestion.DTO.NotificationDto;
-import com.example.suggestion.DTO.SuggestionDto;
+import com.example.suggestion.DTO.SuggestionPostDto;
 import com.example.suggestion.DTO.GetSuggestionsDTO;
 import com.example.suggestion.Exception.SuggestionException;
 import com.example.suggestion.Model.Action;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface SuggestionService {
 
-    public void addSuggestion(SuggestionDto suggestionDto) throws SuggestionException, ServiceNotFoundException;
+    public void addSuggestion(SuggestionPostDto suggestionDto) throws SuggestionException, ServiceNotFoundException;
 
     List<GetSuggestionsDTO> getAllSuggestions();
 
@@ -22,7 +22,7 @@ public interface SuggestionService {
 
     Suggestion updateSuggestionStatus(String id, Status status) throws SuggestionException;
 
-    Suggestion pollSuggestion(String id, Action action);
+    Suggestion pollSuggestion(String id,String employeeCode,Boolean action) throws SuggestionException;
     
     List<Suggestion> getSuggestionsByStatus(Status status);
 
