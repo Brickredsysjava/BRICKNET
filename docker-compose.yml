@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   eureka:
     image: kabiraneja/ubuntu-java-maven
@@ -6,6 +7,9 @@ services:
       - "8761:8761"
     volumes:
       - ~/eureka/eureka.jar:/eureka.jar
+    deploy:
+      mode: replicated
+      replicas: 1
     command: ["java", "-jar", "eureka.jar"]
 
   api-gateway:
@@ -14,6 +18,9 @@ services:
       - "9090:9090"
     volumes:
       - ~/api-gateway/api-gateway.jar:/api-gateway.jar
+    deploy:
+      mode: replicated
+      replicas: 2
     command: ["java", "-jar", "api-gateway.jar"]
 
   auth-server:
@@ -22,6 +29,9 @@ services:
       - "8083:8083"
     volumes:
       - ~/auth-server/auth-server.jar:/auth-server.jar
+    deploy:
+      mode: replicated
+      replicas: 2
     command: ["java", "-jar", "auth-server.jar"]
 
   superadmin:
@@ -30,6 +40,9 @@ services:
       - "8081:8081"
     volumes:
       - ~/superadmin/superadmin.jar:/superadmin.jar
+    deploy:
+      mode: replicated
+      replicas: 2
     command: ["java", "-jar", "superadmin.jar"]
 
   notification:
@@ -38,7 +51,10 @@ services:
       - "8084:8084"
     volumes:
       - ~/notification/notification.jar:/notification.jar
-    command: [ "java", "-jar", "notification.jar" ]
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "notification.jar"]
 
   community:
     image: kabiraneja/ubuntu-java-maven
@@ -46,7 +62,10 @@ services:
       - "8082:8082"
     volumes:
       - ~/community/community.jar:/community.jar
-    command: [ "java", "-jar", "community.jar" ]
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "community.jar"]
 
   suggestion:
     image: kabiraneja/ubuntu-java-maven
@@ -54,42 +73,153 @@ services:
       - "9199:9199"
     volumes:
       - ~/suggestion/suggestion.jar:/suggestion.jar
-    command: [ "java", "-jar", "suggestion.jar" ]
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "suggestion.jar"]
 
   task-center:
-      image: kabiraneja/ubuntu-java-maven
-      ports:
-        - "9099:9099"
-      volumes:
-        - ~/taskcenter/taskcenter.jar:/taskcenter.jar
-      command: [ "java", "-jar", "taskcenter.jar" ]
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "9099:9099"
+    volumes:
+      - ~/taskcenter/taskcenter.jar:/taskcenter.jar
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "taskcenter.jar"]
 
   broadcast:
-        image: kabiraneja/ubuntu-java-maven
-        ports:
-          - "8923:8923"
-        volumes:
-          - ~/broadcast/broadcast.jar:/broadcast.jar
-        command: [ "java", "-jar", "broadcast.jar" ]
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8923:8923"
+    volumes:
+      - ~/broadcast/broadcast.jar:/broadcast.jar
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "broadcast.jar"]
 
   mediaservice:
-          image: kabiraneja/ubuntu-java-maven
-          ports:
-            - "9268:9268"
-          volumes:
-            - ~/mediaservice/mediaservice.jar:/mediaservice.jar
-            - media_files:/upload:rw
-          command: [ "java", "-jar", "mediaservice.jar" ]
-          
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "9268:9268"
+    volumes:
+      - ~/mediaservice/mediaservice.jar:/mediaservice.jar
+      - media_files:/upload:rw
+    deploy:
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "mediaservice.jar"]
+
   attendance:
-          image: kabiraneja/ubuntu-java-maven
-          ports:
-            - "8098:8098"
-          volumes:
-            - ~/attendance/attendance.jar:/attendance.jar
-            - attendance_files:/upload:rw
-          command: [ "java", "-jar", "attendance.jar" ]
+    image: kabiraneja/ubuntu-java-maven
+    ports:
+      - "8098:8098"
+    volumes:
+      - ~/attendance/attendance.jar:/attendance.jar
+      - attendance_files:/upload:rw
+    deploy:      
+      mode: replicated
+      replicas: 2
+    command: ["java", "-jar", "attendance.jar"]
 
 volumes:
   media_files:
   attendance_files:
+
+# version: '3'
+# services:
+#   eureka:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "8761:8761"
+#     volumes:
+#       - ~/eureka/eureka.jar:/eureka.jar
+#     command: ["java", "-jar", "eureka.jar"]
+
+#   api-gateway:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "9090:9090"
+#     volumes:
+#       - ~/api-gateway/api-gateway.jar:/api-gateway.jar
+#     command: ["java", "-jar", "api-gateway.jar"]
+
+#   auth-server:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "8083:8083"
+#     volumes:
+#       - ~/auth-server/auth-server.jar:/auth-server.jar
+#     command: ["java", "-jar", "auth-server.jar"]
+
+#   superadmin:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "8081:8081"
+#     volumes:
+#       - ~/superadmin/superadmin.jar:/superadmin.jar
+#     command: ["java", "-jar", "superadmin.jar"]
+
+#   notification:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "8084:8084"
+#     volumes:
+#       - ~/notification/notification.jar:/notification.jar
+#     command: [ "java", "-jar", "notification.jar" ]
+
+#   community:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "8082:8082"
+#     volumes:
+#       - ~/community/community.jar:/community.jar
+#     command: [ "java", "-jar", "community.jar" ]
+
+#   suggestion:
+#     image: kabiraneja/ubuntu-java-maven
+#     ports:
+#       - "9199:9199"
+#     volumes:
+#       - ~/suggestion/suggestion.jar:/suggestion.jar
+#     command: [ "java", "-jar", "suggestion.jar" ]
+
+#   task-center:
+#       image: kabiraneja/ubuntu-java-maven
+#       ports:
+#         - "9099:9099"
+#       volumes:
+#         - ~/taskcenter/taskcenter.jar:/taskcenter.jar
+#       command: [ "java", "-jar", "taskcenter.jar" ]
+
+#   broadcast:
+#         image: kabiraneja/ubuntu-java-maven
+#         ports:
+#           - "8923:8923"
+#         volumes:
+#           - ~/broadcast/broadcast.jar:/broadcast.jar
+#         command: [ "java", "-jar", "broadcast.jar" ]
+
+#   mediaservice:
+#           image: kabiraneja/ubuntu-java-maven
+#           ports:
+#             - "9268:9268"
+#           volumes:
+#             - ~/mediaservice/mediaservice.jar:/mediaservice.jar
+#             - media_files:/upload:rw
+#           command: [ "java", "-jar", "mediaservice.jar" ]
+          
+#   attendance:
+#           image: kabiraneja/ubuntu-java-maven
+#           ports:
+#             - "8098:8098"
+#           volumes:
+#             - ~/attendance/attendance.jar:/attendance.jar
+#             - attendance_files:/upload:rw
+#           command: [ "java", "-jar", "attendance.jar" ]
+
+# volumes:
+#   media_files:
+#   attendance_files:
