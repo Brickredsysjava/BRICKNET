@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.BankDetailsDTO;
 import com.example.SuperAdmin.Entity.BankDetails;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.BankDetailsService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,12 @@ public class BankDetailsController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    private CustomQuery customQuery;
+
+    public BankDetailsController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/addBankDetails")
     public ResponseEntity<BankDetails> addBankDetailsService(@RequestBody @Valid BankDetailsDTO bankDetailsDTO) {
@@ -51,10 +58,14 @@ public class BankDetailsController {
         }
     }
 
-    @PutMapping("/updateBankDetails/{id}")
-    public ResponseEntity<BankDetails> updateBankDetailsById(@PathVariable String id, @RequestBody @Valid BankDetailsDTO bankDetailsDTO) {
+    @PutMapping("/updateBankDetails")
+    public ResponseEntity<BankDetails> updateBankDetailsById(@RequestParam("employeeCode") String employeeCode, @RequestBody @Valid BankDetailsDTO bankDetailsDTO) {
         BankDetails bankDetails = modelMapper.map(bankDetailsDTO, BankDetails.class);
-        BankDetails updatedBankDetails = bankDetailsService.updateBankDetailsById(id, bankDetails);
+        String bank_details_id = customQuery.getBankDetailIdfromEmployeeCode(employeeCode);
+        if(bank_details_id.equals("Data not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        BankDetails updatedBankDetails = bankDetailsService.updateBankDetailsById(bank_details_id, bankDetails);
         if (updatedBankDetails != null) {
             return new ResponseEntity<>(updatedBankDetails, HttpStatus.OK);
         } else {

@@ -16,6 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BankDetailsDTO {
 
+    private String id;
+
     @Valid
     @NotBlank(message = "Account number is required")
     @Size(min = 8, max = 20, message = "Account number should be between 8 and 20 characters")

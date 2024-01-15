@@ -4,6 +4,7 @@ import com.example.SuperAdmin.DTO.ProfileDTO;
 import com.example.SuperAdmin.DTO.ResetPassword;
 import com.example.SuperAdmin.Entity.Profile;
 import com.example.SuperAdmin.DTO.TimeLine;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Repository.PersonalDetailsRepository;
 import com.example.SuperAdmin.Repository.ProfileRepository;
 import com.example.SuperAdmin.Service.ProfileService;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,11 +26,10 @@ public class ProfileServiceImplementation implements ProfileService {
     private ModelMapper modelMapper;
     @Autowired
     private ProfileRepository profileRepository;
+
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private PersonalDetailsRepository personalDetailsRepository;
-
-
 
     @Override
     public Profile saveProfile(Profile profile) {
@@ -66,6 +65,7 @@ public class ProfileServiceImplementation implements ProfileService {
             timeLine.setReportingTo(profile.getReportingTo());
             timeLine.setDepartment(profile.getDepartment());
             timeLine.setLocation(profile.getLocation());
+            timeLine.setGrade(profile.getGrade());
             return timeLine;
         } else {
             return null; // Or throw an exception based on your requirements
@@ -92,6 +92,7 @@ public Profile updateProfileById(String id, Profile profile) {
         existingProfile.setPersonalEmail(profile.getPersonalEmail());
         existingProfile.setPhoneNumber(profile.getPhoneNumber());
         existingProfile.setReportingTo(profile.getReportingTo());
+        existingProfile.setGrade(profile.getGrade());
         existingProfile.setRole(profile.getRole());
         return profileRepository.save(existingProfile);
     } else {

@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.PersonalDetailsDTO;
 import com.example.SuperAdmin.Entity.PersonalDetails;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.PersonalDetailsService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,13 @@ public class PersonalDetailsController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+
+    private CustomQuery customQuery;
+
+    public PersonalDetailsController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
 
     @PostMapping("/addPersonalDetails")
     public ResponseEntity<PersonalDetails> addPersonalDetails(@RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
@@ -52,19 +60,25 @@ public class PersonalDetailsController {
     }
 
     @GetMapping("/PersonalDetailsByEmployeeCode")
-    public ResponseEntity<PersonalDetailsDTO> findPersonalDetailsById(@RequestParam("employeeCode") String employeeCode) {
+    public ResponseEntity<?> findPersonalDetailsById(@RequestParam("employeeCode") String employeeCode) {
         PersonalDetailsDTO personalDetails = personalDetailsService.getPersonalDetailsByEmployeeCode(employeeCode);
         if (personalDetails != null) {
             return new ResponseEntity<>(personalDetails, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Personal Details Not Found",HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @PutMapping("/updatePersonalDetails/{id}")
-    public ResponseEntity<PersonalDetails> updatePersonalDetailsById(@PathVariable String id, @RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
+    @PutMapping("/updatePersonalDetails")
+    public ResponseEntity<PersonalDetails> updatePersonalDetailsById(@RequestParam("employeeCode") String employeeCode, @RequestBody @Valid PersonalDetailsDTO personalDetailsDTO) {
         PersonalDetails personalDetails = modelMapper.map(personalDetailsDTO, PersonalDetails.class);
-        PersonalDetails updatedDetails = personalDetailsService.updatePersonalDetailsById(id, personalDetails);
+        String personal_details_id = customQuery.getPersonalDetailsIdByEmpCode(employeeCode);
+
+        if(personal_details_id.equals("Data Not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        PersonalDetails updatedDetails = personalDetailsService.updatePersonalDetailsById(personal_details_id, personalDetails);
         if (updatedDetails != null) {
             return new ResponseEntity<>(updatedDetails, HttpStatus.OK);
         } else {

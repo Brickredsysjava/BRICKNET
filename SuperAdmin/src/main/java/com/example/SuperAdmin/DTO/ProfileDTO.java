@@ -92,8 +92,18 @@ public class ProfileDTO {
     private String reportingTo;
 
     @Valid
+    @NotNull(message = "Grade is required")
+    @NotBlank(message = "Grade is required")
+    private String grade;
+
+    @Valid
     @NotNull(message = "role is required")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Valid
+    @NotNull(message = "Alternate contact is required")
+    @NotBlank(message = "Alternate contact is required")
+    private String acontact;
 
 }

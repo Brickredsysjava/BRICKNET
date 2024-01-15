@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.EducationDTO;
 import com.example.SuperAdmin.Entity.Education;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.EducationService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,11 @@ public class EducationController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private CustomQuery customQuery;
+
+    public EducationController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
     @PostMapping("/addEducation")
     public ResponseEntity<Education> addEducation(@RequestBody @Valid EducationDTO educationDTO) {
         Education education = modelMapper.map(educationDTO, Education.class);
@@ -57,10 +63,14 @@ public class EducationController {
         }
     }
 
-    @PutMapping("/updateEducation/{id}")
-    public ResponseEntity<Education> updateEducationById(@PathVariable String id, @RequestBody @Valid EducationDTO educationDTO) {
+    @PutMapping("/updateEducation")
+    public ResponseEntity<Education> updateEducationById(@RequestParam("employeeCode") String employeeCode, @RequestParam("type_Of_Education") String type_of_education, @RequestBody @Valid EducationDTO educationDTO) {
         Education education = modelMapper.map(educationDTO, Education.class);
-        Education updatedEducation = educationService.updateEducationById(id, education);
+        String education_id = customQuery.getEducationIdByEmployeeCode(employeeCode, type_of_education);
+        if(education_id.equals("Data Not Found")){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Education updatedEducation = educationService.updateEducationById(education_id, education);
         if (updatedEducation != null) {
             return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
         } else {

@@ -2,6 +2,7 @@ package com.example.SuperAdmin.Controller;
 
 import com.example.SuperAdmin.DTO.AddressDTO;
 import com.example.SuperAdmin.Entity.Address;
+import com.example.SuperAdmin.Repository.CustomQuery;
 import com.example.SuperAdmin.Service.AddressService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,11 @@ public class AddressController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private CustomQuery customQuery;
+
+    public AddressController(CustomQuery customQuery) {
+        this.customQuery = customQuery;
+    }
     @PostMapping("/addAddress")
     public ResponseEntity<Address> addAddress(@RequestBody @Valid AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
@@ -61,16 +67,21 @@ public class AddressController {
         }
     }
 
-    @PutMapping("/updateAddress/{id}")
-    public ResponseEntity<Address> updateAddressById(@PathVariable String id, @RequestBody @Valid AddressDTO addressDTO) {
+    @PutMapping("/updateAddress")
+    public ResponseEntity<Address> updateAddressById(@RequestParam("employeeCode") String employeeCode, @RequestParam("typeOfAddress") String typeOfAddress, @RequestBody @Valid AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
-        Address updatedAddress = service.updateAddressById(id, address);
+        String addressId = customQuery.getAddressIdFromEmpCode(employeeCode , typeOfAddress);
+        if(addressId.equals("Data Not Found")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Address updatedAddress = service.updateAddressById(addressId,    address);
         if (updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     @DeleteMapping("/deleteAddress")
     public ResponseEntity<String> deleteAddress(@RequestParam("employeeCode") String employeeCode) {
