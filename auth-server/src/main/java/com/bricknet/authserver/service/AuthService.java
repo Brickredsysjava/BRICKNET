@@ -31,7 +31,7 @@ public class AuthService {
     @Autowired
     private TokenCacheService tokenCacheService;
 
-    private static Jedis jedis = new JedisPool("192.168.0.9", 6379).getResource();
+    private static Jedis jedis = new JedisPool("192.168.1.9", 6379).getResource();
 
 //    private Map<String, String> jwtMap;
 //    private Map<String, String> otpMap;

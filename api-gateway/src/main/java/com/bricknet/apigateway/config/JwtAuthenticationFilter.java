@@ -31,7 +31,7 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthenticationFilter implements WebFilter{
     private final JwtService jwtService;
 
-    private static Jedis jedis = new JedisPool("192.168.0.9", 6379).getResource();
+    private static Jedis jedis = new JedisPool("192.168.1.9", 6379).getResource();
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
