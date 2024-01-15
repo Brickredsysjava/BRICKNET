@@ -38,7 +38,7 @@ public class AuthService {
 //
 
     @Autowired
-    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService,
+    public AuthService(UserProfile userProfile, PasswordEncoder passwordEncoder, RedisService redisService, JwtService jwtService, NotificationService notificationService
 //                       Map<String, String> jwtMap, Map<String, String> otpMap
     ) {
         this.userProfile = userProfile;
