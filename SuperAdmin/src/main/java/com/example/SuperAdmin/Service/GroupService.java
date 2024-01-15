@@ -14,4 +14,5 @@ public interface GroupService {
 
     String adminAction(AdminActionDTO adminActionDTO) throws Exception;
 
+    List<Group> findGroupByAdminEmployeeCode(String employeeCode) throws Exception;
 }

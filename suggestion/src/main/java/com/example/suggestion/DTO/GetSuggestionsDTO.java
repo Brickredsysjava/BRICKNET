@@ -43,4 +43,6 @@ public class GetSuggestionsDTO {
     private Boolean adminVerified;
 
     private String verificationStatusMessage;
+
+    private String employeeCode;
 }

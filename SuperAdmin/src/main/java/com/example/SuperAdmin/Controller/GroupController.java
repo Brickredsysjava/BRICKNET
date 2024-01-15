@@ -3,6 +3,7 @@ package com.example.SuperAdmin.Controller;
 
 
 import com.example.SuperAdmin.DTO.AdminActionDTO;
+import com.example.SuperAdmin.Entity.Group;
 import com.example.SuperAdmin.Service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,14 @@ public class GroupController {
         return new ResponseEntity<String>(res, HttpStatusCode.valueOf(200));
     }
 
+
+    @GetMapping("/findGroupByAdmin")
+    public ResponseEntity<?> findGroupByAdminEmployeeCode(@RequestParam("employeeCode") String employeeCode) throws Exception {
+        List<Group> groupList = groupService.findGroupByAdminEmployeeCode(employeeCode);
+        if(groupList==null) {
+            return new ResponseEntity<>("No Data Found",HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(groupList,HttpStatusCode.valueOf(200));
+    }
 
 }
