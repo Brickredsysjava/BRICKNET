@@ -12,7 +12,7 @@ pipeline {
          stage('Build api-gateway') {
             steps {
                 // Build the Spring Boot application using Maven
-                sh 'sudo mv api-gateway /home/bricknet && cd api-gateway/ && mvn clean package -DskipTests'
+                sh 'echo "1234" | sudo -S mv api-gateway /home/bricknet && cd api-gateway/ && mvn clean package -DskipTests'
             }
         }
 	
