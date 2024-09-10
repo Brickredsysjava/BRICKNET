@@ -21,7 +21,7 @@ pipeline {
 
                  // sh 'cd /root'
                  sh 'rm -rf /root/api-gateway || true'
-                 sh 'mkdir /root/api-gateway'
+                 sh 'mkdir /root/api-gateway || true'
                  
                  sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/target/api-gateway.jar root@103.255.224.46:~/api-gateway/'
                  sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/Dockerfile root@103.255.224.46:~/api-gateway/'
