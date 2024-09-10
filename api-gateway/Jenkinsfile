@@ -23,8 +23,8 @@ pipeline {
                  sh "ssh root@103.255.224.46 'rm -rf api-gateway || true'"
                  sh "ssh root@103.255.224.46 'mkdir api-gateway'"
                  
-                 sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/target/api-gateway.jar root@103.255.224.46:~/api-gateway/'
-                 sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/Dockerfile root@103.255.224.46:~/api-gateway/'
+                 sh 'scp -i id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/target/api-gateway.jar root@103.255.224.46:~/api-gateway/'
+                 sh 'scp -i id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/Dockerfile root@103.255.224.46:~/api-gateway/'
 
 		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_api-gateway || true'"
                  sh "ssh root@103.255.224.46 'docker stop root_api-gateway_1 || true'"
