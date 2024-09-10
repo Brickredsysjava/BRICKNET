@@ -12,8 +12,7 @@ pipeline {
          stage('Build api-gateway') {
             steps {
                 // Build the Spring Boot application using Maven
-		sh 'mv api-gateway /root/'
-                sh 'cd /root/api-gateway/ && mvn clean package -DskipTests'
+                sh 'cd api-gateway/ && mvn clean package -DskipTests'
             }
         }
 	
