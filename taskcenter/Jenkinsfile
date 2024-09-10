@@ -19,20 +19,20 @@ pipeline {
 	 stage('Deploy taskcenter') {
              steps {
 
-                 sh "ssh root@192.168.1.9 'cd /root'"
-                 sh "ssh root@192.168.1.9 'rm -rf taskcenter || true'"
-                 sh "ssh root@192.168.1.9 'mkdir taskcenter'"
+                 sh "ssh root@172.16.1.9 'cd /root'"
+                 sh "ssh root@172.16.1.9 'rm -rf taskcenter || true'"
+                 sh "ssh root@172.16.1.9 'mkdir taskcenter'"
                  
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/target/taskcenter.jar root@192.168.1.9:~/taskcenter/'
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/Dockerfile root@192.168.1.9:~/taskcenter/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/target/taskcenter.jar root@172.16.1.9:~/taskcenter/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/taskcenter/taskcenter/Dockerfile root@172.16.1.9:~/taskcenter/'
 
-		 sh "ssh root@192.168.1.9 'docker service rm bricknetstack_task-center || true'"
-                 sh "ssh root@192.168.1.9 'docker stop root_task-center_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rm root_task-center_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rmi root_task-center_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker build -t root_task-center_1 /root/taskcenter'"
-                 // sh "ssh root@192.168.1.9 'docker run -it -d -p 9099:9099 --network=root_default --name root_task-center_1 root_task-center_1'"
-                 sh "ssh root@192.168.1.9 'docker service create -d -p 9099:9099 --replicas 2 --network=bricknetstack_default --name bricknetstack_task-center root_task-center_1'"
+		 sh "ssh root@172.16.1.9 'docker service rm bricknetstack_task-center || true'"
+                 sh "ssh root@172.16.1.9 'docker stop root_task-center_1 || true'"
+                 sh "ssh root@172.16.1.9 'docker rm root_task-center_1 || true'"
+                 sh "ssh root@172.16.1.9 'docker rmi root_task-center_1 || true'"
+                 sh "ssh root@172.16.1.9 'docker build -t root_task-center_1 /root/taskcenter'"
+                 // sh "ssh root@172.16.1.9 'docker run -it -d -p 9099:9099 --network=root_default --name root_task-center_1 root_task-center_1'"
+                 sh "ssh root@172.16.1.9 'docker service create -d -p 9099:9099 --replicas 2 --network=bricknetstack_default --name bricknetstack_task-center root_task-center_1'"
              }
          }        
 	
