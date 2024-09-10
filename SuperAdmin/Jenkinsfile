@@ -23,8 +23,8 @@ pipeline {
                  sh "ssh root@103.255.224.46 'rm -rf superadmin || true'"
                  sh "ssh root@103.255.224.46 'mkdir superadmin'"
                  
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/superadmin/SuperAdmin/target/superadmin.jar root@103.255.224.46:~/superadmin/'
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/superadmin/SuperAdmin/Dockerfile root@103.255.224.46:~/superadmin/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/SuperAdmin/SuperAdmin/target/superadmin.jar root@103.255.224.46:~/superadmin/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/SuperAdmin/SuperAdmin/Dockerfile root@103.255.224.46:~/superadmin/'
 
 		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_superadmin || true'"
                  sh "ssh root@103.255.224.46 'docker stop root_superadmin_1 || true'"
