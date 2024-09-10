@@ -13,7 +13,7 @@ public class JwtMap {
     private final AtomicReference<String> mm = new AtomicReference<>();
 
     public JwtMap(WebClient.Builder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.0.9:8083/auth");
+        this.webClientBuilder = webClientBuilder.baseUrl("http://192.168.1.9:8083/auth");
     }
 
 

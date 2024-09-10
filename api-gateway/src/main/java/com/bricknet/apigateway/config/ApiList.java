@@ -60,6 +60,7 @@ public class ApiList {
             "/user/address/AddressByEmployeeCode/**",
 
             "/stories/**",
+            "/redis/**",
 
             "/user/profile/addProfile/**",
             "/user/profile/addListOfProfile/**",
