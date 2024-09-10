@@ -19,20 +19,20 @@ pipeline {
 	 stage('Deploy api-gateway') {
              steps {
 
-                 // // sh 'cd /root'
-                 // sh 'rm -rf /root/api-gateway || true'
-                 // sh 'mkdir /root/api-gateway || true'
+                 sh "ssh root@103.255.224.46 'cd /root'"
+                 sh "ssh root@103.255.224.46 'rm -rf api-gateway || true'"
+                 sh "ssh root@103.255.224.46 'mkdir api-gateway'"
                  
-                 // sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/target/api-gateway.jar root@103.255.224.46:~/api-gateway/'
-                 // sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/Dockerfile root@103.255.224.46:~/api-gateway/'
+                 sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/target/api-gateway.jar root@103.255.224.46:~/api-gateway/'
+                 sh 'scp -i /root/.ssh/id_rsa /var/lib/jenkins/workspace/api-gateway/api-gateway/Dockerfile root@103.255.224.46:~/api-gateway/'
 
-		 sh 'docker service rm bricknetstack_api-gateway || true'
-                 sh 'docker stop root_api-gateway_1 || true'
-                 sh 'docker rm root_api-gateway_1 || true'
-                 sh 'docker rmi root_api-gateway_1 || true'
-                 sh 'docker build -t root_api-gateway_1 /var/lib/jenkins/workspace/api-gateway/api-gateway'
-                 // sh 'docker run -it -d -p 9090:9090 --network=root_default --name root_api-gateway_1 root_api-gateway_1'
-		 sh 'docker service create -d --name bricknetstack_api-gateway --replicas 2 -p 9090:9090 --network=bricknetstack_default root_api-gateway_1'
+		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_api-gateway || true'"
+                 sh "ssh root@103.255.224.46 'docker stop root_api-gateway_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rm root_api-gateway_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rmi root_api-gateway_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker build -t root_api-gateway_1 /root/api-gateway'"
+                 // sh "ssh root@103.255.224.46 'docker run -it -d -p 9090:9090 --network=root_default --name root_api-gateway_1 root_api-gateway_1'"
+		 sh "ssh root@103.255.224.46 'docker service create -d --name bricknetstack_api-gateway --replicas 2 -p 9090:9090 --network=bricknetstack_default root_api-gateway_1'"
              }
          }        
 	
