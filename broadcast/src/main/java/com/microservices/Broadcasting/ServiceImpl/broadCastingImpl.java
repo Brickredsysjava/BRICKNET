@@ -69,14 +69,14 @@ public class broadCastingImpl implements broadCastingService{
     @Override
     public void pushNotification(NotificationDTO notificationDTO) {
         String jsonBody = "{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.0.9:8084/send/")
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send/")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().
                 toBodilessEntity().block();
     }
 
     @Override
     public void broadCastingToEveryone(BroadCastingDTO broadCastingDTO) {
-        webClientBuilder.baseUrl("http://192.168.0.9:8084/send/")
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send/")
                 .build().post().uri("/broadcast").bodyValue(broadCastingDTO)
                 .retrieve().toBodilessEntity().block();
     }
