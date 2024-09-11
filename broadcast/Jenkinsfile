@@ -19,20 +19,20 @@ pipeline {
 	 stage('Deploy broadcast') {
              steps {
 
-                 sh "ssh root@192.168.1.9 'cd /root'"
-                 sh "ssh root@192.168.1.9 'rm -rf broadcast || true'"
-                 sh "ssh root@192.168.1.9 'mkdir broadcast'"
+                 sh "ssh root@103.255.224.46 'cd /root'"
+                 sh "ssh root@103.255.224.46 'rm -rf broadcast || true'"
+                 sh "ssh root@103.255.224.46 'mkdir broadcast'"
                  
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/broadcast/broadcast/target/broadcast.jar root@192.168.1.9:~/broadcast/'
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/broadcast/broadcast/Dockerfile root@192.168.1.9:~/broadcast/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/broadcast/broadcast/target/broadcast.jar root@103.255.224.46:~/broadcast/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/broadcast/broadcast/Dockerfile root@103.255.224.46:~/broadcast/'
 
-		 sh "ssh root@192.168.1.9 'docker service rm bricknetstack_broadcast || true'"
-                 sh "ssh root@192.168.1.9 'docker stop root_broadcast_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rm root_broadcast_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rmi root_broadcast_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker build -t root_broadcast_1 /root/broadcast'"
-                 // sh "ssh root@192.168.1.9 'docker run -it -d -p 8923:8923 --network=root_default --name root_broadcast_1 root_broadcast_1'"
-                 sh "ssh root@192.168.1.9 'docker service create -d -p 8923:8923 --replicas 2 --network=bricknetstack_default --name bricknetstack_broadcast root_broadcast_1'"
+		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_broadcast || true'"
+                 sh "ssh root@103.255.224.46 'docker stop root_broadcast_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rm root_broadcast_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rmi root_broadcast_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker build -t root_broadcast_1 /root/broadcast'"
+                 // sh "ssh root@103.255.224.46 'docker run -it -d -p 8923:8923 --network=root_default --name root_broadcast_1 root_broadcast_1'"
+                 sh "ssh root@103.255.224.46 'docker service create -d -p 8923:8923 --replicas 2 --network=bricknetstack_default --name bricknetstack_broadcast root_broadcast_1'"
 
              }
          }        
