@@ -33,7 +33,6 @@ pipeline {
                  sh "ssh root@103.255.224.46 'docker build -t root_broadcast_1 /root/broadcast'"
                  // sh "ssh root@103.255.224.46 'docker run -it -d -p 8923:8923 --network=root_default --name root_broadcast_1 root_broadcast_1'"
                  sh "ssh root@103.255.224.46 'docker service create -d -p 8923:8923 --replicas 2 --network=bricknetstack_default --name bricknetstack_broadcast root_broadcast_1'"
-
              }
          }        
 	
