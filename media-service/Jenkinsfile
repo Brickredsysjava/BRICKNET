@@ -22,8 +22,8 @@ pipeline {
                  sh "ssh root@103.255.224.46 'rm -rf mediaservice || true'"
                  sh "ssh root@103.255.224.46 'mkdir mediaservice'"
                  
-                 sh ' scp -i id_rsa /var/jenkins_home/workspace/mediaservice/media-service/target/mediaservice.jar root@103.255.224.46:~/mediaservice/'
-                 sh ' scp -i id_rsa /var/jenkins_home/workspace/mediaservice/media-service/Dockerfile root@103.255.224.46:~/mediaservice/'
+                 sh ' scp -i id_rsa /var/jenkins_home/workspace/media-service/media-service/target/mediaservice.jar root@103.255.224.46:~/mediaservice/'
+                 sh ' scp -i id_rsa /var/jenkins_home/workspace/media-service/media-service/Dockerfile root@103.255.224.46:~/mediaservice/'
 
 		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_mediaservice || true'"		 
                  sh "ssh root@103.255.224.46 'docker stop root_mediaservice_1 || true'"
