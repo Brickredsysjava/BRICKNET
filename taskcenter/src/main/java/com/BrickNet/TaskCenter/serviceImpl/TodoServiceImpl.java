@@ -100,7 +100,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public String getEmployeeEmailByEmployeeCode(String employeeCode) {
-        return webClientBuilder.baseUrl("http://192.168.0.9:8081")
+        return webClientBuilder.baseUrl("http://192.168.1.9:8081")
                 .build().get().uri("/user/profile/getEmailByEmployeeCode?employeeCode=" + employeeCode).retrieve().bodyToMono(String.class).block();
     }
 
@@ -216,7 +216,7 @@ public class TodoServiceImpl implements TodoService{
     public void pushNotification (NotificationDTO notificationDTO) throws ServiceNotFoundException
     {
         String jsonBody ="{\"key\": \"value\"}";
-        webClientBuilder.baseUrl("http://192.168.0.9:8084/send")
+        webClientBuilder.baseUrl("http://192.168.1.9:8084/send")
                 .build().post().uri("/email").bodyValue(notificationDTO).retrieve().toBodilessEntity().block();
     }
 
