@@ -18,21 +18,20 @@ pipeline {
 	
 	 stage('Deploy suggestion') {
              steps {
-
-                 sh "ssh root@192.168.1.9 'cd /root'"
-                 sh "ssh root@192.168.1.9 'rm -rf suggestion || true'"
-                 sh "ssh root@192.168.1.9 'mkdir suggestion'"
+                 sh "ssh root@103.255.224.46 'cd /root'"
+                 sh "ssh root@103.255.224.46 'rm -rf suggestion || true'"
+                 sh "ssh root@103.255.224.46 'mkdir suggestion'"
                  
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/target/suggestion.jar root@192.168.1.9:~/suggestion/'
-                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/Dockerfile root@192.168.1.9:~/suggestion/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/target/suggestion.jar root@103.255.224.46:~/suggestion/'
+                 sh 'scp -i id_rsa /var/jenkins_home/workspace/suggestion/suggestion/Dockerfile root@103.255.224.46:~/suggestion/'
 
-		 sh "ssh root@192.168.1.9 'docker service rm bricknetstack_suggestion || true'"
-                 sh "ssh root@192.168.1.9 'docker stop root_suggestion_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rm root_suggestion_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker rmi root_suggestion_1 || true'"
-                 sh "ssh root@192.168.1.9 'docker build -t root_suggestion_1 /root/suggestion'"
-                 // sh "ssh root@192.168.1.9 'docker run -it -d -p 9199:9199 --network=root_default --name root_suggestion_1 root_suggestion_1'"
-                 sh "ssh root@192.168.1.9 'docker service create -d -p 9199:9199 --network=bricknetstack_default --replicas 2 --name bricknetstack_suggestion root_suggestion_1'"
+		 sh "ssh root@103.255.224.46 'docker service rm bricknetstack_suggestion || true'"
+                 sh "ssh root@103.255.224.46 'docker stop root_suggestion_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rm root_suggestion_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker rmi root_suggestion_1 || true'"
+                 sh "ssh root@103.255.224.46 'docker build -t root_suggestion_1 /root/suggestion'"
+                 // sh "ssh root@103.255.224.46 'docker run -it -d -p 9199:9199 --network=root_default --name root_suggestion_1 root_suggestion_1'"
+                 sh "ssh root@103.255.224.46 'docker service create -d -p 9199:9199 --network=bricknetstack_default --replicas 2 --name bricknetstack_suggestion root_suggestion_1'"
              }
 		 
          }        
